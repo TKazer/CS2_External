@@ -1,7 +1,7 @@
 #pragma once
 #include <optional>
 #include "Utils/ProcessManager.hpp"
-#include "Offsets.hpp"
+#include "Offsets.h"
 #include "View.hpp"
 
 class CGame

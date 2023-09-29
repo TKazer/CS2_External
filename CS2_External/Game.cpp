@@ -7,7 +7,7 @@ bool CGame::InitAddress()
 	this->Address.EntityList = GetClientDLLAddress() + Offset::EntityList;
 	this->Address.Matrix = GetClientDLLAddress() + Offset::Matrix;
 	this->Address.ViewAngle = GetClientDLLAddress() + Offset::ViewAngle;
-	this->Address.LocalController = GetClientDLLAddress() + Offset::LocalController;
+	this->Address.LocalController = GetClientDLLAddress() + Offset::LocalPlayerController;
 
 	return this->Address.ClientDLL != 0;
 }

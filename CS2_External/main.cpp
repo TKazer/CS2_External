@@ -1,3 +1,4 @@
+#include "Offsets.h"
 #include "Cheats.h"
 #include <iostream>
 #include <iomanip>
@@ -8,6 +9,12 @@ int main()
 	if (ProcessStatus != StatusCode::SUCCEED)
 	{
 		std::cout << "[ERROR] Failed to attach process, StatusCode:" << ProcessStatus << std::endl;
+		goto END;
+	}
+
+	if (!Offset::UpdateOffsets())
+	{
+		std::cout << "[ERROR] Failed to update offsets." << std::endl;
 		goto END;
 	}
 
@@ -23,6 +30,8 @@ int main()
 	std::cout << "Offset:" << std::endl;
 	std::cout << "--EntityList:" << std::setiosflags(std::ios::uppercase) << std::hex << Offset::EntityList << std::endl;
 	std::cout << "--Matrix:" << std::setiosflags(std::ios::uppercase) << std::hex << Offset::Matrix << std::endl;
+	std::cout << "--LocalPlayerController:" << std::setiosflags(std::ios::uppercase) << std::hex << Offset::LocalPlayerController << std::endl;
+	std::cout << "--ViewAngles:" << std::setiosflags(std::ios::uppercase) << std::hex << Offset::ViewAngle << std::endl;
 
 	std::cout << "Runing..." << std::endl;
 

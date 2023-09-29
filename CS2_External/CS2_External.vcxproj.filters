@@ -22,6 +22,9 @@
     <Filter Include="Cheats\Data">
       <UniqueIdentifier>{ecf8f725-5819-4b5b-9e16-3ada7ee8c84f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cheats\Offsets">
+      <UniqueIdentifier>{0af61bf5-c236-403c-a0f8-48488f87bfcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OS-ImGui\imgui\imconfig.h">
@@ -66,9 +69,6 @@
     <ClInclude Include="Utils\ProcessManager.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Offsets.hpp">
-      <Filter>Cheats</Filter>
-    </ClInclude>
     <ClInclude Include="View.hpp">
       <Filter>Cheats\View</Filter>
     </ClInclude>
@@ -89,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="AimBot.hpp">
       <Filter>Cheats</Filter>
+    </ClInclude>
+    <ClInclude Include="Offsets.h">
+      <Filter>Cheats\Offsets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="Bone.cpp">
       <Filter>Cheats\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Offsets.cpp">
+      <Filter>Cheats\Offsets</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\MemorySearch.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

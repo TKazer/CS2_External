@@ -134,7 +134,7 @@
     <ClInclude Include="Cheats.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Offsets.hpp" />
+    <ClInclude Include="Offsets.h" />
     <ClInclude Include="OS-ImGui\imgui\imconfig.h" />
     <ClInclude Include="OS-ImGui\imgui\imgui.h" />
     <ClInclude Include="OS-ImGui\imgui\imgui_impl_dx11.h" />
@@ -158,6 +158,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui_demo.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui_draw.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="OS-ImGui\OS-ImGui.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_Base.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_External.cpp" />
+    <ClCompile Include="Utils\MemorySearch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

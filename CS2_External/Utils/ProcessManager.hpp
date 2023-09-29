@@ -151,6 +151,15 @@ public:
 		return false;
 	}
 
+	/// <summary>
+	/// 特征码搜索
+	/// </summary>
+	/// <param name="Signature">特征码</param>
+	/// <param name="StartAddress">起始地址</param>
+	/// <param name="EndAddress">结束地址</param>
+	/// <returns>匹配特征结果</returns>
+	std::vector<DWORD64> SearchMemory(std::string Signature, DWORD64 StartAddress, DWORD64 EndAddress);
+
 	DWORD TraceAddress(DWORD64 BaseAddress, std::vector<DWORD> Offsets)
 	{
 		_is_invalid(hProcess,0);
