@@ -27,7 +27,7 @@ void Cheats::Run()
 	float MaxAimDistance = 100000;
 	Vec3  AimPos{ 0,0,0 };
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 64; i++)
 	{
 		CEntity Entity;
 		DWORD64 EntityAddress = 0;
