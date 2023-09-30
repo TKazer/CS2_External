@@ -6,7 +6,7 @@ DWORD64 SearchOffsets(std::string Signature, DWORD64 ModuleAddress)
 	DWORD64 Address = 0;
 	DWORD Offsets = 0;
 
-	TempAddressList = ProcessMgr.SearchMemory(Signature, ModuleAddress, ModuleAddress + 0x5000000);
+	TempAddressList = ProcessMgr.SearchMemory(Signature, ModuleAddress, ModuleAddress + 0xfffffff);
 	
 	if (TempAddressList.size() <= 0)
 		return 0;
@@ -29,7 +29,7 @@ bool Offset::UpdateOffsets()
 	TempAddress = SearchOffsets(Offset::Signatures::EntityList, ClientDLL);
 	if (TempAddress == 0)
 		return false;
-	
+
 	Offset::EntityList = TempAddress - ClientDLL;
 
 	TempAddress = SearchOffsets(Offset::Signatures::LocalPlayerController, ClientDLL);
