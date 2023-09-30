@@ -8,6 +8,7 @@ namespace Offset
 	inline DWORD Matrix;
 	inline DWORD ViewAngle;
 	inline DWORD LocalPlayerController;
+	inline DWORD LocalPlayerPawn;
 
 	struct
 	{
@@ -34,6 +35,7 @@ namespace Offset
 		const std::string LocalPlayerController = "48 8B 05 ?? ?? ?? ?? 48 85 C0 74 4F";
 		const std::string ViewAngles = "48 8B 0D ?? ?? ?? ?? 48 8B 01 48 FF 60 30";
 		const std::string ViewMatrix = "48 8D 0D ?? ?? ?? ?? 48 C1 E0 06";
+		const std::string LocalPlayerPawn = "48 8D 05 ?? ?? ?? ?? C3 CC CC CC CC CC CC CC CC 48 83 EC ?? 8B 0D";
 	}
 
 	// 一键更新基址

@@ -16,7 +16,7 @@ namespace Render
 			Previous.Pos = Vec3(0, 0, 0);
 			for (auto Index : i)
 			{
-				Current = Entity.BoneData.BonePosList[Index];
+				Current = Entity.GetBone().BonePosList[Index];
 				if (Previous.Pos == Vec3(0, 0, 0))
 				{
 					Previous = Current;
@@ -38,15 +38,15 @@ namespace Render
 	{
 		Vec2 StartPoint, EndPoint;
 		Vec3 Temp;
-		BoneJointPos Head = Entity.BoneData.BonePosList[BONEINDEX::head];
+		BoneJointPos Head = Entity.GetBone().BonePosList[BONEINDEX::head];
 
 		StartPoint = Head.ScreenPos;
 
-		float LineLength = cos(Entity.ViewAngle.x * M_PI / 180) * Length;
+		float LineLength = cos(Entity.Pawn.ViewAngle.x * M_PI / 180) * Length;
 
-		Temp.x = Head.Pos.x + cos(Entity.ViewAngle.y * M_PI / 180) * LineLength;
-		Temp.y = Head.Pos.y + sin(Entity.ViewAngle.y * M_PI / 180) * LineLength;
-		Temp.z = Head.Pos.z - sin(Entity.ViewAngle.x * M_PI / 180) * Length;
+		Temp.x = Head.Pos.x + cos(Entity.Pawn.ViewAngle.y * M_PI / 180) * LineLength;
+		Temp.y = Head.Pos.y + sin(Entity.Pawn.ViewAngle.y * M_PI / 180) * LineLength;
+		Temp.z = Head.Pos.z - sin(Entity.Pawn.ViewAngle.x * M_PI / 180) * Length;
 
 		if (!gGame.View.WorldToScreen(Temp, EndPoint))
 			return;
@@ -58,9 +58,9 @@ namespace Render
 	ImVec4 Draw2DBoneRect(const CEntity& Entity, ImColor Color, float Thickness)
 	{
 		Vec2 Min, Max, Size;
-		Min = Max = Entity.BoneData.BonePosList[0].ScreenPos;
+		Min = Max = Entity.GetBone().BonePosList[0].ScreenPos;
 
-		for (auto &BoneJoint : Entity.BoneData.BonePosList)
+		for (auto &BoneJoint : Entity.GetBone().BonePosList)
 		{
 			if (!BoneJoint.IsVisible)
 				continue;

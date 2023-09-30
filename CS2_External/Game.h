@@ -15,6 +15,7 @@ private:
 		DWORD64 ViewAngle;
 		DWORD64 EntityListEntry;
 		DWORD64 LocalController;
+		DWORD64 LocalPawn;
 	}Address;
 
 public:
@@ -35,6 +36,8 @@ public:
 	DWORD64 GetEntityListEntry();
 
 	DWORD64 GetLocalControllerAddress();
+
+	DWORD64 GetLocalPawnAddress();
 
 	bool UpdateEntityListEntry();
 

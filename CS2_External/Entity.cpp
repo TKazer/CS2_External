@@ -12,79 +12,105 @@ bool GetDataAddressWithOffset(const DWORD64& Address, DWORD Offset, T& Data)
 	return true;
 }
 
-bool CEntity::Update(const DWORD64& EntityAddress)
+bool CEntity::UpdateController(const DWORD64& PlayerControllerAddress)
 {
-	if (EntityAddress == 0)
+	if (PlayerControllerAddress == 0)
 		return false;
-	this->EntityAddress = EntityAddress;
+	this->Controller.Address = PlayerControllerAddress;
 
-	if (!GetPawn())
+	if (!this->Controller.GetHealth())
 		return false;
-	if (!GetTeamID())
+	if (!this->Controller.GetIsAlive())
 		return false;
-	if (!GetIsAlive())
+	if (!this->Controller.GetTeamID())
 		return false;
-	if (!GetHealth())
+
+	this->Pawn.Address = this->Controller.GetPlayerPawnAddress();
+
+	return true;
+}
+
+bool CEntity::UpdatePawn(const DWORD64& PlayerPawnAddress)
+{
+	if (PlayerPawnAddress == 0)
 		return false;
-	if (!GetPos())
+	this->Pawn.Address = PlayerPawnAddress;
+
+	if (!this->Pawn.GetCameraPos())
 		return false;
-	if (!GetViewAngle())
+	if (!this->Pawn.GetPos())
 		return false;
-	if (!GetCameraPos())
+	if (!this->Pawn.GetViewAngle())
 		return false;
-	if (!BoneData.UpdateAllBoneData(EntityPawnAddress))
+	if (!this->Pawn.BoneData.UpdateAllBoneData(PlayerPawnAddress))
 		return false;
 
 	return true;
 }
 
-bool CEntity::GetTeamID()
+bool PlayerController::GetTeamID()
 {
-	return GetDataAddressWithOffset<int>(EntityAddress, Offset::Entity.TeamID, this->TeamID);
+	return GetDataAddressWithOffset<int>(Address, Offset::Entity.TeamID, this->TeamID);
 }
 
-bool CEntity::GetHealth()
+bool PlayerController::GetHealth()
 {
-	return GetDataAddressWithOffset<int>(EntityAddress, Offset::Entity.Health, this->Health);
+	return GetDataAddressWithOffset<int>(Address, Offset::Entity.Health, this->Health);
 }
 
-bool CEntity::GetIsAlive()
+bool PlayerController::GetIsAlive()
 {
-	return GetDataAddressWithOffset<int>(EntityAddress, Offset::Entity.IsAlive, this->AliveStatus);
+	return GetDataAddressWithOffset<int>(Address, Offset::Entity.IsAlive, this->AliveStatus);
 }
 
-bool CEntity::GetViewAngle()
+bool PlayerPawn::GetViewAngle()
 {
-	return GetDataAddressWithOffset<Vec2>(EntityPawnAddress, Offset::Pawn.angEyeAngles, this->ViewAngle);
+	return GetDataAddressWithOffset<Vec2>(Address, Offset::Pawn.angEyeAngles, this->ViewAngle);
 }
 
-bool CEntity::GetCameraPos()
+bool PlayerPawn::GetCameraPos()
 {
-	return GetDataAddressWithOffset<Vec3>(EntityPawnAddress, Offset::Pawn.vecLastClipCameraPos, this->CameraPos);
+	return GetDataAddressWithOffset<Vec3>(Address, Offset::Pawn.vecLastClipCameraPos, this->CameraPos);
 }
 
-bool CEntity::GetPawn()
+DWORD64 PlayerController::GetPlayerPawnAddress()
 {
-	if (!GetDataAddressWithOffset<DWORD>(EntityAddress, Offset::Entity.PlayerPawn, this->Pawn))
-		return false;
+	DWORD64 EntityPawnListEntry = 0;
+	DWORD64 EntityPawnAddress = 0;
 
-	if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetEntityListEntry() + 0x78 * (Pawn & 0x1FF), this->EntityPawnAddress))
-		return false;
+	if (!GetDataAddressWithOffset<DWORD>(Address, Offset::Entity.PlayerPawn, this->Pawn))
+		return 0;
 
-	return this->EntityPawnAddress != 0;
+	if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetEntityListAddress(), EntityPawnListEntry))
+		return 0;
+
+	if (!ProcessMgr.ReadMemory<DWORD64>(EntityPawnListEntry + 0x10 + 8 * ((Pawn & 0x7FFF) >> 9), EntityPawnListEntry))
+		return 0;
+
+	if (!ProcessMgr.ReadMemory<DWORD64>(EntityPawnListEntry + 0x78 * (Pawn & 0x1FF), EntityPawnAddress))
+		return 0;
+
+	return EntityPawnAddress;
 }
 
-bool CEntity::GetPos()
+bool PlayerPawn::GetPos()
 {
-	return GetDataAddressWithOffset<Vec3>(EntityPawnAddress, Offset::Pawn.Pos, this->Pos);
+	return GetDataAddressWithOffset<Vec3>(Address, Offset::Pawn.Pos, this->Pos);
 }
 
 bool CEntity::IsAlive()
 {
-	return this->AliveStatus == 1 && this->Health > 0;
+	return this->Controller.AliveStatus == 1 && this->Controller.Health > 0;
 }
 
 bool CEntity::IsInScreen()
 {
-	return gGame.View.WorldToScreen(this->Pos, this->ScreenPos);
+	return gGame.View.WorldToScreen(this->Pawn.Pos, this->Pawn.ScreenPos);
+}
+
+CBone CEntity::GetBone() const
+{
+	if (this->Pawn.Address == 0)
+		return CBone{};
+	return this->Pawn.BoneData;
 }

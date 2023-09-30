@@ -11,12 +11,18 @@ void Cheats::Run()
 	gGame.UpdateEntityListEntry();
 
 	DWORD64 LocalControllerAddress = 0;
+	DWORD64 LocalPawnAddress = 0;
+
 	if (!ProcessMgr.ReadMemory(gGame.GetLocalControllerAddress(), LocalControllerAddress))
+		return;
+	if (!ProcessMgr.ReadMemory(gGame.GetLocalPawnAddress(), LocalPawnAddress))
 		return;
 
 	// 本地实体
 	CEntity LocalEntity;
-	if (!LocalEntity.Update(LocalControllerAddress))
+	if (!LocalEntity.UpdateController(LocalControllerAddress))
+		return;
+	if (!LocalEntity.UpdatePawn(LocalPawnAddress))
 		return;
 
 	// 血条Map
@@ -33,9 +39,11 @@ void Cheats::Run()
 		DWORD64 EntityAddress = 0;
 		if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetEntityListEntry() + (i + 1) * 0x78, EntityAddress))
 			continue;
-		if (EntityAddress == LocalEntity.EntityAddress)
+		if (EntityAddress == LocalEntity.Controller.Address)
 			continue;
-		if (!Entity.Update(EntityAddress))
+		if (!Entity.UpdateController(EntityAddress))
+			continue;
+		if (!Entity.UpdatePawn(Entity.Pawn.Address))
 			continue;
 
 		//if (Entity.TeamID == LocalEntity.TeamID)
@@ -55,14 +63,14 @@ void Cheats::Run()
 			}
 		}*/
 
-		DistanceToSight = Entity.BoneData.BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({ Gui.Window.Size.x / 2,Gui.Window.Size.y / 2 });
+		DistanceToSight = Entity.GetBone().BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({Gui.Window.Size.x / 2,Gui.Window.Size.y / 2});
 
 		if (DistanceToSight < AimControl::AimRange)
 		{
 			if (DistanceToSight < MaxAimDistance)
 			{
 				MaxAimDistance = DistanceToSight;
-				AimPos = Entity.BoneData.BonePosList[BONEINDEX::head].Pos;
+				AimPos = Entity.GetBone().BonePosList[BONEINDEX::head].Pos;
 			}
 		}
 
@@ -79,7 +87,7 @@ void Cheats::Run()
 		if (!HealthBarMap.count(EntityAddress))
 			HealthBarMap.insert({ EntityAddress,Render::HealthBar(100) });
 
-		HealthBarMap[EntityAddress].DrawHealthBar(Entity.Health,
+		HealthBarMap[EntityAddress].DrawHealthBar(Entity.Controller.Health,
 			{ Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 20 }, { 70,8 });
 	}
 
@@ -87,7 +95,7 @@ void Cheats::Run()
 	{
 		if (AimPos != Vec3(0,0,0))
 		{
-			AimControl::AimBot(LocalEntity, LocalEntity.CameraPos, AimPos);
+			AimControl::AimBot(LocalEntity, LocalEntity.Pawn.CameraPos, AimPos);
 		}
 	}
 }

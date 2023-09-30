@@ -3,33 +3,49 @@
 #include "View.hpp"
 #include "Bone.h"
 
-class CEntity
+class PlayerController
 {
 public:
-	DWORD64 EntityAddress = 0;
-	DWORD64 EntityPawnAddress = 0;
-	CBone BoneData;
+	DWORD64 Address = 0;
 	int TeamID = 0;
 	int Health = 0;
 	int AliveStatus = 0;
 	DWORD Pawn = 0;
+public:
+	bool GetTeamID();
+	bool GetHealth();
+	bool GetIsAlive();
+	DWORD64 GetPlayerPawnAddress();
+};
+
+class PlayerPawn
+{
+public:
+	DWORD64 Address = 0;
+	CBone BoneData;
 	Vec2 ViewAngle;
 	Vec3 Pos;
 	Vec2 ScreenPos;
 	Vec3 CameraPos;
 public:
+	bool GetPos();
+	bool GetViewAngle();
+	bool GetCameraPos();
+};
+
+class CEntity
+{
+public:
+	PlayerController Controller;
+	PlayerPawn Pawn;
+public:
 	// 更新数据
-	bool Update(const DWORD64& EntityAddress);
+	bool UpdateController(const DWORD64& PlayerControllerAddress);
+	bool UpdatePawn(const DWORD64& PlayerPawnAddress);
 	// 是否存活
 	bool IsAlive();
 	// 是否在屏幕内
 	bool IsInScreen();
-private:
-	bool GetTeamID();
-	bool GetHealth();
-	bool GetIsAlive();
-	bool GetPawn();
-	bool GetPos();
-	bool GetViewAngle();
-	bool GetCameraPos();
+	// 获取骨骼数据
+	CBone GetBone() const;
 };

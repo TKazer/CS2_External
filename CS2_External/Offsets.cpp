@@ -51,5 +51,11 @@ bool Offset::UpdateOffsets()
 		return false;
 
 	Offset::ViewAngle = TempAddress + 0x4510 - ClientDLL;
+
+	TempAddress = SearchOffsets(Offset::Signatures::LocalPlayerPawn, ClientDLL);
+	if (TempAddress == 0)
+		return false;
+
+	Offset::LocalPlayerPawn = TempAddress + 0x118 - ClientDLL;
 	return true;
 }
