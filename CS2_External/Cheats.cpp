@@ -96,8 +96,6 @@ void Cheats::Run()
 		Gui.Text(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 17);
 	}
 
-	//AimControl::RecoilControl(LocalEntity);
-
 	if (GetAsyncKeyState(AimControl::HotKey))
 	{
 		if (AimPos != Vec3(0,0,0))
