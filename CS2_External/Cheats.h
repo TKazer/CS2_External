@@ -5,5 +5,6 @@
 
 namespace Cheats
 {
+	void Menu();
 	void Run();
 }

@@ -7,6 +7,20 @@
 
 namespace Render
 {
+	// ·½¿ò»æÖÆ
+	ImVec4 Get2DBox(const CEntity& Entity)
+	{
+		BoneJointPos Head = Entity.GetBone().BonePosList[BONEINDEX::head];
+
+		Vec2 Size, Pos;
+		Size.y = (Entity.Pawn.ScreenPos.y - Head.ScreenPos.y) * 1.09;
+		Size.x = Size.y * 0.6;
+
+		Pos = ImVec2(Entity.Pawn.ScreenPos.x - Size.x / 2, Head.ScreenPos.y- Size.y*0.08);
+
+		return ImVec4{ Pos.x,Pos.y,Size.x,Size.y };
+	}
+
 	// ¹Ç÷À»æÖÆ
 	void DrawBone(const CEntity& Entity, ImColor Color, float Thickness)
 	{
@@ -55,7 +69,7 @@ namespace Render
 	}
 
 	// 2D¹Ç÷À¿ò»æÖÆ
-	ImVec4 Draw2DBoneRect(const CEntity& Entity, ImColor Color, float Thickness)
+	ImVec4 Get2DBoneRect(const CEntity& Entity)
 	{
 		Vec2 Min, Max, Size;
 		Min = Max = Entity.GetBone().BonePosList[0].ScreenPos;
@@ -72,7 +86,6 @@ namespace Render
 		Size.x = Max.x - Min.x;
 		Size.y = Max.y - Min.y;
 
-		Gui.Rectangle(Min, Size, Color, Thickness);
 		return ImVec4(Min.x, Min.y, Size.x, Size.y);
 	}
 
@@ -125,7 +138,7 @@ namespace Render
 			return value > min && value <= max;
 		};
 
-		ImDrawList* DrawList = ImGui::GetForegroundDrawList();
+		ImDrawList* DrawList = ImGui::GetBackgroundDrawList();
 
 		this->CurrentHealth = CurrentHealth;
 		this->RectPos = Pos;

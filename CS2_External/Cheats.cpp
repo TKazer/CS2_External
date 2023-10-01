@@ -1,8 +1,63 @@
 #include "Cheats.h"
 #include "Render.hpp"
+#include "MenuConfig.hpp"
+
+void Cheats::Menu()
+{
+	ImGui::Begin("Menu",nullptr,ImGuiWindowFlags_AlwaysAutoResize);
+	{
+		if (ImGui::CollapsingHeader("ESP"))
+		{
+			Gui.MyCheckBox("BoxESP", &MenuConfig::ShowBoxESP);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##BoxColor", reinterpret_cast<float*>(&MenuConfig::BoxColor));
+
+			ImGui::Combo("BoxType", &MenuConfig::BoxType, "Normal\0Dynamic");
+
+			Gui.MyCheckBox("BoneESP", &MenuConfig::ShowBoneESP);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##BoneColor", reinterpret_cast<float*>(&MenuConfig::BoneColor));
+
+			Gui.MyCheckBox("EyeRay", &MenuConfig::ShowEyeRay);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##EyeRay", reinterpret_cast<float*>(&MenuConfig::EyeRayColor));
+
+			Gui.MyCheckBox("HealthBar", &MenuConfig::ShowHealthBar);
+			Gui.MyCheckBox("WeaponText", &MenuConfig::ShowWeaponESP);
+		}
+
+		if (ImGui::CollapsingHeader("AimBot"))
+		{
+			Gui.MyCheckBox("Aimbot", &MenuConfig::AimBot);
+			float SmoothMin = 0.1f, SmoothMax = 1.f;
+			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &MenuConfig::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
+			if (ImGui::Combo("AimPos", &MenuConfig::AimPosition, "Head\0Neck\0Spine"))
+			{
+				switch (MenuConfig::AimPosition)
+				{
+				case 0:
+					MenuConfig::AimPositionIndex = BONEINDEX::head;
+					break;
+				case 1:
+					MenuConfig::AimPositionIndex = BONEINDEX::neck_0;
+					break;
+				case 2:
+					MenuConfig::AimPositionIndex = BONEINDEX::spine_1;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+	}ImGui::End();
+}
 
 void Cheats::Run()
 {
+	// Show menu
+	Menu();
+
 	// 更新矩阵数据
 	if(!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix,64))
 		return;
@@ -71,34 +126,55 @@ void Cheats::Run()
 			if (DistanceToSight < MaxAimDistance)
 			{
 				MaxAimDistance = DistanceToSight;
-				HeadPos = Entity.GetBone().BonePosList[BONEINDEX::head].Pos;
-				AimPos = Vec3 { HeadPos.x,HeadPos.y,HeadPos.z-1.f };//aim position height -1 to aim at the center of head, improve hitchance
+				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
+				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
+					AimPos.z -= 1.f;
 			}
 		}
 
 		// 绘制骨骼
-		Render::DrawBone(Entity, ImColor(255, 255, 255, 255), 1.3);
+		if(MenuConfig::ShowBoneESP)
+			Render::DrawBone(Entity, MenuConfig::BoneColor, 1.3);
 
 		// 绘制朝向
-		Render::ShowLosLine(Entity, 50, ImColor(255, 0, 0, 255), 1.3);
+		if(MenuConfig::ShowEyeRay)
+			Render::ShowLosLine(Entity, 50, MenuConfig::EyeRayColor, 1.3);
 
-		// 绘制2D框
-		auto Rect = Render::Draw2DBoneRect(Entity, ImColor(255, 255, 255, 255), 1.3);
+		ImVec4 Rect;
+		switch (MenuConfig::BoxType)
+		{
+		case 0:
+			Rect = Render::Get2DBox(Entity);
+			break;
+		case 1:
+			Rect = Render::Get2DBoneRect(Entity);
+			break;
+		default:
+			break;
+		}
+
+		// 方框
+		if (MenuConfig::ShowBoxESP)
+			Gui.Rectangle({ Rect.x,Rect.y }, { Rect.z,Rect.w }, MenuConfig::BoxColor, 1.3);
 
 		// 绘制血条
-		if (!HealthBarMap.count(EntityAddress))
-			HealthBarMap.insert({ EntityAddress,Render::HealthBar(100) });
+		if (MenuConfig::ShowHealthBar)
+		{
+			if (!HealthBarMap.count(EntityAddress))
+				HealthBarMap.insert({ EntityAddress,Render::HealthBar(100) });
 
-		HealthBarMap[EntityAddress].DrawHealthBar(Entity.Controller.Health,
-			{ Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 20 }, { 70,8 });
+			HealthBarMap[EntityAddress].DrawHealthBar(Entity.Controller.Health,
+				{ Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 13 }, { 70,8 });
+		}
 
 		// 绘制武器名称
-		Gui.Text(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 17);
+		if (MenuConfig::ShowWeaponESP)
+			Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 17);
 	}
 
-	if (GetAsyncKeyState(AimControl::HotKey))
+	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{
-		if (AimPos != Vec3(0,0,0))
+		if (AimPos != Vec3(0, 0, 0))
 		{
 			AimControl::AimBot(LocalEntity, LocalEntity.Pawn.CameraPos, AimPos);
 		}
