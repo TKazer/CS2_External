@@ -47,8 +47,8 @@ void Cheats::Run()
 		if (!Entity.UpdatePawn(Entity.Pawn.Address))
 			continue;
 
-		//if (Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
-			//continue;
+		if (Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
+			continue;
 		if (!Entity.IsAlive())
 			continue;
 		if (!Entity.IsInScreen())
