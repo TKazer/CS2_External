@@ -3,11 +3,11 @@
 
 void Cheats::Run()
 {
-	// ¸üĞÂ¾ØÕóÊı¾İ
+	// æ›´æ–°çŸ©é˜µæ•°æ®
 	if(!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix,64))
 		return;
 
-	// ¸üĞÂÊµÌåÁ´±íµØÖ·
+	// æ›´æ–°å®ä½“é“¾è¡¨åœ°å€
 	gGame.UpdateEntityListEntry();
 
 	DWORD64 LocalControllerAddress = 0;
@@ -18,17 +18,17 @@ void Cheats::Run()
 	if (!ProcessMgr.ReadMemory(gGame.GetLocalPawnAddress(), LocalPawnAddress))
 		return;
 
-	// ±¾µØÊµÌå
+	// æœ¬åœ°å®ä½“
 	CEntity LocalEntity;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
 		return;
 	if (!LocalEntity.UpdatePawn(LocalPawnAddress))
 		return;
 
-	// ÑªÌõMap
+	// è¡€æ¡Map
 	static std::map<DWORD64, Render::HealthBar> HealthBarMap;
 
-	// ×ÔÃéÊı¾İ
+	// è‡ªç„æ•°æ®
 	float DistanceToSight = 0;
 	float MaxAimDistance = 100000;
 	Vec3  AimPos{ 0,0,0 };
@@ -46,14 +46,14 @@ void Cheats::Run()
 		if (!Entity.UpdatePawn(Entity.Pawn.Address))
 			continue;
 
-		//if (Entity.TeamID == LocalEntity.TeamID)
-			//continue;
+		if (Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
+			continue;
 		if (!Entity.IsAlive())
 			continue;
 		if (!Entity.IsInScreen())
 			continue;
 
-		// ¹Ç÷Àµ÷ÊÔ»æÖÆ
+		// éª¨éª¼è°ƒè¯•ç»˜åˆ¶
 	/*	for (int BoneIndex = 0; BoneIndex < Entity.BoneData.BonePosList.size(); BoneIndex++)
 		{
 			Vec2 ScreenPos{};
@@ -74,16 +74,16 @@ void Cheats::Run()
 			}
 		}
 
-		// »æÖÆ¹Ç÷À
+		// ç»˜åˆ¶éª¨éª¼
 		Render::DrawBone(Entity, ImColor(255, 255, 255, 255), 1.3);
 
-		// »æÖÆ³¯Ïò
+		// ç»˜åˆ¶æœå‘
 		Render::ShowLosLine(Entity, 50, ImColor(255, 0, 0, 255), 1.3);
 
-		// »æÖÆ2D¿ò
+		// ç»˜åˆ¶2Dæ¡†
 		auto Rect = Render::Draw2DBoneRect(Entity, ImColor(255, 255, 255, 255), 1.3);
 
-		// »æÖÆÑªÌõ
+		// ç»˜åˆ¶è¡€æ¡
 		if (!HealthBarMap.count(EntityAddress))
 			HealthBarMap.insert({ EntityAddress,Render::HealthBar(100) });
 
