@@ -27,6 +27,9 @@ namespace Offset
 		DWORD BoneArray = 0x1E0;
 		DWORD angEyeAngles = 0x1500;
 		DWORD vecLastClipCameraPos = 0x1274;
+		DWORD pClippingWeapon = 0x1290;
+		DWORD iShotsFired = 0x1404;
+		DWORD aimPunchAngle = 0x1704;
 	}Pawn;
 
 	namespace Signatures

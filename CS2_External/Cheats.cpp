@@ -47,8 +47,8 @@ void Cheats::Run()
 		if (!Entity.UpdatePawn(Entity.Pawn.Address))
 			continue;
 
-		if (Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
-			continue;
+		//if (Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
+			//continue;
 		if (!Entity.IsAlive())
 			continue;
 		if (!Entity.IsInScreen())
@@ -91,7 +91,12 @@ void Cheats::Run()
 
 		HealthBarMap[EntityAddress].DrawHealthBar(Entity.Controller.Health,
 			{ Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 20 }, { 70,8 });
+
+		// 绘制武器名称
+		Gui.Text(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 17);
 	}
+
+	//AimControl::RecoilControl(LocalEntity);
 
 	if (GetAsyncKeyState(AimControl::HotKey))
 	{

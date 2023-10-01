@@ -11,7 +11,7 @@ enum BONEINDEX : DWORD
 	pelvis=0,
 	arm_upper_L=8,
 	arm_lower_L=9,
-	hand_L=20,
+	hand_L=10,
 	arm_upper_R=13,
 	arm_lower_R=14,
 	hand_R=15,

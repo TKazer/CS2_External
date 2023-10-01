@@ -160,7 +160,7 @@ public:
 	/// <returns>Æ¥ÅäÌØÕ÷½á¹û</returns>
 	std::vector<DWORD64> SearchMemory(std::string Signature, DWORD64 StartAddress, DWORD64 EndAddress);
 
-	DWORD TraceAddress(DWORD64 BaseAddress, std::vector<DWORD> Offsets)
+	DWORD64 TraceAddress(DWORD64 BaseAddress, std::vector<DWORD> Offsets)
 	{
 		_is_invalid(hProcess,0);
 		_is_invalid(ProcessID,0);
@@ -169,12 +169,12 @@ public:
 		if (Offsets.size() == 0)
 			return BaseAddress;
 
-		if (!ReadMemory<DWORD64>(BaseAddress, Address, 4))
+		if (!ReadMemory<DWORD64>(BaseAddress, Address))
 			return 0;
 	
 		for (int i = 0; i < Offsets.size() - 1; i++)
 		{
-			if (!ReadMemory<DWORD64>(Address + Offsets[i], Address, 4))
+			if (!ReadMemory<DWORD64>(Address + Offsets[i], Address))
 				return 0;
 		}
 		return Address == 0 ? 0 : Address + Offsets[Offsets.size() - 1];

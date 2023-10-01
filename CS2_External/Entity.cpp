@@ -42,6 +42,12 @@ bool CEntity::UpdatePawn(const DWORD64& PlayerPawnAddress)
 		return false;
 	if (!this->Pawn.GetViewAngle())
 		return false;
+	if (!this->Pawn.GetWeaponName())
+		return false;
+	if (!this->Pawn.GetAimPunchAngle())
+		return false;
+	if (!this->Pawn.GetShotsFired())
+		return false;
 	if (!this->Pawn.BoneData.UpdateAllBoneData(PlayerPawnAddress))
 		return false;
 
@@ -71,6 +77,42 @@ bool PlayerPawn::GetViewAngle()
 bool PlayerPawn::GetCameraPos()
 {
 	return GetDataAddressWithOffset<Vec3>(Address, Offset::Pawn.vecLastClipCameraPos, this->CameraPos);
+}
+
+bool PlayerPawn::GetWeaponName()
+{
+	DWORD64 WeaponNameAddress = 0;
+	char Buffer[MAX_PATH]{};
+	
+	WeaponNameAddress = ProcessMgr.TraceAddress(this->Address + Offset::Pawn.pClippingWeapon, { 0x10,0x20 ,0x0 });
+	if (WeaponNameAddress == 0)
+		return false;
+
+	if (!ProcessMgr.ReadMemory(WeaponNameAddress, Buffer, MAX_PATH))
+		return false;
+
+	WeaponName = std::string(Buffer);
+	std::size_t Index = WeaponName.find("_");
+	if (Index == std::string::npos || WeaponName.empty())
+	{
+		WeaponName = "Weapon_None";
+	}
+	else
+	{
+		WeaponName = WeaponName.substr(Index + 1, WeaponName.size() - Index - 1);
+	}
+
+	return true;
+}
+
+bool PlayerPawn::GetShotsFired()
+{
+	return GetDataAddressWithOffset<DWORD>(Address, Offset::Pawn.iShotsFired, this->ShotsFired);
+}
+
+bool PlayerPawn::GetAimPunchAngle()
+{
+	return GetDataAddressWithOffset<Vec2>(Address, Offset::Pawn.aimPunchAngle, this->AimPunchAngle);
 }
 
 DWORD64 PlayerController::GetPlayerPawnAddress()
