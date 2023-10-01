@@ -31,6 +31,7 @@ void Cheats::Run()
 	// 自瞄数据
 	float DistanceToSight = 0;
 	float MaxAimDistance = 100000;
+	Vec3  HeadPos{ 0,0,0 };
 	Vec3  AimPos{ 0,0,0 };
 
 	for (int i = 0; i < 64; i++)
@@ -70,7 +71,8 @@ void Cheats::Run()
 			if (DistanceToSight < MaxAimDistance)
 			{
 				MaxAimDistance = DistanceToSight;
-				AimPos = Entity.GetBone().BonePosList[BONEINDEX::head].Pos;
+				HeadPos = Entity.GetBone().BonePosList[BONEINDEX::head].Pos;
+				AimPos = Vec3 { HeadPos.x,HeadPos.y,HeadPos.z-1.f };//aim position height -1 to aim at the center of head, improve hitchance
 			}
 		}
 
