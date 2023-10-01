@@ -17,8 +17,11 @@ This source just used to study how to code a simple CS2 external hack systematic
 
 > 2. BoxESP
 
-> 3. AimBot
+> 3. AimBot (With rcs)
 
 > 4. EyeLine
 
 > 5. Auto update offsets
+
+> 6. weaponESP
+
