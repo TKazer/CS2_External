@@ -25,6 +25,9 @@
     <Filter Include="Cheats\Offsets">
       <UniqueIdentifier>{0af61bf5-c236-403c-a0f8-48488f87bfcf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cheats\MenuConfig">
+      <UniqueIdentifier>{4ee44a79-e9da-483b-8c8c-46209c06c557}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OS-ImGui\imgui\imconfig.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="Offsets.h">
       <Filter>Cheats\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuConfig.hpp">
+      <Filter>Cheats\MenuConfig</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

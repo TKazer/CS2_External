@@ -23,6 +23,8 @@ void Cheats::Menu()
 			ImGui::ColorEdit4("##EyeRay", reinterpret_cast<float*>(&MenuConfig::EyeRayColor));
 
 			Gui.MyCheckBox("HealthBar", &MenuConfig::ShowHealthBar);
+			ImGui::Combo("HealthBarType", &MenuConfig::HealthBarType, "Vetical\0Horizontal");
+
 			Gui.MyCheckBox("WeaponText", &MenuConfig::ShowWeaponESP);
 		}
 
@@ -50,13 +52,18 @@ void Cheats::Menu()
 			}
 		}
 
+		ImGui::Text("[HOME] HideMenu");
+
 	}ImGui::End();
 }
 
 void Cheats::Run()
 {
 	// Show menu
-	Menu();
+	if (GetAsyncKeyState(VK_HOME) & 0x8000)
+		MenuConfig::ShowMenu = !MenuConfig::ShowMenu;
+	if(MenuConfig::ShowMenu)
+		Menu();
 
 	// 更新矩阵数据
 	if(!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix,64))
@@ -160,16 +167,25 @@ void Cheats::Run()
 		// 绘制血条
 		if (MenuConfig::ShowHealthBar)
 		{
-			if (!HealthBarMap.count(EntityAddress))
-				HealthBarMap.insert({ EntityAddress,Render::HealthBar(100) });
-
-			HealthBarMap[EntityAddress].DrawHealthBar(Entity.Controller.Health,
-				{ Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 13 }, { 70,8 });
+			ImVec2 HealthBarPos, HealthBarSize;
+			if (MenuConfig::HealthBarType == 0)
+			{
+				// Vertical
+				HealthBarPos = { Rect.x - 7.f,Rect.y };
+				HealthBarSize = { 7 ,Rect.w };
+			}
+			else
+			{
+				// Horizontal
+				HealthBarPos = { Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 13 };
+				HealthBarSize = { 70,8 };
+			}
+			Render::DrawHealthBar(EntityAddress, 100, Entity.Controller.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
 		}
 
 		// 绘制武器名称
 		if (MenuConfig::ShowWeaponESP)
-			Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 17);
+			Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 14);
 	}
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))

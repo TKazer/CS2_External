@@ -95,7 +95,7 @@ namespace Render
 		using TimePoint_ = std::chrono::steady_clock::time_point;
 	private:
 		// 显示备份血条时间(ms)
-		const int ShowBackUpHealthDuration = 450;
+		const int ShowBackUpHealthDuration = 500;
 		// 最大血量
 		float MaxHealth = 0.f;
 		// 当前血量
@@ -111,12 +111,14 @@ namespace Render
 		// 显示备份血量起始时间戳
 		TimePoint_ BackupHealthTimePoint{};
 	public:
-		// 初始化
-		HealthBar(float MaxHealth_) :MaxHealth(MaxHealth_) {}
-		HealthBar() { MaxHealth = 100; }
-		// 绘制血条
-		void DrawHealthBar(float CurrentHealth, ImVec2 Pos, ImVec2 Size);
+		HealthBar() {}
+		// 横向
+		void DrawHealthBar_Horizontal(float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size);
+		// 纵向
+		void DrawHealthBar_Vertical(float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size);
 	private:
+		// 颜色缓动
+		ImColor Mix(ImColor Col_1, ImColor Col_2, float t);
 		// 第一阶段血条颜色 0.5-1
 		ImColor FirstStageColor = ImColor(96, 246, 113, 220);
 		// 第二阶段血条颜色 0.5-0.2
@@ -131,7 +133,7 @@ namespace Render
 		ImColor BackGroundColor = ImColor(90, 90, 90, 220);
 	};
 
-	void HealthBar::DrawHealthBar(float CurrentHealth, ImVec2 Pos, ImVec2 Size)
+	void HealthBar::DrawHealthBar_Horizontal(float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size)
 	{
 		auto InRange = [&](float value, float min, float max) -> bool
 		{
@@ -140,6 +142,7 @@ namespace Render
 
 		ImDrawList* DrawList = ImGui::GetBackgroundDrawList();
 
+		this->MaxHealth = MaxHealth;
 		this->CurrentHealth = CurrentHealth;
 		this->RectPos = Pos;
 		this->RectSize = Size;
@@ -157,12 +160,11 @@ namespace Render
 			BackGroundColor, 5, 15);
 
 		// 颜色切换
+		float Color_Lerp_t = pow(Proportion, 2.5);
 		if (InRange(Proportion, 0.5, 1))
-			Color = FirstStageColor;
-		else if (InRange(Proportion, 0.2, 0.5))
-			Color = SecondStageColor;
-		else if (InRange(Proportion, 0, 0.2))
-			Color = ThirdStageColor;
+			Color = Mix(FirstStageColor, SecondStageColor, Color_Lerp_t * 3 - 1);
+		else
+			Color = Mix(SecondStageColor, ThirdStageColor, Color_Lerp_t * 4);
 
 		// 更新最近备份血量
 		if (LastestBackupHealth == 0
@@ -194,7 +196,7 @@ namespace Render
 				ImColor BackupHealthColorTemp = BackupHealthColor;
 				BackupHealthColorTemp.Value.w = BackupHealthColorAlpha;
 				// 备份血量宽度缓动
-				float BackupHealthWidth_Lerp = 0.7 * (std::chrono::duration_cast<std::chrono::milliseconds>(CurrentTime - BackupHealthTimePoint).count() / (float)ShowBackUpHealthDuration);
+				float BackupHealthWidth_Lerp = 1 * (std::chrono::duration_cast<std::chrono::milliseconds>(CurrentTime - BackupHealthTimePoint).count() / (float)ShowBackUpHealthDuration);
 				BackupHealthWidth_Lerp *= (BackupHealthWidth - Width);
 				BackupHealthWidth -= BackupHealthWidth_Lerp;
 				// 备份血条
@@ -213,6 +215,117 @@ namespace Render
 		DrawList->AddRect(RectPos,
 			{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
 			FrameColor, 5, 15, 2);
+	}
+
+	void HealthBar::DrawHealthBar_Vertical(float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size)
+	{
+		auto InRange = [&](float value, float min, float max) -> bool
+		{
+			return value > min && value <= max;
+		};
+
+		ImDrawList* DrawList = ImGui::GetBackgroundDrawList();
+
+		this->MaxHealth = MaxHealth;
+		this->CurrentHealth = CurrentHealth;
+		this->RectPos = Pos;
+		this->RectSize = Size;
+
+		// 占比
+		float Proportion = CurrentHealth / MaxHealth;
+		// 血量条高度
+		float Height = RectSize.y * Proportion;
+		// 血量条颜色
+		ImColor Color;
+
+		// 背景
+		DrawList->AddRectFilled(RectPos,
+			{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
+			BackGroundColor, 5, 15);
+
+		// 颜色切换
+		float Color_Lerp_t = pow(Proportion, 2.5);
+		if (InRange(Proportion, 0.5, 1))
+			Color = Mix(FirstStageColor, SecondStageColor, Color_Lerp_t * 3 - 1);
+		else
+			Color = Mix(SecondStageColor, ThirdStageColor, Color_Lerp_t * 4);
+
+		// 更新最近备份血量
+		if (LastestBackupHealth == 0
+			|| LastestBackupHealth < CurrentHealth)
+			LastestBackupHealth = CurrentHealth;
+
+		if (LastestBackupHealth != CurrentHealth)
+		{
+			if (!InShowBackupHealth)
+			{
+				BackupHealthTimePoint = std::chrono::steady_clock::now();
+				InShowBackupHealth = true;
+			}
+
+			std::chrono::steady_clock::time_point CurrentTime = std::chrono::steady_clock::now();
+			if (CurrentTime - BackupHealthTimePoint > std::chrono::milliseconds(ShowBackUpHealthDuration))
+			{
+				// 超时就停止显示备份血量，并且更新最近备份血量
+				LastestBackupHealth = CurrentHealth;
+				InShowBackupHealth = false;
+			}
+
+			if (InShowBackupHealth)
+			{
+				// 备份血量绘制高度
+				float BackupHealthHeight = LastestBackupHealth / MaxHealth * RectSize.y;
+				// 备份血量alpha渐变
+				float BackupHealthColorAlpha = 1 - 0.95 * (std::chrono::duration_cast<std::chrono::milliseconds>(CurrentTime - BackupHealthTimePoint).count() / (float)ShowBackUpHealthDuration);
+				ImColor BackupHealthColorTemp = BackupHealthColor;
+				BackupHealthColorTemp.Value.w = BackupHealthColorAlpha;
+				// 备份血量高度缓动
+				float BackupHealthHeight_Lerp = 1 * (std::chrono::duration_cast<std::chrono::milliseconds>(CurrentTime - BackupHealthTimePoint).count() / (float)ShowBackUpHealthDuration);
+				BackupHealthHeight_Lerp *= (BackupHealthHeight - Height);
+				BackupHealthHeight -= BackupHealthHeight_Lerp;
+				// 备份血条
+				DrawList->AddRectFilled({ RectPos.x,RectPos.y + RectSize.y - BackupHealthHeight },
+					{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
+					BackupHealthColorTemp, 5);
+			}
+		}
+
+		// 血条
+		DrawList->AddRectFilled({ RectPos.x,RectPos.y + RectSize.y - Height },
+			{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
+			Color, 5);
+
+		// 边框
+		DrawList->AddRect(RectPos,
+			{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
+			FrameColor, 5, 15, 2);
+	}
+
+	ImColor HealthBar::Mix(ImColor Col_1, ImColor Col_2, float t)
+	{
+		ImColor Col;
+		Col.Value.x = t * Col_1.Value.x + (1 - t) * Col_2.Value.x;
+		Col.Value.y = t * Col_1.Value.y + (1 - t) * Col_2.Value.y;
+		Col.Value.z = t * Col_1.Value.z + (1 - t) * Col_2.Value.z;
+		Col.Value.w = Col_1.Value.w;
+		return Col;
+	}
+
+	// Sign可用任何类型敌人标识，默认可传敌人地址
+	void DrawHealthBar(DWORD Sign, float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size, bool Horizontal)
+	{
+		static std::map<DWORD, HealthBar> HealthBarMap;
+		if (!HealthBarMap.count(Sign))
+		{
+			HealthBarMap.insert({ Sign,HealthBar() });
+		}
+		if (HealthBarMap.count(Sign))
+		{
+			if (Horizontal)
+				HealthBarMap[Sign].DrawHealthBar_Horizontal(MaxHealth, CurrentHealth, Pos, Size);
+			else
+				HealthBarMap[Sign].DrawHealthBar_Vertical(MaxHealth, CurrentHealth, Pos, Size);
+		}
 	}
 
 }

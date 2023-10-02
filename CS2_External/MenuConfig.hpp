@@ -17,10 +17,12 @@ namespace MenuConfig
 
 	// 0: normal 1: dynamic
 	inline int  BoxType = 0;
+	// 0: Vertical 1: Horizontal
+	inline int  HealthBarType = 0;
 
 	inline ImColor BoneColor = ImColor(255, 255, 255, 255);
 	inline ImColor BoxColor = ImColor(255, 255, 255, 255);
 	inline ImColor EyeRayColor = ImColor(255, 0, 0, 255);
 
-
+	inline bool ShowMenu = true;
 }
