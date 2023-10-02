@@ -50,6 +50,10 @@ bool CEntity::UpdatePawn(const DWORD64& PlayerPawnAddress)
 		return false;
 	if (!this->Pawn.GetShotsFired())
 		return false;
+	if (!this->Pawn.GetHealth())
+		return false;
+	if (!this->Pawn.GetTeamID())
+		return false;
 	if (!this->Pawn.BoneData.UpdateAllBoneData(PlayerPawnAddress))
 		return false;
 
@@ -131,6 +135,11 @@ bool PlayerPawn::GetAimPunchAngle()
 	return GetDataAddressWithOffset<Vec2>(Address, Offset::Pawn.aimPunchAngle, this->AimPunchAngle);
 }
 
+bool PlayerPawn::GetTeamID()
+{
+	return GetDataAddressWithOffset<int>(Address, Offset::Pawn.iTeamNum, this->TeamID);
+}
+
 DWORD64 PlayerController::GetPlayerPawnAddress()
 {
 	DWORD64 EntityPawnListEntry = 0;
@@ -154,6 +163,11 @@ DWORD64 PlayerController::GetPlayerPawnAddress()
 bool PlayerPawn::GetPos()
 {
 	return GetDataAddressWithOffset<Vec3>(Address, Offset::Pawn.Pos, this->Pos);
+}
+
+bool PlayerPawn::GetHealth()
+{
+	return GetDataAddressWithOffset<int>(Address, Offset::Pawn.CurrentHealth, this->Health);
 }
 
 bool CEntity::IsAlive()

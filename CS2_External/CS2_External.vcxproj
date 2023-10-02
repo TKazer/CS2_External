@@ -152,6 +152,7 @@
     <ClInclude Include="OS-ImGui\OS-ImGui_Struct.h" />
     <ClInclude Include="Radar\Radar.h" />
     <ClInclude Include="Render.hpp" />
+    <ClInclude Include="TriggerBot.h" />
     <ClInclude Include="Utils\ProcessManager.hpp" />
     <ClInclude Include="View.hpp" />
   </ItemGroup>
@@ -173,6 +174,7 @@
     <ClCompile Include="OS-ImGui\OS-ImGui_Base.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_External.cpp" />
     <ClCompile Include="Radar\Radar.cpp" />
+    <ClCompile Include="TriggerBot.cpp" />
     <ClCompile Include="Utils\MemorySearch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

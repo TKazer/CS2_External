@@ -74,6 +74,16 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("RadarRange", ImGuiDataType_Float, &MenuConfig::RadarRange, &RadarRangeMin, &RadarRangeMax, "%.1f", ImGuiSliderFlags_None);
 		}
 
+		// TriggerBot
+		if (ImGui::CollapsingHeader("TriggerBot"))
+		{
+			Gui.MyCheckBox("TriggerBot", &MenuConfig::TriggerBot);
+
+			DWORD TriggerDelayMin = 15, TriggerDelayMax = 170;
+			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
+
+		}
+
 		ImGui::Text("[HOME] HideMenu");
 
 	}ImGui::End();
@@ -247,6 +257,10 @@ void Cheats::Run()
 	// Radar render
 	if(MenuConfig::ShowRadar)
 		Radar.Render();
+	
+	// TriggerBot
+	if(MenuConfig::TriggerBot)
+		TriggerBot::Run(LocalEntity);
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{
