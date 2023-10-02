@@ -34,8 +34,10 @@ void Cheats::Menu()
 		if (ImGui::CollapsingHeader("AimBot"))
 		{
 			Gui.MyCheckBox("Aimbot", &MenuConfig::AimBot);
+			float FovMin = 0.1f, FovMax = 89.f;
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
-			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &MenuConfig::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("Fov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &AimControl::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
 			if (ImGui::Combo("AimPos", &MenuConfig::AimPosition, "Head\0Neck\0Spine"))
 			{
 				switch (MenuConfig::AimPosition)
@@ -101,8 +103,13 @@ void Cheats::RadarSetting(Base_Radar& Radar)
 void Cheats::Run()
 {
 	// Show menu
-	if (GetAsyncKeyState(VK_HOME) & 0x8000)
+	static DWORD lastTick = 0; 
+	DWORD currentTick = GetTickCount(); 
+	if ((GetAsyncKeyState(VK_HOME) & 0x8000)&& currentTick - lastTick >= 150){
+		// Check key state per 150ms once to avoid loop
 		MenuConfig::ShowMenu = !MenuConfig::ShowMenu;
+		lastTick = currentTick; 
+	}
 	if(MenuConfig::ShowMenu)
 		Menu();
 
