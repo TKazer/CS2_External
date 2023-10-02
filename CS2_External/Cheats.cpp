@@ -34,8 +34,10 @@ void Cheats::Menu()
 		if (ImGui::CollapsingHeader("AimBot"))
 		{
 			Gui.MyCheckBox("Aimbot", &MenuConfig::AimBot);
+			float FovMin = 0.1f, FovMax = 89.f;
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
-			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &MenuConfig::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("Fov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &AimControl::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
 			if (ImGui::Combo("AimPos", &MenuConfig::AimPosition, "Head\0Neck\0Spine"))
 			{
 				switch (MenuConfig::AimPosition)

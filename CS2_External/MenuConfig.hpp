@@ -11,7 +11,7 @@ namespace MenuConfig
 	inline bool ShowPlayerName = true;
 
 	inline bool AimBot = true;
-	inline float Smooth = 0.7;
+	//inline float Smooth = 0.7;
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
