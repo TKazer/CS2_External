@@ -3,38 +3,6 @@
 #include "MenuConfig.hpp"
 #include "ConfigSaver.hpp"
 
-bool MenuConfig::ShowBoneESP = true;
-bool MenuConfig::ShowBoxESP = true;
-bool MenuConfig::ShowHealthBar = true;
-bool MenuConfig::ShowWeaponESP = true;
-bool MenuConfig::ShowEyeRay = true;
-bool MenuConfig::ShowPlayerName = true;
-bool MenuConfig::AimBot = true;
-//inline float Smooth = 0.7;
-// 0: head 1: neck 3: spine
-int  MenuConfig::AimPosition = 0;
-DWORD  MenuConfig::AimPositionIndex = BONEINDEX::head;
-
-// 0: normal 1: dynamic
-int  MenuConfig::BoxType = 0;
-// 0: Vertical 1: Horizontal
-int  MenuConfig::HealthBarType = 0;
-ImVec4 MenuConfig::BoneColor = ImVec4(255, 255, 255, 255);
-ImVec4 MenuConfig::BoxColor = ImVec4(255, 255, 255, 255);
-ImVec4 MenuConfig::EyeRayColor = ImVec4(255, 0, 0, 255);
-bool MenuConfig::ShowMenu = true;
-bool MenuConfig::ShowRadar = true;
-float MenuConfig::RadarRange = 150;
-bool MenuConfig::ShowCrossLine = true;
-ImVec4 MenuConfig::CrossLineColor = ImVec4(34, 34, 34, 180);
-// 0: circle 1: arrow 2: circle with arrow
-int MenuConfig::RadarType = 2;
-float MenuConfig::Proportion = 2300;
-bool MenuConfig::TriggerBot = true;
-bool MenuConfig::TeamCheck = true;
-bool MenuConfig::ShowHeadShootLine = true;
-ImVec4 MenuConfig::HeadShootLineColor = ImVec4(255, 255, 255, 255);
-
 void Cheats::Menu()
 {
 	ImGui::Begin("Menu",nullptr,ImGuiWindowFlags_AlwaysAutoResize);

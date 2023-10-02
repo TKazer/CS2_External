@@ -1,45 +1,45 @@
 #pragma once
 #include "Game.h"
-#include "OS-ImGui/ImGui/ImGui.h"
+#include "bone.h"
 
 namespace MenuConfig
 {
-	extern bool ShowBoneESP;
-	extern bool ShowBoxESP;
-	extern bool ShowHealthBar;
-	extern bool ShowWeaponESP;
-	extern bool ShowEyeRay;
-	extern bool ShowPlayerName;
+	inline bool ShowBoneESP = true;
+	inline bool ShowBoxESP = true;
+	inline bool ShowHealthBar = true;
+	inline bool ShowWeaponESP = true;
+	inline bool ShowEyeRay = true;
+	inline bool ShowPlayerName = true;
 
-	extern bool AimBot;
+	inline bool AimBot = true;
 	//inline float Smooth = 0.7;
 	// 0: head 1: neck 3: spine
-	extern int  AimPosition;
-	extern DWORD  AimPositionIndex;
+	inline int  AimPosition = 0;
+	inline DWORD  AimPositionIndex = BONEINDEX::head;
 
 	// 0: normal 1: dynamic
-	extern int  BoxType;
+	inline int  BoxType = 0;
 	// 0: Vertical 1: Horizontal
-	extern int  HealthBarType;
+	inline int  HealthBarType = 0;
 
-	extern ImVec4 BoneColor;
-	extern ImVec4 BoxColor;
-	extern ImVec4 EyeRayColor;
+	inline ImVec4 BoneColor = ImVec4(255, 255, 255, 255);
+	inline ImVec4 BoxColor = ImVec4(255, 255, 255, 255);
+	inline ImVec4 EyeRayColor = ImVec4(255, 0, 0, 255);
 
-	extern bool ShowMenu;
+	inline bool ShowMenu = true;
 
-	extern bool ShowRadar;
-	extern float RadarRange;
-	extern bool ShowCrossLine;
-	extern ImVec4 CrossLineColor;
+	inline bool ShowRadar = true;
+	inline float RadarRange = 150;
+	inline bool ShowCrossLine = true;
+	inline ImVec4 CrossLineColor = ImVec4(34, 34, 34, 180);
 	// 0: circle 1: arrow 2: circle with arrow
-	extern int RadarType;
-	extern float Proportion;
+	inline int RadarType = 2;
+	inline float Proportion = 2300;
 
-	extern bool TriggerBot;
-	
-	extern bool TeamCheck;
+	inline bool TriggerBot = true;
 
-	extern bool ShowHeadShootLine;
-	extern ImVec4 HeadShootLineColor;
+	inline bool TeamCheck = true;
+
+	inline bool ShowHeadShootLine = true;
+	inline ImVec4 HeadShootLineColor = ImVec4(255, 255, 255, 255);
 }
