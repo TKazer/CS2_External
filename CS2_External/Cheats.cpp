@@ -186,6 +186,13 @@ void Cheats::Run()
 		if(MenuConfig::ShowRadar)
 			Radar.AddPoint(LocalEntity.Pawn.Pos, LocalEntity.Pawn.ViewAngle.y, Entity.Pawn.Pos, ImColor(237, 85, 106, 200), MenuConfig::RadarType, Entity.Pawn.ViewAngle.y);
 
+		const auto& displaySize = ImGui::GetIO().DisplaySize;
+		ImVec2 pos;
+		pos.x = displaySize.x / 2.0f;
+		pos.y = displaySize.y / 2.0f - displaySize.y / (2.0f * std::sin(45.f * M_PI / 180.0f) / std::sin(90.0f * M_PI / 180.0f)) * std::sin(LocalEntity.Pawn.ViewAngle.x * M_PI / 180.0f) / std::sin(90.0f * M_PI / 180.0f);//I know that in mathematical theory, I can directly replace something with std::tan, but according to my test, such a calculation method causes it to deviate A LOT from the correct position sometimes, I am not major in computer science so I can only explain it in this way
+		const auto color = ImColor(255, 255, 255, 255);
+		Render::drawGapLine(pos, color);
+		
 		if (!Entity.IsInScreen())
 			continue;
 
