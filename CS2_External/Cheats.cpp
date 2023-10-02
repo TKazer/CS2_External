@@ -30,6 +30,8 @@ void Cheats::Menu()
 			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
 		}
 
+		ImGui::Separator();
+
 		// aimbot menu
 		if (ImGui::CollapsingHeader("AimBot "))
 		{
@@ -62,6 +64,8 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("RCS Pitch", ImGuiDataType_Float, &AimControl::RCSScale.y, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 		}
 
+		ImGui::Separator();
+
 		// Radar menu
 		if (ImGui::CollapsingHeader("Radar "))
 		{
@@ -79,6 +83,8 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("RadarRange", ImGuiDataType_Float, &MenuConfig::RadarRange, &RadarRangeMin, &RadarRangeMax, "%.1f", ImGuiSliderFlags_None);
 		}
 
+		ImGui::Separator();
+
 		// TriggerBot
 		if (ImGui::CollapsingHeader("TriggerBot "))
 		{
@@ -88,6 +94,8 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
 
 		}
+
+		ImGui::Separator();
 		
 		// TeamCheck
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
