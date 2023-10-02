@@ -61,6 +61,34 @@ void Cheats::Menu()
 					break;
 				}
 			}
+
+			if (ImGui::Combo("Key AIM", &MenuConfig::AimKey, "ALT\0MOUSE 4\0MOUSE 5\0SHIFT\0CTRL"))
+			{
+				switch (MenuConfig::AimKey)
+				{
+				case 0:
+					MenuConfig::AimKeyIndex = VK_LMENU;
+					break;
+				case 1:
+					MenuConfig::AimKeyIndex = VK_XBUTTON1;
+					break;
+				case 2:
+					MenuConfig::AimKeyIndex = VK_XBUTTON2;
+					break;
+				case 3:
+					MenuConfig::AimKeyIndex = VK_SHIFT;
+					break;
+				case 4:
+					MenuConfig::AimKeyIndex = VK_CONTROL;
+					break;
+				default:
+					MenuConfig::AimKeyIndex = VK_LMENU;
+					break;
+				}
+				AimControl::AimKey(MenuConfig::AimKeyIndex);
+			}
+
+
 			float BulletMin = 0, BulletMax = 5;
 			float RecoilMin = 0.f, RecoilMax = 2.f;
 			Gui.SliderScalarEx1("Start Bullet", ImGuiDataType_Float, &AimControl::RCSBullet, &BulletMin, &BulletMax, "%1.f", ImGuiSliderFlags_None);

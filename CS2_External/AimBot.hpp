@@ -5,16 +5,21 @@
 #include "Entity.h"
 #include <iostream>
 
-
 namespace AimControl
 {
-	static int HotKey = VK_LMENU;	// Ãé×¼ÈÈ¼ü
-	static float AimRange = 1920;	// Ãé×¼·¶Î§(px)
-	static float AimFov = 5;		// Ãé×¼·¶Î§(fov)
+	static int HotKey = VK_LMENU;
+
+	inline void AimKey(int HotKeyaim)
+	{
+		HotKey = HotKeyaim;
+	}
+
+	static float AimRange = 1920;	// ï¿½ï¿½×¼ï¿½ï¿½Î§(px)
+	static float AimFov = 5;		// ï¿½ï¿½×¼ï¿½ï¿½Î§(fov)
 	//if need 89fov or higher,del AimRange check,only use fov check.
-	static float Smooth = 0.7;		// Æ½»¬ÏµÊý
-	static Vec2 RCSScale = { 1.2f,1.4f };		// ºó×øÁ¦ÏµÊý
-	static int RCSBullet = 1;		// ºó×øÁ¦¿ØÖÆ¿ªÊ¼
+	static float Smooth = 0.7;		// Æ½ï¿½ï¿½Ïµï¿½ï¿½
+	static Vec2 RCSScale = { 1.2f,1.4f };		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+	static int RCSBullet = 1;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¿ï¿½Ê¼
 
 
 	inline void AimBot(const CEntity& Local, Vec3 LocalPos,  Vec3 AimPos)

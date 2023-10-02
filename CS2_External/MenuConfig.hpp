@@ -16,6 +16,11 @@ namespace MenuConfig
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
 
+
+	//Key for aimbot
+	inline int AimKey = 0;
+	inline int AimKeyIndex = VK_LMENU;
+
 	// 0: normal 1: dynamic
 	inline int  BoxType = 0;
 	// 0: Vertical 1: Horizontal
