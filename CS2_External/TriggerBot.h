@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "Entity.h"
+#include "MenuConfig.hpp"
 #include <chrono>
 
 namespace TriggerBot

@@ -36,4 +36,6 @@ namespace MenuConfig
 	inline float Proportion = 2300;
 
 	inline bool TriggerBot = true;
+	
+	inline bool TeamCheck = true;
 }

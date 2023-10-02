@@ -31,9 +31,9 @@ void Cheats::Menu()
 		}
 
 		// aimbot menu
-		if (ImGui::CollapsingHeader("AimBot"))
+		if (ImGui::CollapsingHeader("AimBot "))
 		{
-			Gui.MyCheckBox("Aimbot", &MenuConfig::AimBot);
+			Gui.MyCheckBox("AimBot", &MenuConfig::AimBot);
 			float FovMin = 0.1f, FovMax = 89.f;
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
 			Gui.SliderScalarEx1("Fov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
@@ -63,7 +63,7 @@ void Cheats::Menu()
 		}
 
 		// Radar menu
-		if (ImGui::CollapsingHeader("Radar"))
+		if (ImGui::CollapsingHeader("Radar "))
 		{
 			Gui.MyCheckBox("Radar", &MenuConfig::ShowRadar);
 			ImGui::Combo("RadarType", &MenuConfig::RadarType, "Circle\0Arrow\0CircleWithArrow");
@@ -80,7 +80,7 @@ void Cheats::Menu()
 		}
 
 		// TriggerBot
-		if (ImGui::CollapsingHeader("TriggerBot"))
+		if (ImGui::CollapsingHeader("TriggerBot "))
 		{
 			Gui.MyCheckBox("TriggerBot", &MenuConfig::TriggerBot);
 
@@ -88,6 +88,9 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
 
 		}
+		
+		// TeamCheck
+		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
 
 		ImGui::Text("[HOME] HideMenu");
 
@@ -166,7 +169,7 @@ void Cheats::Run()
 		if (!Entity.UpdatePawn(Entity.Pawn.Address))
 			continue;
 
-		if (Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
+		if (MenuConfig::TeamCheck && Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
 			continue;
 		if (!Entity.IsAlive())
 			continue;

@@ -21,7 +21,14 @@ void TriggerBot::Run(const CEntity& LocalEntity)
 	if (!Entity.UpdatePawn(PawnAddress))
 		return;
 
-	if (LocalEntity.Pawn.TeamID != Entity.Pawn.TeamID && Entity.Pawn.Health > 0)
+	bool AllowShoot = false;
+
+	if (MenuConfig::TeamCheck)
+		AllowShoot = LocalEntity.Pawn.TeamID != Entity.Pawn.TeamID && Entity.Pawn.Health > 0;
+	else
+		AllowShoot = Entity.Pawn.Health > 0;
+
+	if (AllowShoot)
 	{
 		static std::chrono::time_point LastTimePoint = std::chrono::steady_clock::now();
 		auto CurTimePoint = std::chrono::steady_clock::now();
