@@ -31,6 +31,8 @@ namespace Offset
 		DWORD pClippingWeapon = 0x1290;
 		DWORD iShotsFired = 0x1404;
 		DWORD aimPunchAngle = 0x1704;
+		DWORD iIDEntIndex = 0x152C;
+		DWORD iTeamNum = 0x3BF;
 	}Pawn;
 
 	namespace Signatures

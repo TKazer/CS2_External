@@ -105,6 +105,9 @@
     <ClInclude Include="Radar\Radar.h">
       <Filter>Cheats\Radar</Filter>
     </ClInclude>
+    <ClInclude Include="TriggerBot.h">
+      <Filter>Cheats</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="Radar\Radar.cpp">
       <Filter>Cheats\Radar</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerBot.cpp">
+      <Filter>Cheats</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

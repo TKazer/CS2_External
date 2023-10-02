@@ -32,6 +32,8 @@ public:
 	std::string WeaponName;
 	DWORD ShotsFired;
 	Vec2 AimPunchAngle;
+	int Health;
+	int TeamID;
 public:
 	bool GetPos();
 	bool GetViewAngle();
@@ -39,6 +41,8 @@ public:
 	bool GetWeaponName();
 	bool GetShotsFired();
 	bool GetAimPunchAngle();
+	bool GetHealth();
+	bool GetTeamID();
 };
 
 class CEntity
