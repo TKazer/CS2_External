@@ -34,6 +34,7 @@ public:
 	Vec2 AimPunchAngle;
 	int Health;
 	int TeamID;
+	int Fov;
 public:
 	bool GetPos();
 	bool GetViewAngle();
@@ -43,6 +44,7 @@ public:
 	bool GetAimPunchAngle();
 	bool GetHealth();
 	bool GetTeamID();
+	bool GetFov();
 };
 
 class CEntity

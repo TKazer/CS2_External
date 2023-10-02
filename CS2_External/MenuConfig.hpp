@@ -38,4 +38,7 @@ namespace MenuConfig
 	inline bool TriggerBot = true;
 	
 	inline bool TeamCheck = true;
+
+	inline bool ShowHeadShootLine = true;
+	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);
 }

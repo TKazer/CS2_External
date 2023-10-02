@@ -28,6 +28,10 @@ void Cheats::Menu()
 
 			Gui.MyCheckBox("WeaponText", &MenuConfig::ShowWeaponESP);
 			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
+
+			Gui.MyCheckBox("HeadShootLine", &MenuConfig::ShowHeadShootLine);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##HeadShootLineColor", reinterpret_cast<float*>(&MenuConfig::HeadShootLineColor));
 		}
 
 		ImGui::Separator();
@@ -277,6 +281,10 @@ void Cheats::Run()
 	// TriggerBot
 	if(MenuConfig::TriggerBot)
 		TriggerBot::Run(LocalEntity);
+
+	// HeadShoot Line
+	if(MenuConfig::ShowHeadShootLine)
+		Render::HeadShootLine(LocalEntity, MenuConfig::HeadShootLineColor);
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{

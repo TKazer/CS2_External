@@ -33,6 +33,8 @@ namespace Offset
 		DWORD aimPunchAngle = 0x1704;
 		DWORD iIDEntIndex = 0x152C;
 		DWORD iTeamNum = 0x3BF;
+		DWORD CameraServices = 0x10E0;
+		DWORD iFov = 0x214;
 	}Pawn;
 
 	namespace Signatures
