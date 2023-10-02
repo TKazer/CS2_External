@@ -91,8 +91,13 @@ void Cheats::RadarSetting(Base_Radar& Radar)
 void Cheats::Run()
 {
 	// Show menu
-	if (GetAsyncKeyState(VK_HOME) & 0x8000)
+	static DWORD lastTick = 0; 
+	DWORD currentTick = GetTickCount(); 
+	if ((GetAsyncKeyState(VK_HOME) & 0x8000)&& currentTick - lastTick >= 150){
+		// Check key state per 150ms once to avoid loop
 		MenuConfig::ShowMenu = !MenuConfig::ShowMenu;
+		lastTick = currentTick; 
+	}
 	if(MenuConfig::ShowMenu)
 		Menu();
 
