@@ -16,6 +16,7 @@ namespace Offset
 		DWORD TeamID = 0x3BF;
 		DWORD IsAlive = 0x804;
 		DWORD PlayerPawn = 0x7FC;
+		DWORD iszPlayerName = 0x610;
 	}Entity;
 
 	struct

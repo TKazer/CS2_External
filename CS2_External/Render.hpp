@@ -214,7 +214,7 @@ namespace Render
 		// ±ß¿ò
 		DrawList->AddRect(RectPos,
 			{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
-			FrameColor, 5, 15, 2);
+			FrameColor, 5, 15, 1);
 	}
 
 	void HealthBar::DrawHealthBar_Vertical(float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size)
@@ -298,7 +298,7 @@ namespace Render
 		// ±ß¿ò
 		DrawList->AddRect(RectPos,
 			{ RectPos.x + RectSize.x,RectPos.y + RectSize.y },
-			FrameColor, 5, 15, 2);
+			FrameColor, 5, 15, 1);
 	}
 
 	ImColor HealthBar::Mix(ImColor Col_1, ImColor Col_2, float t)

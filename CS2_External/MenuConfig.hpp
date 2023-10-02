@@ -8,6 +8,7 @@ namespace MenuConfig
 	inline bool ShowHealthBar = true;
 	inline bool ShowWeaponESP = true;
 	inline bool ShowEyeRay = true;
+	inline bool ShowPlayerName = true;
 
 	inline bool AimBot = true;
 	inline float Smooth = 0.7;
@@ -25,4 +26,12 @@ namespace MenuConfig
 	inline ImColor EyeRayColor = ImColor(255, 0, 0, 255);
 
 	inline bool ShowMenu = true;
+
+	inline bool ShowRadar = true;
+	inline float RadarRange = 150;
+	inline bool ShowCrossLine = true;
+	inline ImColor CrossLineColor = ImColor(34, 34, 34, 180);
+	// 0: circle 1: arrow 2: circle with arrow
+	inline int RadarType = 2;
+	inline float Proportion = 2300;
 }

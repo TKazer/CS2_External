@@ -6,6 +6,7 @@ void Cheats::Menu()
 {
 	ImGui::Begin("Menu",nullptr,ImGuiWindowFlags_AlwaysAutoResize);
 	{
+		// esp menu
 		if (ImGui::CollapsingHeader("ESP"))
 		{
 			Gui.MyCheckBox("BoxESP", &MenuConfig::ShowBoxESP);
@@ -26,8 +27,10 @@ void Cheats::Menu()
 			ImGui::Combo("HealthBarType", &MenuConfig::HealthBarType, "Vetical\0Horizontal");
 
 			Gui.MyCheckBox("WeaponText", &MenuConfig::ShowWeaponESP);
+			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
 		}
 
+		// aimbot menu
 		if (ImGui::CollapsingHeader("AimBot"))
 		{
 			Gui.MyCheckBox("Aimbot", &MenuConfig::AimBot);
@@ -52,9 +55,37 @@ void Cheats::Menu()
 			}
 		}
 
+		// Radar menu
+		if (ImGui::CollapsingHeader("Radar"))
+		{
+			Gui.MyCheckBox("Radar", &MenuConfig::ShowRadar);
+			ImGui::Combo("RadarType", &MenuConfig::RadarType, "Circle\0Arrow\0CircleWithArrow");
+
+			Gui.MyCheckBox("CrossLine", &MenuConfig::ShowCrossLine);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##CrossLineColor", reinterpret_cast<float*>(&MenuConfig::CrossLineColor));
+
+			float ProportionMin = 500.f, ProportionMax = 3300.f;
+			float RadarRangeMin = 100.f, RadarRangeMax = 300.f;
+
+			Gui.SliderScalarEx1("Proportion", ImGuiDataType_Float, &MenuConfig::Proportion, &ProportionMin, &ProportionMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("RadarRange", ImGuiDataType_Float, &MenuConfig::RadarRange, &RadarRangeMin, &RadarRangeMax, "%.1f", ImGuiSliderFlags_None);
+		}
+
 		ImGui::Text("[HOME] HideMenu");
 
 	}ImGui::End();
+}
+
+void Cheats::RadarSetting(Base_Radar& Radar)
+{
+	Radar.SetPos({ Gui.Window.Size.x / 2,Gui.Window.Size.y / 2 });
+	Radar.SetProportion(MenuConfig::Proportion);
+	Radar.SetRange(MenuConfig::RadarRange);
+	Radar.SetSize(MenuConfig::RadarRange * 2);
+	Radar.SetCrossColor(MenuConfig::CrossLineColor);
+	Radar.ShowCrossLine = MenuConfig::ShowCrossLine;
+	Radar.Opened = true;
 }
 
 void Cheats::Run()
@@ -65,11 +96,11 @@ void Cheats::Run()
 	if(MenuConfig::ShowMenu)
 		Menu();
 
-	// 更新矩阵数据
+	// Update matrix
 	if(!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix,64))
 		return;
 
-	// 更新实体链表地址
+	// Update EntityList Entry
 	gGame.UpdateEntityListEntry();
 
 	DWORD64 LocalControllerAddress = 0;
@@ -80,21 +111,25 @@ void Cheats::Run()
 	if (!ProcessMgr.ReadMemory(gGame.GetLocalPawnAddress(), LocalPawnAddress))
 		return;
 
-	// 本地实体
+	// LocalEntity
 	CEntity LocalEntity;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
 		return;
 	if (!LocalEntity.UpdatePawn(LocalPawnAddress))
 		return;
 
-	// 血条Map
+	// HealthBar Map
 	static std::map<DWORD64, Render::HealthBar> HealthBarMap;
 
-	// 自瞄数据
+	// AimBot data
 	float DistanceToSight = 0;
 	float MaxAimDistance = 100000;
 	Vec3  HeadPos{ 0,0,0 };
 	Vec3  AimPos{ 0,0,0 };
+
+	// Radar Data
+	Base_Radar Radar;
+	RadarSetting(Radar);
 
 	for (int i = 0; i < 64; i++)
 	{
@@ -113,10 +148,15 @@ void Cheats::Run()
 			continue;
 		if (!Entity.IsAlive())
 			continue;
+
+		// Add entity to radar
+		if(MenuConfig::ShowRadar)
+			Radar.AddPoint(LocalEntity.Pawn.Pos, LocalEntity.Pawn.ViewAngle.y, Entity.Pawn.Pos, ImColor(237, 85, 106, 200), MenuConfig::RadarType, Entity.Pawn.ViewAngle.y);
+
 		if (!Entity.IsInScreen())
 			continue;
 
-		// 骨骼调试绘制
+		// Bone Debug
 	/*	for (int BoneIndex = 0; BoneIndex < Entity.BoneData.BonePosList.size(); BoneIndex++)
 		{
 			Vec2 ScreenPos{};
@@ -139,11 +179,11 @@ void Cheats::Run()
 			}
 		}
 
-		// 绘制骨骼
+		// Draw Bone
 		if(MenuConfig::ShowBoneESP)
 			Render::DrawBone(Entity, MenuConfig::BoneColor, 1.3);
 
-		// 绘制朝向
+		// Draw eyeRay
 		if(MenuConfig::ShowEyeRay)
 			Render::ShowLosLine(Entity, 50, MenuConfig::EyeRayColor, 1.3);
 
@@ -160,11 +200,11 @@ void Cheats::Run()
 			break;
 		}
 
-		// 方框
+		// Draw Box
 		if (MenuConfig::ShowBoxESP)
 			Gui.Rectangle({ Rect.x,Rect.y }, { Rect.z,Rect.w }, MenuConfig::BoxColor, 1.3);
 
-		// 绘制血条
+		// Draw HealthBar
 		if (MenuConfig::ShowHealthBar)
 		{
 			ImVec2 HealthBarPos, HealthBarSize;
@@ -183,10 +223,23 @@ void Cheats::Run()
 			Render::DrawHealthBar(EntityAddress, 100, Entity.Controller.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
 		}
 
-		// 绘制武器名称
+		// Draw weaponName
 		if (MenuConfig::ShowWeaponESP)
 			Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 14);
+
+		if (MenuConfig::ShowPlayerName)
+		{
+			if (MenuConfig::HealthBarType == 0)
+				Gui.StrokeText(Entity.Controller.PlayerName, { Rect.x + Rect.z / 2,Rect.y - 14 }, ImColor(255, 255, 255, 255), 14, true);
+			else
+				Gui.StrokeText(Entity.Controller.PlayerName, { Rect.x + Rect.z / 2,Rect.y - 13 - 14 }, ImColor(255, 255, 255, 255), 14, true);
+		}
+
 	}
+
+	// Radar render
+	if(MenuConfig::ShowRadar)
+		Radar.Render();
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{

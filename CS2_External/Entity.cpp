@@ -24,6 +24,8 @@ bool CEntity::UpdateController(const DWORD64& PlayerControllerAddress)
 		return false;
 	if (!this->Controller.GetTeamID())
 		return false;
+	if (!this->Controller.GetPlayerName())
+		return false;
 
 	this->Pawn.Address = this->Controller.GetPlayerPawnAddress();
 
@@ -67,6 +69,20 @@ bool PlayerController::GetHealth()
 bool PlayerController::GetIsAlive()
 {
 	return GetDataAddressWithOffset<int>(Address, Offset::Entity.IsAlive, this->AliveStatus);
+}
+
+bool PlayerController::GetPlayerName()
+{
+	char Buffer[MAX_PATH]{};
+
+	if (!ProcessMgr.ReadMemory(Address + Offset::Entity.iszPlayerName, Buffer, MAX_PATH))
+		return false;
+
+	this->PlayerName = Buffer;
+	if (this->PlayerName.empty())
+		this->PlayerName = "Name_None";
+
+	return true;
 }
 
 bool PlayerPawn::GetViewAngle()

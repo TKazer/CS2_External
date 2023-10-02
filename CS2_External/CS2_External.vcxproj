@@ -149,6 +149,7 @@
     <ClInclude Include="OS-ImGui\OS-ImGui_Exception.hpp" />
     <ClInclude Include="OS-ImGui\OS-ImGui_External.h" />
     <ClInclude Include="OS-ImGui\OS-ImGui_Struct.h" />
+    <ClInclude Include="Radar\Radar.h" />
     <ClInclude Include="Render.hpp" />
     <ClInclude Include="Utils\ProcessManager.hpp" />
     <ClInclude Include="View.hpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="OS-ImGui\OS-ImGui.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_Base.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_External.cpp" />
+    <ClCompile Include="Radar\Radar.cpp" />
     <ClCompile Include="Utils\MemorySearch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

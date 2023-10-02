@@ -11,10 +11,12 @@ public:
 	int Health = 0;
 	int AliveStatus = 0;
 	DWORD Pawn = 0;
+	std::string PlayerName;
 public:
 	bool GetTeamID();
 	bool GetHealth();
 	bool GetIsAlive();
+	bool GetPlayerName();
 	DWORD64 GetPlayerPawnAddress();
 };
 

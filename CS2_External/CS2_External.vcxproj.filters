@@ -28,6 +28,9 @@
     <Filter Include="Cheats\MenuConfig">
       <UniqueIdentifier>{4ee44a79-e9da-483b-8c8c-46209c06c557}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cheats\Radar">
+      <UniqueIdentifier>{e372b7a9-eba4-42de-9802-b1368314d465}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OS-ImGui\imgui\imconfig.h">
@@ -99,6 +102,9 @@
     <ClInclude Include="MenuConfig.hpp">
       <Filter>Cheats\MenuConfig</Filter>
     </ClInclude>
+    <ClInclude Include="Radar\Radar.h">
+      <Filter>Cheats\Radar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp">
@@ -151,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="Utils\MemorySearch.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Radar\Radar.cpp">
+      <Filter>Cheats\Radar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
