@@ -152,6 +152,12 @@ void Cheats::Menu()
 				MyConfigSaver::LoadConfig(selectedConfigFile);
 			}
 
+			if (ImGui::Button("Save Selected") && selectedConfig >= 0 && selectedConfig < configFiles.size())
+			{
+				std::string selectedConfigFile = configFiles[selectedConfig];
+				MyConfigSaver::SaveConfig(selectedConfigFile);
+			}
+
 			ImGui::Separator();
 
 			if (ImGui::Button("Delete Selected") && selectedConfig >= 0 && selectedConfig < configFiles.size())
