@@ -1,6 +1,8 @@
 #include "Cheats.h"
 #include "Render.hpp"
 #include "MenuConfig.hpp"
+#include "Utils/ConfigMenu.hpp"
+#include "Utils/ConfigSaver.hpp"
 
 void Cheats::Menu()
 {
@@ -119,6 +121,11 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
 
 		}
+
+		ImGui::Separator();
+
+		// Render config saver
+		ConfigMenu::RenderConfigMenu();
 
 		ImGui::Separator();
 		

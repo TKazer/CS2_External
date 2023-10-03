@@ -1,5 +1,6 @@
 #pragma once
 #include "Game.h"
+#include "Bone.h"
 
 namespace MenuConfig
 {

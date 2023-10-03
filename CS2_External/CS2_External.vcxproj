@@ -156,6 +156,8 @@
     <ClInclude Include="Radar\Radar.h" />
     <ClInclude Include="Render.hpp" />
     <ClInclude Include="TriggerBot.h" />
+    <ClInclude Include="Utils\ConfigMenu.hpp" />
+    <ClInclude Include="Utils\ConfigSaver.hpp" />
     <ClInclude Include="Utils\ProcessManager.hpp" />
     <ClInclude Include="View.hpp" />
   </ItemGroup>
@@ -178,6 +180,8 @@
     <ClCompile Include="OS-ImGui\OS-ImGui_External.cpp" />
     <ClCompile Include="Radar\Radar.cpp" />
     <ClCompile Include="TriggerBot.cpp" />
+    <ClCompile Include="Utils\ConfigMenu.cpp" />
+    <ClCompile Include="Utils\ConfigSaver.cpp" />
     <ClCompile Include="Utils\MemorySearch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

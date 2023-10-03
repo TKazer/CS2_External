@@ -31,6 +31,9 @@
     <Filter Include="Cheats\Radar">
       <UniqueIdentifier>{e372b7a9-eba4-42de-9802-b1368314d465}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\ConfigSaver">
+      <UniqueIdentifier>{aa25e002-e95d-4db7-a900-3cd9edf6338f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OS-ImGui\imgui\imconfig.h">
@@ -108,6 +111,12 @@
     <ClInclude Include="TriggerBot.h">
       <Filter>Cheats</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\ConfigMenu.hpp">
+      <Filter>Utils\ConfigSaver</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ConfigSaver.hpp">
+      <Filter>Utils\ConfigSaver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp">
@@ -166,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="TriggerBot.cpp">
       <Filter>Cheats</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\ConfigMenu.cpp">
+      <Filter>Utils\ConfigSaver</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\ConfigSaver.cpp">
+      <Filter>Utils\ConfigSaver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
