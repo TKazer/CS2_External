@@ -2,9 +2,11 @@
 #include "Render.hpp"
 #include "MenuConfig.hpp"
 #include "ConfigSaver.hpp"
+#include <filesystem>
 
 void Cheats::Menu()
 {
+
 	ImGui::Begin("Menu",nullptr,ImGuiWindowFlags_AlwaysAutoResize);
 	{
 		// esp menu
@@ -105,14 +107,96 @@ void Cheats::Menu()
 		// Config
 		if (ImGui::CollapsingHeader("Config "))
 		{
-			if (ImGui::Button("Save Config"))
+			static char configNameBuffer[128] = "";
+
+			ImGui::InputText("New Config Name", configNameBuffer, sizeof(configNameBuffer));
+
+			if (ImGui::Button("Create Config"))
 			{
-				MyConfigSaver::SaveConfig("config.json");
+				std::string configFileName = std::string(configNameBuffer) + ".json";
+				MyConfigSaver::SaveConfig(configFileName);
 			}
 
-			if (ImGui::Button("Load Config"))
+			ImGui::Separator();
+
+			static int selectedConfig = -1;
+
+			const std::string configDir = std::filesystem::current_path().string();
+			static std::vector<std::string> configFiles;
+
+			configFiles.clear();
+			for (const auto& entry : std::filesystem::directory_iterator(configDir))
 			{
-				MyConfigSaver::LoadConfig("config.json");
+				if (entry.is_regular_file() && entry.path().extension() == ".json")
+				{
+					configFiles.push_back(entry.path().filename().string());
+				}
+			}
+
+			for (int i = 0; i < configFiles.size(); ++i)
+			{
+				if (ImGui::Selectable(configFiles[i].c_str(), selectedConfig == i))
+				{
+					selectedConfig = i;
+				}
+			}
+
+			if (selectedConfig != -1)
+			{
+				ImGui::Text("Selected Config: %s", configFiles[selectedConfig].c_str());
+			}
+
+			if (ImGui::Button("Load Selected") && selectedConfig >= 0 && selectedConfig < configFiles.size())
+			{
+				std::string selectedConfigFile = configFiles[selectedConfig];
+				MyConfigSaver::LoadConfig(selectedConfigFile);
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::Button("Delete Selected") && selectedConfig >= 0 && selectedConfig < configFiles.size())
+			{
+				std::string selectedConfigFile = configFiles[selectedConfig];
+				std::string fullPath = configDir + "/" + selectedConfigFile;
+				if (std::remove(fullPath.c_str()) == 0)
+				{
+					configFiles.erase(configFiles.begin() + selectedConfig);
+					selectedConfig = -1;
+				}
+				else
+				{
+				}
+			}
+
+			if (ImGui::Button("Reset to Default"))
+			{
+				MenuConfig::ShowBoneESP = true;
+				MenuConfig::ShowBoxESP = true;
+				MenuConfig::ShowHealthBar = true;
+				MenuConfig::ShowWeaponESP = true;
+				MenuConfig::ShowEyeRay = true;
+				MenuConfig::ShowPlayerName = true;
+
+				MenuConfig::AimBot = true;
+				MenuConfig::HotKey = VK_LMENU;
+				MenuConfig::AimPosition = 0;
+				MenuConfig::AimPositionIndex = BONEINDEX::head;
+				MenuConfig::BoxType = 0;
+				MenuConfig::HealthBarType = 0;
+				MenuConfig::BoneColor = ImVec4(255, 255, 255, 255);
+				MenuConfig::BoxColor = ImVec4(255, 255, 255, 255);
+				MenuConfig::EyeRayColor = ImVec4(255, 0, 0, 255);
+				MenuConfig::ShowMenu = true;
+				MenuConfig::ShowRadar = true;
+				MenuConfig::RadarRange = 150;
+				MenuConfig::ShowCrossLine = true;
+				MenuConfig::CrossLineColor = ImVec4(34, 34, 34, 180);
+				MenuConfig::RadarType = 2;
+				MenuConfig::Proportion = 2300;
+				MenuConfig::TriggerBot = true;
+				MenuConfig::TeamCheck = true;
+				MenuConfig::ShowHeadShootLine = true;
+				MenuConfig::HeadShootLineColor = ImVec4(255, 255, 255, 255);
 			}
 		}
 
@@ -303,7 +387,7 @@ void Cheats::Run()
 	if(MenuConfig::ShowHeadShootLine)
 		Render::HeadShootLine(LocalEntity, MenuConfig::HeadShootLineColor);
 
-	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
+	if (MenuConfig::AimBot && GetAsyncKeyState(MenuConfig::HotKey))
 	{
 		if (AimPos != Vec3(0, 0, 0))
 		{
