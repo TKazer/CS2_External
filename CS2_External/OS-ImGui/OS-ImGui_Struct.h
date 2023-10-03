@@ -35,39 +35,27 @@ public:
 	}
 	Vec2 operator+(Vec2 Vec2_)
 	{
-		x += Vec2_.x;
-		y += Vec2_.y;
-		return *this;
+		return { x + Vec2_.x,y + Vec2_.y };
 	}
 	Vec2 operator-(Vec2 Vec2_)
 	{
-		x -= Vec2_.x;
-		y -= Vec2_.y;
-		return *this;
+		return { x - Vec2_.x,y - Vec2_.y };
 	}
 	Vec2 operator*(Vec2 Vec2_)
 	{
-		x *= Vec2_.x;
-		y *= Vec2_.y;
-		return *this;
+		return { x * Vec2_.x,y * Vec2_.y };
 	}
 	Vec2 operator/(Vec2 Vec2_)
 	{
-		x /= Vec2_.x;
-		y /= Vec2_.y;
-		return *this;
+		return { x / Vec2_.x,y / Vec2_.y };
 	}
 	Vec2 operator*(float n)
 	{
-		x *= n;
-		y *= n;
-		return *this;
+		return { x / n,y / n };
 	}
 	Vec2 operator/(float n)
 	{
-		x /= n;
-		y /= n;
-		return *this;
+		return { x / n,y / n };
 	}
 	bool operator==(Vec2 Vec2_)
 	{
@@ -100,45 +88,27 @@ public:
 	Vec3(float x_, float y_, float z_) :x(x_), y(y_), z(z_) {}
 	Vec3 operator+(Vec3 Vec3_)
 	{
-		x += Vec3_.x;
-		y += Vec3_.y;
-		z += Vec3_.z;
-		return *this;
+		return { x + Vec3_.x,y + Vec3_.y,z + Vec3_.z };
 	}
 	Vec3 operator-(Vec3 Vec3_)
 	{
-		x -= Vec3_.x;
-		y -= Vec3_.y;
-		z -= Vec3_.z;
-		return *this;
+		return { x - Vec3_.x,y - Vec3_.y,z - Vec3_.z };
 	}
 	Vec3 operator*(Vec3 Vec3_)
 	{
-		x *= Vec3_.x;
-		y *= Vec3_.y;
-		z *= Vec3_.z;
-		return *this;
+		return { x * Vec3_.x,y * Vec3_.y,z * Vec3_.z };
 	}
 	Vec3 operator/(Vec3 Vec3_)
 	{
-		x /= Vec3_.x;
-		y /= Vec3_.y;
-		z /= Vec3_.z;
-		return *this;
+		return { x / Vec3_.x,y / Vec3_.y,z / Vec3_.z };
 	}
 	Vec3 operator*(float n)
 	{
-		x *= n;
-		y *= n;
-		z *= n;
-		return *this;
+		return { x * n,y * n,z * n };
 	}
 	Vec3 operator/(float n)
 	{
-		x /= n;
-		y /= n;
-		z /= n;
-		return *this;
+		return { x / n,y / n,z / n };
 	}
 	bool operator==(Vec3 Vec3_)
 	{

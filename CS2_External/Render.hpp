@@ -7,6 +7,32 @@
 
 namespace Render
 {
+	void LineToEnemy(ImVec4 Rect, ImColor Color, float Thickness)
+	{
+		Gui.Line({ Rect.x + Rect.z / 2,Rect.y }, { Gui.Window.Size.x / 2,0 }, Color, Thickness);
+	}
+
+	void DrawFov(const CEntity& LocalEntity, float Size, ImColor Color, float Thickness)
+	{
+		float Length;
+		float radian;
+		Vec2 LineEndPoint[2];
+		Vec2 Pos = Gui.Window.Size / 2;
+
+		radian = (LocalEntity.Pawn.Fov / 2) * M_PI / 180;
+
+		LineEndPoint[0].y = Pos.y - Size;
+		LineEndPoint[1].y = LineEndPoint[0].y;
+
+		Length = Size * tan(radian);
+
+		LineEndPoint[0].x = Pos.x - Length;
+		LineEndPoint[1].x = Pos.x + Length;
+
+		Gui.Line(Pos, LineEndPoint[0], Color, 1.5);
+		Gui.Line(Pos, LineEndPoint[1], Color, 1.5);
+	}
+
 	void HeadShootLine(const CEntity& LocalEntity, ImColor Color)
 	{
 		Vec2 Pos;

@@ -11,7 +11,7 @@ namespace MenuConfig
 	inline bool ShowPlayerName = true;
 
 	inline bool AimBot = true;
-	//inline float Smooth = 0.7;
+	inline int AimBotHotKey = 0;
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
@@ -36,9 +36,17 @@ namespace MenuConfig
 	inline float Proportion = 2300;
 
 	inline bool TriggerBot = true;
-	
+	inline int TriggerHotKey = 0;
+
 	inline bool TeamCheck = true;
 
 	inline bool ShowHeadShootLine = true;
 	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);
+
+	inline bool ShowFovLine = true;
+	inline ImColor FovLineColor = ImColor(55, 55, 55, 220);
+	inline float FovLineSize = 60.f;
+
+	inline bool ShowLineToEnemy = false;
+	inline ImColor LineToEnemyColor = ImColor(255, 255, 255, 220);
 }

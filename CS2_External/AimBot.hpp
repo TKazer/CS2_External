@@ -8,14 +8,19 @@
 
 namespace AimControl
 {
-	static int HotKey = VK_LMENU;	// 瞄准热键
-	static float AimRange = 1920;	// 瞄准范围(px)
-	static float AimFov = 5;		// 瞄准范围(fov)
+	inline int HotKey = VK_LMENU;
+	inline float AimRange = 1920;	// (px)
+	inline float AimFov = 5;		// (fov)
 	//if need 89fov or higher,del AimRange check,only use fov check.
-	static float Smooth = 0.7;		// 平滑系数
-	static Vec2 RCSScale = { 1.2f,1.4f };		// 后坐力系数
-	static int RCSBullet = 1;		// 后坐力控制开始
+	inline float Smooth = 0.7;
+	inline Vec2 RCSScale = { 1.2f,1.4f };
+	inline int RCSBullet = 1;
+	inline std::vector<int> HotKeyList{VK_LMENU, VK_RBUTTON, VK_XBUTTON1, VK_XBUTTON2, VK_CAPITAL, VK_LSHIFT, VK_LCONTROL};
 
+	inline void SetHotKey(int Index)
+	{
+		HotKey = HotKeyList.at(Index);
+	}
 
 	inline void AimBot(const CEntity& Local, Vec3 LocalPos,  Vec3 AimPos)
 	{
