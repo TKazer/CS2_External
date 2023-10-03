@@ -17,7 +17,7 @@ namespace ConfigMenu {
 
 			if (ImGui::Button("Create Config"))
 			{
-				std::string configFileName = std::string(configNameBuffer) + ".json";
+				std::string configFileName = std::string(configNameBuffer) + ".config";
 				MyConfigSaver::SaveConfig(configFileName);
 			}
 
@@ -31,7 +31,7 @@ namespace ConfigMenu {
 			configFiles.clear();
 			for (const auto& entry : std::filesystem::directory_iterator(configDir))
 			{
-				if (entry.is_regular_file() && entry.path().extension() == ".json")
+				if (entry.is_regular_file() && entry.path().extension() == ".config")
 				{
 					configFiles.push_back(entry.path().filename().string());
 				}
