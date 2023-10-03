@@ -14,17 +14,17 @@ void Cheats::Menu()
 		{
 			Gui.MyCheckBox("BoxESP", &MenuConfig::ShowBoxESP);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##BoxColor", reinterpret_cast<float*>(&MenuConfig::BoxColor));
+			ImGui::ColorEdit4("##BoxColor", reinterpret_cast<float*>(&MenuConfig::BoxColor), ImGuiColorEditFlags_NoInputs);
 
 			ImGui::Combo("BoxType", &MenuConfig::BoxType, "Normal\0Dynamic");
 
 			Gui.MyCheckBox("BoneESP", &MenuConfig::ShowBoneESP);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##BoneColor", reinterpret_cast<float*>(&MenuConfig::BoneColor));
+			ImGui::ColorEdit4("##BoneColor", reinterpret_cast<float*>(&MenuConfig::BoneColor), ImGuiColorEditFlags_NoInputs);
 
 			Gui.MyCheckBox("EyeRay", &MenuConfig::ShowEyeRay);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##EyeRay", reinterpret_cast<float*>(&MenuConfig::EyeRayColor));
+			ImGui::ColorEdit4("##EyeRay", reinterpret_cast<float*>(&MenuConfig::EyeRayColor), ImGuiColorEditFlags_NoInputs);
 
 			Gui.MyCheckBox("HealthBar", &MenuConfig::ShowHealthBar);
 			ImGui::Combo("HealthBarType", &MenuConfig::HealthBarType, "Vetical\0Horizontal");
@@ -34,7 +34,18 @@ void Cheats::Menu()
 
 			Gui.MyCheckBox("HeadShootLine", &MenuConfig::ShowHeadShootLine);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##HeadShootLineColor", reinterpret_cast<float*>(&MenuConfig::HeadShootLineColor));
+			ImGui::ColorEdit4("##HeadShootLineColor", reinterpret_cast<float*>(&MenuConfig::HeadShootLineColor), ImGuiColorEditFlags_NoInputs);
+
+			Gui.MyCheckBox("FovLine", &MenuConfig::ShowFovLine);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##FovLineColor", reinterpret_cast<float*>(&MenuConfig::FovLineColor), ImGuiColorEditFlags_NoInputs);
+			float FovLineSizeMin = 20.f, FovLineSizeMax = 120.f;
+			Gui.SliderScalarEx1("FovLineSize", ImGuiDataType_Float, &MenuConfig::FovLineSize, &FovLineSizeMin, &FovLineSizeMax, "%.1f", ImGuiSliderFlags_None);
+
+			Gui.MyCheckBox("LineToEnemy", &MenuConfig::ShowLineToEnemy);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##LineToEnemyColor", reinterpret_cast<float*>(&MenuConfig::LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
+
 		}
 
 		ImGui::Separator();
@@ -43,6 +54,11 @@ void Cheats::Menu()
 		if (ImGui::CollapsingHeader("AimBot "))
 		{
 			Gui.MyCheckBox("AimBot", &MenuConfig::AimBot);
+			if (ImGui::Combo("AimKey", &MenuConfig::AimBotHotKey, "MENU\0RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL"))
+			{
+				AimControl::SetHotKey(MenuConfig::AimBotHotKey);
+			}
+
 			float FovMin = 0.1f, FovMax = 89.f;
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
 			Gui.SliderScalarEx1("Fov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
@@ -64,7 +80,7 @@ void Cheats::Menu()
 					break;
 				}
 			}
-			float BulletMin = 0, BulletMax = 5;
+			float BulletMin = 1, BulletMax = 6;
 			float RecoilMin = 0.f, RecoilMax = 2.f;
 			Gui.SliderScalarEx1("Start Bullet", ImGuiDataType_Float, &AimControl::RCSBullet, &BulletMin, &BulletMax, "%1.f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Yaw", ImGuiDataType_Float, &AimControl::RCSScale.x, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
@@ -81,7 +97,7 @@ void Cheats::Menu()
 
 			Gui.MyCheckBox("CrossLine", &MenuConfig::ShowCrossLine);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##CrossLineColor", reinterpret_cast<float*>(&MenuConfig::CrossLineColor));
+			ImGui::ColorEdit4("##CrossLineColor", reinterpret_cast<float*>(&MenuConfig::CrossLineColor), ImGuiColorEditFlags_NoInputs);
 
 			float ProportionMin = 500.f, ProportionMax = 3300.f;
 			float RadarRangeMin = 100.f, RadarRangeMax = 300.f;
@@ -96,6 +112,11 @@ void Cheats::Menu()
 		if (ImGui::CollapsingHeader("TriggerBot "))
 		{
 			Gui.MyCheckBox("TriggerBot", &MenuConfig::TriggerBot);
+
+			if (ImGui::Combo("TriggerKey", &MenuConfig::TriggerHotKey, "MENU\0RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL"))
+			{
+				TriggerBot::SetHotKey(MenuConfig::TriggerHotKey);
+			}
 
 			DWORD TriggerDelayMin = 15, TriggerDelayMax = 170;
 			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
@@ -184,7 +205,6 @@ void Cheats::Menu()
 				MenuConfig::ShowPlayerName = true;
 
 				MenuConfig::AimBot = true;
-				MenuConfig::HotKey = VK_LMENU;
 				MenuConfig::AimPosition = 0;
 				MenuConfig::AimPositionIndex = BONEINDEX::head;
 				MenuConfig::BoxType = 0;
@@ -203,6 +223,16 @@ void Cheats::Menu()
 				MenuConfig::TeamCheck = true;
 				MenuConfig::ShowHeadShootLine = true;
 				MenuConfig::HeadShootLineColor = ImVec4(255, 255, 255, 255);
+				MenuConfig::AimBotHotKey = 0;
+				MenuConfig::ShowLineToEnemy = true;
+				MenuConfig::FovLineSize = 60.0f;
+				TriggerBot::TriggerDelay = 90;
+				AimControl::RCSBullet = 1;
+				TriggerBot::HotKey = VK_LMENU;
+				MenuConfig::ShowLineToEnemy = true;
+				AimControl::RCSScale = ImVec2(1.2f, 1.4f);
+				MenuConfig::FovLineColor = ImVec4(55, 55, 55, 220);
+				MenuConfig::LineToEnemyColor = ImVec4(255, 255, 255, 220);
 			}
 		}
 
@@ -344,6 +374,10 @@ void Cheats::Run()
 			break;
 		}
 
+		// Line to enemy
+		if (MenuConfig::ShowLineToEnemy)
+			Render::LineToEnemy(Rect, MenuConfig::LineToEnemyColor, 1.2);
+
 		// Draw Box
 		if (MenuConfig::ShowBoxESP)
 			Gui.Rectangle({ Rect.x,Rect.y }, { Rect.z,Rect.w }, MenuConfig::BoxColor, 1.3);
@@ -381,19 +415,23 @@ void Cheats::Run()
 
 	}
 
+	// Fov line
+	if (MenuConfig::ShowFovLine)
+		Render::DrawFov(LocalEntity, MenuConfig::FovLineSize, MenuConfig::FovLineColor, 1);
+
 	// Radar render
 	if(MenuConfig::ShowRadar)
 		Radar.Render();
 	
 	// TriggerBot
-	if(MenuConfig::TriggerBot)
+	if (MenuConfig::TriggerBot && GetAsyncKeyState(TriggerBot::HotKey))
 		TriggerBot::Run(LocalEntity);
 
 	// HeadShoot Line
 	if(MenuConfig::ShowHeadShootLine)
 		Render::HeadShootLine(LocalEntity, MenuConfig::HeadShootLineColor);
 
-	if (MenuConfig::AimBot && GetAsyncKeyState(MenuConfig::HotKey))
+	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{
 		if (AimPos != Vec3(0, 0, 0))
 		{
