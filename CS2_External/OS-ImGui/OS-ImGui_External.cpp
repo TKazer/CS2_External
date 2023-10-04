@@ -1,5 +1,5 @@
 #include "OS-ImGui_External.h"
-
+#include "..\MenuConfig.hpp"
 /****************************************************
 * Copyright (C)	: Liv
 * @file			: OS-ImGui_External.cpp
@@ -167,7 +167,8 @@ namespace OSImGui
                 if (!UpdateWindowData())
                     break;
             }
-
+			if (MenuConfig::BypassOBS)
+				SetWindowDisplayAffinity(Window.hWnd, 0x00000011);
             ImGui_ImplDX11_NewFrame();
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
@@ -191,8 +192,8 @@ namespace OSImGui
         RegisterClassExW(&wc);
         if (Type == ATTACH)
         {
-            Window.hWnd = CreateWindowExW(WS_EX_TOPMOST | WS_EX_TRANSPARENT, Window.wClassName.c_str(), Window.wName.c_str(), WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, 100, 100, NULL, NULL, GetModuleHandle(NULL), NULL);
-            SetLayeredWindowAttributes(Window.hWnd, 0, 255, LWA_ALPHA);
+			Window.hWnd = CreateWindowExW(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, Window.wClassName.c_str(), Window.wName.c_str(), WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, 100, 100, NULL, NULL, GetModuleHandle(NULL), NULL);
+			SetLayeredWindowAttributes(Window.hWnd, 0, 255, LWA_ALPHA);
         }
         else
         {
