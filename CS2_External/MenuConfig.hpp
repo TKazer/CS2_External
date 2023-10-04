@@ -30,8 +30,9 @@ namespace MenuConfig
 
 	inline bool ShowRadar = true;
 	inline float RadarRange = 150;
-	inline bool ShowCrossLine = true;
-	inline ImColor CrossLineColor = ImColor(34, 34, 34, 180);
+	inline float RadarPointSizeProportion = 1.f;
+	inline bool ShowRadarCrossLine = true;
+	inline ImColor RadarCrossLineColor = ImColor(220, 220, 220, 255);
 	// 0: circle 1: arrow 2: circle with arrow
 	inline int RadarType = 2;
 	inline float Proportion = 2300;
@@ -50,4 +51,8 @@ namespace MenuConfig
 
 	inline bool ShowLineToEnemy = false;
 	inline ImColor LineToEnemyColor = ImColor(255, 255, 255, 220);
+
+	inline bool ShowCrossHair = true;
+	inline ImColor CrossHairColor = ImColor(45, 45, 45, 255);
+	inline float CrossHairSize = 150;
 }

@@ -9,9 +9,7 @@
 namespace AimControl
 {
 	inline int HotKey = VK_LMENU;
-	inline float AimRange = 1920;	// (px)
-	inline float AimFov = 5;		// (fov)
-	//if need 89fov or higher,del AimRange check,only use fov check.
+	inline float AimFov = 5;
 	inline float Smooth = 0.7;
 	inline Vec2 RCSScale = { 1.2f,1.4f };
 	inline int RCSBullet = 1;

@@ -45,6 +45,11 @@ void Cheats::Menu()
 			ImGui::SameLine();
 			ImGui::ColorEdit4("##LineToEnemyColor", reinterpret_cast<float*>(&MenuConfig::LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
 
+			Gui.MyCheckBox("CrossHair", &MenuConfig::ShowCrossHair);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##CrossHairColor", reinterpret_cast<float*>(&MenuConfig::CrossHairColor), ImGuiColorEditFlags_NoInputs);
+			float CrossHairSizeMin = 15, CrossHairSizeMax = 200;
+			Gui.SliderScalarEx1("CrossHairSize", ImGuiDataType_Float, &MenuConfig::CrossHairSize, &CrossHairSizeMin, &CrossHairSizeMax, "%.1f", ImGuiSliderFlags_None);
 		}
 
 		ImGui::Separator();
@@ -61,7 +66,7 @@ void Cheats::Menu()
 
 			float FovMin = 0.1f, FovMax = 89.f;
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
-			Gui.SliderScalarEx1("Fov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("AimFov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &AimControl::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
 			if (ImGui::Combo("AimPos", &MenuConfig::AimPosition, "Head\0Neck\0Spine"))
 			{
@@ -96,14 +101,17 @@ void Cheats::Menu()
 			Gui.MyCheckBox("Radar", &MenuConfig::ShowRadar);
 			ImGui::Combo("RadarType", &MenuConfig::RadarType, "Circle\0Arrow\0CircleWithArrow");
 
-			Gui.MyCheckBox("CrossLine", &MenuConfig::ShowCrossLine);
+			Gui.MyCheckBox("CrossLine", &MenuConfig::ShowRadarCrossLine);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##CrossLineColor", reinterpret_cast<float*>(&MenuConfig::CrossLineColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4("##CrossLineColor", reinterpret_cast<float*>(&MenuConfig::RadarCrossLineColor), ImGuiColorEditFlags_NoInputs);
 
 			float ProportionMin = 500.f, ProportionMax = 3300.f;
 			float RadarRangeMin = 100.f, RadarRangeMax = 300.f;
+			float RadarPointSizeProportionMin = 0.8f, RadarPointSizeProportionMax = 2.f;
+			Gui.SliderScalarEx1("PointSize", ImGuiDataType_Float, &MenuConfig::RadarPointSizeProportion, &RadarPointSizeProportionMin, &RadarPointSizeProportionMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("Proportion", ImGuiDataType_Float, &MenuConfig::Proportion, &ProportionMin, &ProportionMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RadarRange", ImGuiDataType_Float, &MenuConfig::RadarRange, &RadarRangeMin, &RadarRangeMax, "%.1f", ImGuiSliderFlags_None);
+		
 		}
 
 		ImGui::Separator();
@@ -140,25 +148,40 @@ void Cheats::Menu()
 
 void Cheats::RadarSetting(Base_Radar& Radar)
 {
-	Radar.SetPos({ Gui.Window.Size.x / 2,Gui.Window.Size.y / 2 });
+	// Radar window
+	ImGui::Begin("Radar", 0, ImGuiWindowFlags_NoResize);
+	ImGui::SetWindowSize({ MenuConfig::RadarRange * 2,MenuConfig::RadarRange * 2 });
+
+	// Radar.SetPos({ Gui.Window.Size.x / 2,Gui.Window.Size.y / 2 });
+	Radar.SetDrawList(ImGui::GetWindowDrawList());
+	Radar.SetPos({ ImGui::GetWindowPos().x + MenuConfig::RadarRange, ImGui::GetWindowPos().y + MenuConfig::RadarRange });
 	Radar.SetProportion(MenuConfig::Proportion);
 	Radar.SetRange(MenuConfig::RadarRange);
 	Radar.SetSize(MenuConfig::RadarRange * 2);
-	Radar.SetCrossColor(MenuConfig::CrossLineColor);
-	Radar.ShowCrossLine = MenuConfig::ShowCrossLine;
+	Radar.SetCrossColor(MenuConfig::RadarCrossLineColor);
+
+	Radar.ArcArrowSize *= MenuConfig::RadarPointSizeProportion;
+	Radar.ArrowSize *= MenuConfig::RadarPointSizeProportion;
+	Radar.CircleSize *= MenuConfig::RadarPointSizeProportion;
+
+	Radar.ShowCrossLine = MenuConfig::ShowRadarCrossLine;
 	Radar.Opened = true;
 }
 
 void Cheats::Run()
 {
 	// Show menu
-	static DWORD lastTick = 0; 
-	DWORD currentTick = GetTickCount(); 
-	if ((GetAsyncKeyState(VK_HOME) & 0x8000)&& currentTick - lastTick >= 150){
-		// Check key state per 150ms once to avoid loop
+	static std::chrono::time_point LastTimePoint = std::chrono::steady_clock::now();
+	auto CurTimePoint = std::chrono::steady_clock::now();
+
+	if (GetAsyncKeyState(VK_HOME)
+		&& CurTimePoint - LastTimePoint >= std::chrono::milliseconds(150))
+	{
+		// Check key state per 150ms once to avoid loop.
 		MenuConfig::ShowMenu = !MenuConfig::ShowMenu;
-		lastTick = currentTick; 
+		LastTimePoint = CurTimePoint;
 	}
+
 	if(MenuConfig::ShowMenu)
 		Menu();
 
@@ -195,7 +218,8 @@ void Cheats::Run()
 
 	// Radar Data
 	Base_Radar Radar;
-	RadarSetting(Radar);
+	if (MenuConfig::ShowRadar)
+		RadarSetting(Radar);
 
 	for (int i = 0; i < 64; i++)
 	{
@@ -235,17 +259,15 @@ void Cheats::Run()
 
 		DistanceToSight = Entity.GetBone().BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({Gui.Window.Size.x / 2,Gui.Window.Size.y / 2});
 
-		if (DistanceToSight < AimControl::AimRange)
+
+		if (DistanceToSight < MaxAimDistance)
 		{
-			if (DistanceToSight < MaxAimDistance)
+			MaxAimDistance = DistanceToSight;
+			if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0)
 			{
-				MaxAimDistance = DistanceToSight;
-				if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0)
-				{
-					AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
-					if (MenuConfig::AimPositionIndex == BONEINDEX::head)
-						AimPos.z -= 1.f;
-				}
+				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
+				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
+					AimPos.z -= 1.f;
 			}
 		}
 
@@ -317,9 +339,13 @@ void Cheats::Run()
 		Render::DrawFov(LocalEntity, MenuConfig::FovLineSize, MenuConfig::FovLineColor, 1);
 
 	// Radar render
-	if(MenuConfig::ShowRadar)
+	if (MenuConfig::ShowRadar)
+	{
 		Radar.Render();
-	
+		//End for radar window
+		ImGui::End();
+	}
+
 	// TriggerBot
 	if (MenuConfig::TriggerBot && GetAsyncKeyState(TriggerBot::HotKey))
 		TriggerBot::Run(LocalEntity);
@@ -327,6 +353,10 @@ void Cheats::Run()
 	// HeadShoot Line
 	if(MenuConfig::ShowHeadShootLine)
 		Render::HeadShootLine(LocalEntity, MenuConfig::HeadShootLineColor);
+
+	// CrossHair
+	if (MenuConfig::ShowCrossHair)
+		Render::DrawCrossHair();
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{
