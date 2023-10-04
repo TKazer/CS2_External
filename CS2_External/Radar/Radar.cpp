@@ -46,6 +46,11 @@ void Base_Radar::SetProportion(const float& Proportion)
 	this->Proportion = Proportion;
 }
 
+void Base_Radar::SetDrawList(ImDrawList* DrawList)
+{
+	this->DrawList = DrawList;
+}
+
 void Base_Radar::AddPoint(const Vec3& LocalPos, const float& LocalYaw, const Vec3& Pos, ImColor Color, int Type, float Yaw)
 {
 	Vec2 PointPos;
@@ -64,33 +69,26 @@ void Base_Radar::AddPoint(const Vec3& LocalPos, const float& LocalYaw, const Vec
 	PointPos.x = this->Pos.x + Distance * sin(Angle);
 	PointPos.y = this->Pos.y - Distance * cos(Angle);
 
-	Distance = sqrt(pow(this->Pos.x - PointPos.x, 2) + pow(this->Pos.y - PointPos.y, 2));
-	if (Distance > this->RenderRange)
+	// Circle range
+	//Distance = sqrt(pow(this->Pos.x - PointPos.x, 2) + pow(this->Pos.y - PointPos.y, 2));
+	//if (Distance > this->RenderRange)
+	//	return;
+
+	// Rectangle range
+
+	if (PointPos.x < this->Pos.x - RenderRange || PointPos.x > this->Pos.x + RenderRange
+		|| PointPos.y > this->Pos.y + RenderRange || PointPos.y < this->Pos.y - RenderRange)
 		return;
 
 	std::tuple<Vec2, ImColor, int, float> Data(PointPos, Color, Type, Yaw);
 	this->Points.push_back(Data);
 }
 
-void DrawTriangle(Vec2 Center, ImColor Color, float Width, float Height, float Yaw)
-{
-	Vec2 a, b, c;
-	Vec2 Re_a, Re_b, Re_c;
-	a = Vec2{ Center.x - Width / 2,Center.y };
-	b = Vec2{ Center.x + Width / 2,Center.y };
-	c = Vec2{ Center.x,Center.y - Height };
-	a = RevolveCoordinatesSystem(-Yaw, Center, a);
-	b = RevolveCoordinatesSystem(-Yaw, Center, b);
-	c = RevolveCoordinatesSystem(-Yaw, Center, c);
-	ImGui::GetForegroundDrawList()->AddTriangleFilled(
-		ImVec2(a.x, a.y),
-		ImVec2(b.x, b.y),
-		ImVec2(c.x, c.y),
-		Color);
-}
 
 void Base_Radar::Render()
 {
+	if (this->DrawList == nullptr)
+		return;
 	if (Width <= 0)
 		return;
 
@@ -107,8 +105,8 @@ void Base_Radar::Render()
 	{
 		if (this->ShowCrossLine)
 		{
-			Gui.Line(Line1.first, Line1.second, this->CrossColor, 1);
-			Gui.Line(Line2.first, Line2.second, this->CrossColor, 1);
+			this->DrawList->AddLine(Line1.first.ToImVec2(), Line1.second.ToImVec2(), this->CrossColor, 1);
+			this->DrawList->AddLine(Line2.first.ToImVec2(), Line2.second.ToImVec2(), this->CrossColor, 1);
 		}
 
 		for (auto PointSingle : this->Points)
@@ -120,8 +118,8 @@ void Base_Radar::Render()
 			if (PointType == 0)
 			{
 				// 圆形样式
-				Gui.CircleFilled(PointPos, this->PointRadius, PointColor);
-				Gui.Circle(PointPos, this->PointRadius, ImColor(0, 0, 0), 1);
+				this->DrawList->AddCircle(PointPos.ToImVec2(), this->CircleSize, PointColor);
+				this->DrawList->AddCircleFilled(PointPos.ToImVec2(), this->CircleSize, ImColor(0, 0, 0));
 			}	
 			else if (PointType==1)
 			{
@@ -140,14 +138,14 @@ void Base_Radar::Render()
 				b = RevolveCoordinatesSystem(-Angle, this->Pos, Re_b);
 				c = RevolveCoordinatesSystem(-Angle, this->Pos, Re_c);
 
-				ImGui::GetForegroundDrawList()->AddQuadFilled(
+				this->DrawList->AddQuadFilled(
 					ImVec2(a.x, a.y),
 					ImVec2(b.x, b.y),
 					ImVec2(PointPos.x, PointPos.y),
 					ImVec2(c.x, c.y),
 					PointColor
 				);
-				ImGui::GetForegroundDrawList()->AddQuad(
+				this->DrawList->AddQuad(
 					ImVec2(a.x, a.y),
 					ImVec2(b.x, b.y),
 					ImVec2(PointPos.x, PointPos.y),
@@ -159,22 +157,29 @@ void Base_Radar::Render()
 			else
 			{
 				// 圆弧箭头
-				Vec2 TrianglePoint;
+				ImVec2 TrianglePoint, TrianglePoint_1, TrianglePoint_2;
 				float Angle = (this->LocalYaw - PointYaw) - 90;
-				Gui.Arc(PointPos.ToImVec2(), this->ArcArrowSize, ImColor(220, 220, 220, 170), 0.05, 
-					(Angle - 0.2 * M_PI) * M_PI / 180, (Angle + 0.2 * M_PI) * M_PI / 180);
 
-				Gui.Arc(PointPos.ToImVec2(), this->ArcArrowSize, ImColor(220, 220, 220, 200), 1.5,
-					(Angle - 0.125 * M_PI) * M_PI / 180, (Angle + 0.125 * M_PI) * M_PI / 180);
+				this->DrawList->AddCircleFilled(PointPos.ToImVec2(), 0.85 * this->ArcArrowSize, PointColor, 30);
+				this->DrawList->AddCircle(PointPos.ToImVec2(), 0.95 * this->ArcArrowSize, ImColor(0, 0, 0, 150), 0, 0.1);
 
-				Gui.CircleFilled(PointPos, 0.85 * this->ArcArrowSize, PointColor, 30);
-				Gui.Circle(PointPos, 0.95 * this->ArcArrowSize, ImColor(0, 0, 0, 150), 0.1);
-				TrianglePoint.x = PointPos.x + this->ArcArrowSize * cos(-Angle * M_PI / 180);
-				TrianglePoint.y = PointPos.y - this->ArcArrowSize * sin(-Angle * M_PI / 180);
-				DrawTriangle(TrianglePoint, ImColor(255, 255, 255, 220), 0.7 * this->ArcArrowSize, 0.5 * this->ArcArrowSize, Angle + 90);
+				TrianglePoint.x = PointPos.x + (this->ArcArrowSize+ this->ArcArrowSize/3) * cos(-Angle * M_PI / 180);
+				TrianglePoint.y = PointPos.y - (this->ArcArrowSize + this->ArcArrowSize / 3) * sin(-Angle * M_PI / 180);
+
+				TrianglePoint_1.x = PointPos.x + this->ArcArrowSize * cos(-(Angle - 30) * M_PI / 180);
+				TrianglePoint_1.y = PointPos.y - this->ArcArrowSize * sin(-(Angle - 30) * M_PI / 180);
+
+				TrianglePoint_2.x = PointPos.x + this->ArcArrowSize * cos(-(Angle + 30) * M_PI / 180);
+				TrianglePoint_2.y = PointPos.y - this->ArcArrowSize * sin(-(Angle + 30) * M_PI / 180);
+
+				this->DrawList->PathLineTo(TrianglePoint);
+				this->DrawList->PathLineTo(TrianglePoint_1);
+				this->DrawList->PathLineTo(TrianglePoint_2);
+				this->DrawList->PathFillConvex(ImColor(220, 220, 220, 240));
 			}
 		}
 	}
+
 	if (this->Points.size() > 0)
 		this->Points.clear();
 }

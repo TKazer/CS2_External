@@ -13,6 +13,7 @@ public:
 	void SetRange(const float& Range);
 	void SetCrossColor(const ImColor& Color);
 	void SetProportion(const float& Proportion);
+	void SetDrawList(ImDrawList* DrawList);
 	// 获取雷达数据
 	float GetSize();
 	Vec2 GetPos();
@@ -21,6 +22,7 @@ public:
 	// 渲染
 	void Render();
 public:
+	ImDrawList* DrawList = nullptr;
 	// 十字显示
 	bool ShowCrossLine = true;
 	// 十字颜色
@@ -28,7 +30,7 @@ public:
 	// 比例
 	float Proportion = 2680;
 	// 圆点半径
-	float PointRadius = 4;
+	float CircleSize = 4;
 	// 箭头尺寸
 	float ArrowSize = 11;
 	// 圆弧箭头尺寸

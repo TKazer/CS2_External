@@ -104,8 +104,8 @@ namespace ConfigMenu {
 		MenuConfig::ShowMenu = true;
 		MenuConfig::ShowRadar = true;
 		MenuConfig::RadarRange = 150;
-		MenuConfig::ShowCrossLine = true;
-		MenuConfig::CrossLineColor = ImVec4(34, 34, 34, 180);
+		MenuConfig::ShowRadarCrossLine = true;
+		MenuConfig::RadarCrossLineColor = ImVec4(34, 34, 34, 180);
 		MenuConfig::RadarType = 2;
 		MenuConfig::Proportion = 2300;
 		MenuConfig::TriggerBot = true;
