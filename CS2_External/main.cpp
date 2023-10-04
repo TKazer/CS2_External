@@ -38,18 +38,11 @@ int main()
 
 	try
 	{
-		Gui.AttachAnotherWindow("反恐精英：全球攻势", "SDL_app", Cheats::Run);
+		Gui.AttachAnotherWindow("Counter-Strike 2", "", Cheats::Run);
 	}
 	catch (OSImGui::OSException& e)
 	{
-		try
-		{
-			Gui.AttachAnotherWindow("Counter-Strike 2", "SDL_app", Cheats::Run);
-		}
-		catch (OSImGui::OSException& e)
-		{
-			std::cout << e.what() << std::endl;
-		}
+		std::cout << e.what() << std::endl;
 	}
 
 END:

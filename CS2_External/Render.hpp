@@ -7,13 +7,6 @@
 
 namespace Render
 {
-	void DrawCrossHair()
-	{
-		Vec2 SightPos = Gui.Window.Size / 2;
-		Gui.Line({ SightPos.x - MenuConfig::CrossHairSize,SightPos.y }, { SightPos.x + MenuConfig::CrossHairSize,SightPos.y }, MenuConfig::CrossHairColor, 1);
-		Gui.Line({ SightPos.x,SightPos.y - MenuConfig::CrossHairSize }, { SightPos.x ,SightPos.y + MenuConfig::CrossHairSize }, MenuConfig::CrossHairColor, 1);
-	}
-
 	void LineToEnemy(ImVec4 Rect, ImColor Color, float Thickness)
 	{
 		Gui.Line({ Rect.x + Rect.z / 2,Rect.y }, { Gui.Window.Size.x / 2,0 }, Color, Thickness);

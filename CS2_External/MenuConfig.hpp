@@ -16,7 +16,7 @@ namespace MenuConfig
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
-	inline bool VisibleCheck = false;
+
 	// 0: normal 1: dynamic
 	inline int  BoxType = 0;
 	// 0: Vertical 1: Horizontal
@@ -30,9 +30,8 @@ namespace MenuConfig
 
 	inline bool ShowRadar = true;
 	inline float RadarRange = 150;
-	inline float RadarPointSizeProportion = 1.f;
-	inline bool ShowRadarCrossLine = true;
-	inline ImColor RadarCrossLineColor = ImColor(220, 220, 220, 255);
+	inline bool ShowCrossLine = true;
+	inline ImColor CrossLineColor = ImColor(34, 34, 34, 180);
 	// 0: circle 1: arrow 2: circle with arrow
 	inline int RadarType = 2;
 	inline float Proportion = 2300;
@@ -41,7 +40,7 @@ namespace MenuConfig
 	inline int TriggerHotKey = 0;
 
 	inline bool TeamCheck = true;
-	
+	inline bool VisibleCheck = false;
 	inline bool ShowHeadShootLine = true;
 	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);
 
@@ -51,8 +50,4 @@ namespace MenuConfig
 
 	inline bool ShowLineToEnemy = false;
 	inline ImColor LineToEnemyColor = ImColor(255, 255, 255, 220);
-
-	inline bool ShowCrossHair = true;
-	inline ImColor CrossHairColor = ImColor(45, 45, 45, 255);
-	inline float CrossHairSize = 150;
 }
