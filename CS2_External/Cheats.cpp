@@ -85,6 +85,7 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("Start Bullet", ImGuiDataType_Float, &AimControl::RCSBullet, &BulletMin, &BulletMax, "%1.f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Yaw", ImGuiDataType_Float, &AimControl::RCSScale.x, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Pitch", ImGuiDataType_Float, &AimControl::RCSScale.y, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.MyCheckBox("VisibleCheck", &MenuConfig::VisibleCheck);
 		}
 
 		ImGui::Separator();
@@ -131,8 +132,7 @@ void Cheats::Menu()
 		
 		// TeamCheck
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
-		// Visible Check
-		Gui.MyCheckBox("VisibleCheck", &MenuConfig::VisibleCheck);
+		
 		ImGui::Text("[HOME] HideMenu");
 
 	}ImGui::End();
@@ -215,8 +215,7 @@ void Cheats::Run()
 
 		if (!Entity.IsAlive())
 			continue;
-		if (MenuConfig::VisibleCheck && (!Entity.Pawn.bSpottedByMask > 0))
-			continue;
+
 		// Add entity to radar
 		if(MenuConfig::ShowRadar)
 			Radar.AddPoint(LocalEntity.Pawn.Pos, LocalEntity.Pawn.ViewAngle.y, Entity.Pawn.Pos, ImColor(237, 85, 106, 200), MenuConfig::RadarType, Entity.Pawn.ViewAngle.y);
@@ -241,9 +240,12 @@ void Cheats::Run()
 			if (DistanceToSight < MaxAimDistance)
 			{
 				MaxAimDistance = DistanceToSight;
-				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
-				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
-					AimPos.z -= 1.f;
+				if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0)
+				{
+					AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
+					if (MenuConfig::AimPositionIndex == BONEINDEX::head)
+						AimPos.z -= 1.f;
+				}
 			}
 		}
 
