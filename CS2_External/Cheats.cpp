@@ -131,7 +131,8 @@ void Cheats::Menu()
 		
 		// TeamCheck
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
-
+		// Visible Check
+		Gui.MyCheckBox("VisibleCheck", &MenuConfig::VisibleCheck);
 		ImGui::Text("[HOME] HideMenu");
 
 	}ImGui::End();
@@ -211,9 +212,11 @@ void Cheats::Run()
 
 		if (MenuConfig::TeamCheck && Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
 			continue;
+
 		if (!Entity.IsAlive())
 			continue;
-
+		if (MenuConfig::VisibleCheck && (!Entity.Pawn.bSpottedByMask > 0))
+			continue;
 		// Add entity to radar
 		if(MenuConfig::ShowRadar)
 			Radar.AddPoint(LocalEntity.Pawn.Pos, LocalEntity.Pawn.ViewAngle.y, Entity.Pawn.Pos, ImColor(237, 85, 106, 200), MenuConfig::RadarType, Entity.Pawn.ViewAngle.y);

@@ -35,6 +35,7 @@ public:
 	int Health;
 	int TeamID;
 	int Fov;
+	int bSpottedByMask;
 public:
 	bool GetPos();
 	bool GetViewAngle();
@@ -45,6 +46,7 @@ public:
 	bool GetHealth();
 	bool GetTeamID();
 	bool GetFov();
+	bool GetSpotted();
 };
 
 class CEntity

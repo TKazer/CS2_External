@@ -40,7 +40,7 @@ namespace MenuConfig
 	inline int TriggerHotKey = 0;
 
 	inline bool TeamCheck = true;
-
+	inline bool VisibleCheck = false;
 	inline bool ShowHeadShootLine = true;
 	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);
 

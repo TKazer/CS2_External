@@ -110,6 +110,7 @@ namespace ConfigMenu {
 		MenuConfig::Proportion = 2300;
 		MenuConfig::TriggerBot = true;
 		MenuConfig::TeamCheck = true;
+		MenuConfig::VisibleCheck = true;
 		MenuConfig::ShowHeadShootLine = true;
 		MenuConfig::HeadShootLineColor = ImVec4(255, 255, 255, 255);
 		MenuConfig::AimBotHotKey = 0;
@@ -118,7 +119,6 @@ namespace ConfigMenu {
 		TriggerBot::TriggerDelay = 90;
 		AimControl::RCSBullet = 1;
 		TriggerBot::HotKey = VK_LMENU;
-		MenuConfig::ShowLineToEnemy = true;
 		AimControl::RCSScale = ImVec2(1.2f, 1.4f);
 		MenuConfig::FovLineColor = ImVec4(55, 55, 55, 220);
 		MenuConfig::LineToEnemyColor = ImVec4(255, 255, 255, 220);

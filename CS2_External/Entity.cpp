@@ -56,6 +56,8 @@ bool CEntity::UpdatePawn(const DWORD64& PlayerPawnAddress)
 		return false;
 	if (!this->Pawn.GetFov())
 		return false;
+	if (!this->Pawn.GetSpotted())
+		return false;
 	if (!this->Pawn.BoneData.UpdateAllBoneData(PlayerPawnAddress))
 		return false;
 
@@ -99,6 +101,11 @@ bool PlayerPawn::GetViewAngle()
 bool PlayerPawn::GetCameraPos()
 {
 	return GetDataAddressWithOffset<Vec3>(Address, Offset::Pawn.vecLastClipCameraPos, this->CameraPos);
+}
+
+bool PlayerPawn::GetSpotted()
+{
+	return GetDataAddressWithOffset<int>(Address, Offset::Pawn.bSpottedByMask, this->bSpottedByMask);
 }
 
 bool PlayerPawn::GetWeaponName()
