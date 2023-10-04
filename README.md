@@ -32,3 +32,5 @@ This source just used to study how to code a simple CS2 external hack systematic
 > 9. HeadShoot Line
 
 > 10. Fov Line
+
+> 11. Visibility Check
