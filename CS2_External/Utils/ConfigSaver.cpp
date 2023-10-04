@@ -56,6 +56,7 @@ namespace MyConfigSaver {
         configFile << "BoxType " << MenuConfig::BoxType << std::endl;
         configFile << "TriggerBot " << MenuConfig::TriggerBot << std::endl;
         configFile << "TeamCheck " << MenuConfig::TeamCheck << std::endl;
+		configFile << "VisibleCheck " << MenuConfig::VisibleCheck << std::endl;
         configFile << "ShowHeadShootLine " << MenuConfig::ShowHeadShootLine << std::endl;
         configFile << "ShowCrossHair " << MenuConfig::ShowCrossHair << std::endl;
         configFile << "CrossHairColor " << MenuConfig::CrossHairColor.Value.x << " " << MenuConfig::CrossHairColor.Value.y << " " << MenuConfig::CrossHairColor.Value.z << " " << MenuConfig::CrossHairColor.Value.w << std::endl;
@@ -115,6 +116,7 @@ namespace MyConfigSaver {
                 else if (key == "BoxType") iss >> MenuConfig::BoxType;
                 else if (key == "TriggerBot") iss >> MenuConfig::TriggerBot;
                 else if (key == "TeamCheck") iss >> MenuConfig::TeamCheck;
+				else if (key == "VisibleCheck") iss >> MenuConfig::VisibleCheck;
                 else if (key == "ShowHeadShootLine") iss >> MenuConfig::ShowHeadShootLine;
                 else if (key == "ShowCrossHair") iss >> MenuConfig::ShowCrossHair;
                 else if (key == "CrossHairColor") iss >> MenuConfig::CrossHairColor.Value.x >> MenuConfig::CrossHairColor.Value.y >> MenuConfig::CrossHairColor.Value.z >> MenuConfig::CrossHairColor.Value.w;

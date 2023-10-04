@@ -90,6 +90,7 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("Start Bullet", ImGuiDataType_Float, &AimControl::RCSBullet, &BulletMin, &BulletMax, "%1.f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Yaw", ImGuiDataType_Float, &AimControl::RCSScale.x, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Pitch", ImGuiDataType_Float, &AimControl::RCSScale.y, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.MyCheckBox("VisibleCheck", &MenuConfig::VisibleCheck);
 		}
 
 		ImGui::Separator();
@@ -139,7 +140,7 @@ void Cheats::Menu()
 		
 		// TeamCheck
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
-
+		
 		ImGui::Text("[HOME] HideMenu");
 
 	}ImGui::End();
@@ -235,6 +236,7 @@ void Cheats::Run()
 
 		if (MenuConfig::TeamCheck && Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
 			continue;
+
 		if (!Entity.IsAlive())
 			continue;
 
@@ -257,12 +259,16 @@ void Cheats::Run()
 
 		DistanceToSight = Entity.GetBone().BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({Gui.Window.Size.x / 2,Gui.Window.Size.y / 2});
 
+
 		if (DistanceToSight < MaxAimDistance)
 		{
 			MaxAimDistance = DistanceToSight;
-			AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
-			if (MenuConfig::AimPositionIndex == BONEINDEX::head)
-				AimPos.z -= 1.f;
+			if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0)
+			{
+				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
+				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
+					AimPos.z -= 1.f;
+			}
 		}
 
 		// Draw Bone

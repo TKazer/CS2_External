@@ -35,6 +35,7 @@ namespace Offset
 		DWORD iTeamNum = 0x3BF;
 		DWORD CameraServices = 0x10E0;
 		DWORD iFov = 0x214;
+		DWORD bSpottedByMask = 0x1620 + 0xC; // entitySpottedState + bSpottedByMask
 	}Pawn;
 
 	namespace Signatures

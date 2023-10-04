@@ -16,7 +16,7 @@ namespace MenuConfig
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
-
+	inline bool VisibleCheck = false;
 	// 0: normal 1: dynamic
 	inline int  BoxType = 0;
 	// 0: Vertical 1: Horizontal
@@ -41,7 +41,7 @@ namespace MenuConfig
 	inline int TriggerHotKey = 0;
 
 	inline bool TeamCheck = true;
-
+	
 	inline bool ShowHeadShootLine = true;
 	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);
 
