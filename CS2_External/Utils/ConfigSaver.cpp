@@ -44,11 +44,12 @@ namespace MyConfigSaver {
         configFile << "LineToEnemyColor " << MenuConfig::LineToEnemyColor.Value.x << " " << MenuConfig::LineToEnemyColor.Value.y << " " << MenuConfig::LineToEnemyColor.Value.z << " " << MenuConfig::LineToEnemyColor.Value.w << std::endl;
         configFile << "BoxColor " << MenuConfig::BoxColor.Value.x << " " << MenuConfig::BoxColor.Value.y << " " << MenuConfig::BoxColor.Value.z << " " << MenuConfig::BoxColor.Value.w << std::endl;
         configFile << "EyeRayColor " << MenuConfig::EyeRayColor.Value.x << " " << MenuConfig::EyeRayColor.Value.y << " " << MenuConfig::EyeRayColor.Value.z << " " << MenuConfig::EyeRayColor.Value.w << std::endl;
-        configFile << "CrossLineColor " << MenuConfig::RadarCrossLineColor.Value.x << " " << MenuConfig::RadarCrossLineColor.Value.y << " " << MenuConfig::RadarCrossLineColor.Value.z << " " << MenuConfig::RadarCrossLineColor.Value.w << std::endl;
+        configFile << "RadarCrossLineColor " << MenuConfig::RadarCrossLineColor.Value.x << " " << MenuConfig::RadarCrossLineColor.Value.y << " " << MenuConfig::RadarCrossLineColor.Value.z << " " << MenuConfig::RadarCrossLineColor.Value.w << std::endl;
         configFile << "HeadShootLineColor " << MenuConfig::HeadShootLineColor.Value.x << " " << MenuConfig::HeadShootLineColor.Value.y << " " << MenuConfig::HeadShootLineColor.Value.z << " " << MenuConfig::HeadShootLineColor.Value.w << std::endl;
         configFile << "ShowMenu " << MenuConfig::ShowMenu << std::endl;
         configFile << "ShowRadar " << MenuConfig::ShowRadar << std::endl;
         configFile << "RadarRange " << MenuConfig::RadarRange << std::endl;
+        configFile << "RadarPointSizeProportion " << MenuConfig::RadarPointSizeProportion << std::endl;
         configFile << "ShowCrossLine " << MenuConfig::ShowRadarCrossLine << std::endl;
         configFile << "RadarType " << MenuConfig::RadarType << std::endl;
         configFile << "Proportion " << MenuConfig::Proportion << std::endl;
@@ -56,7 +57,9 @@ namespace MyConfigSaver {
         configFile << "TriggerBot " << MenuConfig::TriggerBot << std::endl;
         configFile << "TeamCheck " << MenuConfig::TeamCheck << std::endl;
         configFile << "ShowHeadShootLine " << MenuConfig::ShowHeadShootLine << std::endl;
-
+        configFile << "ShowCrossHair " << MenuConfig::ShowCrossHair << std::endl;
+        configFile << "CrossHairColor " << MenuConfig::CrossHairColor.Value.x << " " << MenuConfig::CrossHairColor.Value.y << " " << MenuConfig::CrossHairColor.Value.z << " " << MenuConfig::CrossHairColor.Value.w << std::endl;
+        configFile << "CrossHairSize " << MenuConfig::CrossHairSize << std::endl;
         configFile.close();
         std::cout << "Configuration saved to " << filename << std::endl;
     }
@@ -105,6 +108,7 @@ namespace MyConfigSaver {
                 else if (key == "ShowMenu") iss >> MenuConfig::ShowMenu;
                 else if (key == "ShowRadar") iss >> MenuConfig::ShowRadar;
                 else if (key == "RadarRange") iss >> MenuConfig::RadarRange;
+                else if (key == "RadarPointSizeProportion") iss >> MenuConfig::RadarPointSizeProportion;
                 else if (key == "ShowCrossLine") iss >> MenuConfig::ShowRadarCrossLine;
                 else if (key == "RadarType") iss >> MenuConfig::RadarType;
                 else if (key == "Proportion") iss >> MenuConfig::Proportion;
@@ -112,6 +116,10 @@ namespace MyConfigSaver {
                 else if (key == "TriggerBot") iss >> MenuConfig::TriggerBot;
                 else if (key == "TeamCheck") iss >> MenuConfig::TeamCheck;
                 else if (key == "ShowHeadShootLine") iss >> MenuConfig::ShowHeadShootLine;
+                else if (key == "ShowCrossHair") iss >> MenuConfig::ShowCrossHair;
+                else if (key == "CrossHairColor") iss >> MenuConfig::CrossHairColor.Value.x >> MenuConfig::CrossHairColor.Value.y >> MenuConfig::CrossHairColor.Value.z >> MenuConfig::CrossHairColor.Value.w;
+                else if (key == "CrossHairSize") iss >> MenuConfig::CrossHairSize;
+
             }
         }
 

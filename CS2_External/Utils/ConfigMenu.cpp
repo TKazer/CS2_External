@@ -92,7 +92,6 @@ namespace ConfigMenu {
 		MenuConfig::ShowWeaponESP = true;
 		MenuConfig::ShowEyeRay = true;
 		MenuConfig::ShowPlayerName = true;
-
 		MenuConfig::AimBot = true;
 		MenuConfig::AimPosition = 0;
 		MenuConfig::AimPositionIndex = BONEINDEX::head;
@@ -107,13 +106,14 @@ namespace ConfigMenu {
 		MenuConfig::ShowRadarCrossLine = true;
 		MenuConfig::RadarCrossLineColor = ImVec4(34, 34, 34, 180);
 		MenuConfig::RadarType = 2;
+		MenuConfig::RadarPointSizeProportion = 1.f;
 		MenuConfig::Proportion = 2300;
 		MenuConfig::TriggerBot = true;
 		MenuConfig::TeamCheck = true;
 		MenuConfig::ShowHeadShootLine = true;
 		MenuConfig::HeadShootLineColor = ImVec4(255, 255, 255, 255);
 		MenuConfig::AimBotHotKey = 0;
-		MenuConfig::ShowLineToEnemy = true;
+		MenuConfig::ShowLineToEnemy = false;
 		MenuConfig::FovLineSize = 60.0f;
 		TriggerBot::TriggerDelay = 90;
 		AimControl::RCSBullet = 1;
@@ -122,5 +122,8 @@ namespace ConfigMenu {
 		AimControl::RCSScale = ImVec2(1.2f, 1.4f);
 		MenuConfig::FovLineColor = ImVec4(55, 55, 55, 220);
 		MenuConfig::LineToEnemyColor = ImVec4(255, 255, 255, 220);
+		MenuConfig::ShowCrossHair = true;
+		MenuConfig::CrossHairColor = ImColor(45, 45, 45, 255);
+		MenuConfig::CrossHairSize = 150;
     }
 }
