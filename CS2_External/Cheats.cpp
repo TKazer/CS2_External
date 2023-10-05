@@ -263,7 +263,7 @@ void Cheats::Run()
 		if (DistanceToSight < MaxAimDistance)
 		{
 			MaxAimDistance = DistanceToSight;
-			if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0)
+			if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0 || !MenuConfig::VisibleCheck)
 			{
 				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
 				if (MenuConfig::AimPositionIndex == BONEINDEX::head)

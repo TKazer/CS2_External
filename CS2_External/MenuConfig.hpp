@@ -16,7 +16,7 @@ namespace MenuConfig
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
-	inline bool VisibleCheck = false;
+	inline bool VisibleCheck = true;
 	// 0: normal 1: dynamic
 	inline int  BoxType = 0;
 	// 0: Vertical 1: Horizontal
