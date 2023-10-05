@@ -44,7 +44,7 @@ int main()
 	{
 		try
 		{
-			Gui.AttachAnotherWindow("", "SDL_app", Cheats::Run);
+			Gui.AttachAnotherWindow("反恐精英：全球攻势", "SDL_app", Cheats::Run);
 		}
 		catch (OSImGui::OSException& e)
 		{
