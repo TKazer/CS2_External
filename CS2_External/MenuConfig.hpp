@@ -15,6 +15,8 @@ namespace MenuConfig
 	inline int AimBotHotKey = 0;
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
+	inline bool ShowAimFovRange = true;
+	inline ImColor AimFovRangeColor = ImColor(230, 230, 230, 255);
 	inline DWORD  AimPositionIndex = BONEINDEX::head;
 	inline bool VisibleCheck = true;
 	// 0: normal 1: dynamic
@@ -41,6 +43,7 @@ namespace MenuConfig
 	inline int TriggerHotKey = 0;
 
 	inline bool TeamCheck = true;
+	inline bool OBSBypass = true;
 	
 	inline bool ShowHeadShootLine = true;
 	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);

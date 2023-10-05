@@ -61,6 +61,9 @@ namespace MyConfigSaver {
         configFile << "ShowCrossHair " << MenuConfig::ShowCrossHair << std::endl;
         configFile << "CrossHairColor " << MenuConfig::CrossHairColor.Value.x << " " << MenuConfig::CrossHairColor.Value.y << " " << MenuConfig::CrossHairColor.Value.z << " " << MenuConfig::CrossHairColor.Value.w << std::endl;
         configFile << "CrossHairSize " << MenuConfig::CrossHairSize << std::endl;
+        configFile << "ShowAimFovRange " << MenuConfig::ShowAimFovRange << std::endl;
+        configFile << "AimFovRangeColor " << MenuConfig::AimFovRangeColor.Value.x << " " << MenuConfig::AimFovRangeColor.Value.y << " " << MenuConfig::AimFovRangeColor.Value.z << " " << MenuConfig::AimFovRangeColor.Value.w << std::endl;
+        configFile << "OBSBypass " << MenuConfig::OBSBypass;
         configFile.close();
         std::cout << "Configuration saved to " << filename << std::endl;
     }
@@ -116,12 +119,14 @@ namespace MyConfigSaver {
                 else if (key == "BoxType") iss >> MenuConfig::BoxType;
                 else if (key == "TriggerBot") iss >> MenuConfig::TriggerBot;
                 else if (key == "TeamCheck") iss >> MenuConfig::TeamCheck;
-				else if (key == "VisibleCheck") iss >> MenuConfig::VisibleCheck;
+                else if (key == "VisibleCheck") iss >> MenuConfig::VisibleCheck;
                 else if (key == "ShowHeadShootLine") iss >> MenuConfig::ShowHeadShootLine;
                 else if (key == "ShowCrossHair") iss >> MenuConfig::ShowCrossHair;
                 else if (key == "CrossHairColor") iss >> MenuConfig::CrossHairColor.Value.x >> MenuConfig::CrossHairColor.Value.y >> MenuConfig::CrossHairColor.Value.z >> MenuConfig::CrossHairColor.Value.w;
                 else if (key == "CrossHairSize") iss >> MenuConfig::CrossHairSize;
-
+                else if (key == "ShowAimFovRange") iss >> MenuConfig::ShowAimFovRange;
+                else if (key == "AimFovRangeColor") iss >> MenuConfig::AimFovRangeColor.Value.x >> MenuConfig::AimFovRangeColor.Value.y >> MenuConfig::AimFovRangeColor.Value.z >> MenuConfig::AimFovRangeColor.Value.w;
+                else if (key == "OBSBypass") iss >> MenuConfig::OBSBypass;
             }
         }
 

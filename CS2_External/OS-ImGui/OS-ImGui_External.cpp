@@ -238,7 +238,10 @@ namespace OSImGui
         ImGui::GetIO().MousePos.x = static_cast<float>(MousePos.x);
         ImGui::GetIO().MousePos.y = static_cast<float>(MousePos.y);
 
-        SetWindowDisplayAffinity(Window.hWnd, WDA_EXCLUDEFROMCAPTURE);
+        if(MenuConfig::OBSBypass)
+            SetWindowDisplayAffinity(Window.hWnd, WDA_EXCLUDEFROMCAPTURE);
+        else
+            SetWindowDisplayAffinity(Window.hWnd, WDA_NONE);
 
         if (ImGui::GetIO().WantCaptureMouse)
             SetWindowLong(Window.hWnd, GWL_EXSTYLE, GetWindowLong(Window.hWnd, GWL_EXSTYLE) & (~WS_EX_LAYERED));

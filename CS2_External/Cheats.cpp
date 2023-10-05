@@ -15,8 +15,9 @@ void Cheats::Menu()
 
 	ImGui::Begin("Menu",nullptr,ImGuiWindowFlags_AlwaysAutoResize);
 	{
+		ImGui::BeginTabBar("Cheat");
 		// esp menu
-		if (ImGui::CollapsingHeader("ESP"))
+		if (ImGui::BeginTabItem("ESP"))
 		{
 			Gui.MyCheckBox("BoxESP", &MenuConfig::ShowBoxESP);
 			ImGui::SameLine();
@@ -57,12 +58,12 @@ void Cheats::Menu()
 			ImGui::ColorEdit4("##CrossHairColor", reinterpret_cast<float*>(&MenuConfig::CrossHairColor), ImGuiColorEditFlags_NoInputs);
 			float CrossHairSizeMin = 15, CrossHairSizeMax = 200;
 			Gui.SliderScalarEx1("CrossHairSize", ImGuiDataType_Float, &MenuConfig::CrossHairSize, &CrossHairSizeMin, &CrossHairSizeMax, "%.1f", ImGuiSliderFlags_None);
+		
+			ImGui::EndTabItem();
 		}
 
-		ImGui::Separator();
-
 		// aimbot menu
-		if (ImGui::CollapsingHeader("AimBot "))
+		if (ImGui::BeginTabItem("AimBot "))
 		{
 			Gui.MyCheckBox("AimBot", &MenuConfig::AimBot);
 
@@ -74,6 +75,10 @@ void Cheats::Menu()
 			float FovMin = 0.1f, FovMax = 89.f;
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
 			Gui.SliderScalarEx1("AimFov", ImGuiDataType_Float, &AimControl::AimFov, &FovMin, &FovMax, "%.1f", ImGuiSliderFlags_None);
+			Gui.MyCheckBox("FovCircle", &MenuConfig::ShowAimFovRange);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##FovCircleColor", reinterpret_cast<float*>(&MenuConfig::AimFovRangeColor), ImGuiColorEditFlags_NoInputs);
+
 			Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &AimControl::Smooth, &SmoothMin, &SmoothMax, "%.1f", ImGuiSliderFlags_None);
 			if (ImGui::Combo("AimPos", &MenuConfig::AimPosition, "Head\0Neck\0Spine"))
 			{
@@ -98,12 +103,12 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("RCS Yaw", ImGuiDataType_Float, &AimControl::RCSScale.x, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Pitch", ImGuiDataType_Float, &AimControl::RCSScale.y, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.MyCheckBox("VisibleCheck", &MenuConfig::VisibleCheck);
+		
+			ImGui::EndTabItem();
 		}
 
-		ImGui::Separator();
-
 		// Radar menu
-		if (ImGui::CollapsingHeader("Radar "))
+		if (ImGui::BeginTabItem("Radar "))
 		{
 			Gui.MyCheckBox("Radar", &MenuConfig::ShowRadar);
 			ImGui::Combo("RadarType", &MenuConfig::RadarType, "Circle\0Arrow\0CircleWithArrow");
@@ -119,12 +124,11 @@ void Cheats::Menu()
 			Gui.SliderScalarEx1("Proportion", ImGuiDataType_Float, &MenuConfig::Proportion, &ProportionMin, &ProportionMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RadarRange", ImGuiDataType_Float, &MenuConfig::RadarRange, &RadarRangeMin, &RadarRangeMax, "%.1f", ImGuiSliderFlags_None);
 		
+			ImGui::EndTabItem();
 		}
 
-		ImGui::Separator();
-
 		// TriggerBot
-		if (ImGui::CollapsingHeader("TriggerBot "))
+		if (ImGui::BeginTabItem("TriggerBot "))
 		{
 			Gui.MyCheckBox("TriggerBot", &MenuConfig::TriggerBot);
 
@@ -136,20 +140,24 @@ void Cheats::Menu()
 			DWORD TriggerDelayMin = 15, TriggerDelayMax = 170;
 			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
 
+			ImGui::EndTabItem();
 		}
-
-		ImGui::Separator();
 
 		// Render config saver
 		ConfigMenu::RenderConfigMenu();
-
-		ImGui::Separator();
 		
+		ImGui::Separator();
+
 		// TeamCheck
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
 
+		ImGui::SameLine();
+		// OBS Bypass
+		Gui.MyCheckBox("OBSBypass", &MenuConfig::OBSBypass);
+
 		ImGui::Text("[HOME] HideMenu");
 
+		ImGui::EndTabBar();
 	}ImGui::End();
 }
 
@@ -206,7 +214,7 @@ void Cheats::Run()
 		return;
 	if (!ProcessMgr.ReadMemory(gGame.GetLocalPawnAddress(), LocalPawnAddress))
 		return;
-
+	
 	// LocalEntity
 	CEntity LocalEntity;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
@@ -364,6 +372,10 @@ void Cheats::Run()
 	// CrossHair
 	if (MenuConfig::ShowCrossHair)
 		Render::DrawCrossHair();
+
+	// Fov circle
+	if(MenuConfig::ShowAimFovRange)
+		Render::DrawFovCircle(LocalEntity);
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{

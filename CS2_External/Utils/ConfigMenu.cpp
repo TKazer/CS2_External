@@ -9,7 +9,7 @@ namespace ConfigMenu {
 
     void RenderConfigMenu() {
 		// Config
-		if (ImGui::CollapsingHeader("Config "))
+		if (ImGui::BeginTabItem("Config "))
 		{
 			static char configNameBuffer[128] = "";
 
@@ -82,6 +82,8 @@ namespace ConfigMenu {
 			{
 				ConfigMenu::ResetToDefault();
 			}
+
+			ImGui::EndTabItem();
 		}
     }
 
@@ -125,5 +127,8 @@ namespace ConfigMenu {
 		MenuConfig::ShowCrossHair = true;
 		MenuConfig::CrossHairColor = ImColor(45, 45, 45, 255);
 		MenuConfig::CrossHairSize = 150;
+		MenuConfig::ShowAimFovRange = true;
+		MenuConfig::AimFovRangeColor= ImColor(230, 230, 230, 255);
+		MenuConfig::OBSBypass = true;
     }
 }
