@@ -147,7 +147,8 @@ void Cheats::Menu()
 		
 		// TeamCheck
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
-		
+		// BypassOBS
+		Gui.MyCheckBox("BypassOBS", &MenuConfig::BypassOBS);
 		ImGui::Text("[HOME] HideMenu");
 
 	}ImGui::End();
