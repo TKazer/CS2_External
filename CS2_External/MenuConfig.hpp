@@ -35,7 +35,7 @@ namespace MenuConfig
 	inline ImColor RadarCrossLineColor = ImColor(220, 220, 220, 255);
 	// 0: circle 1: arrow 2: circle with arrow
 	inline int RadarType = 2;
-	inline float Proportion = 2300;
+	inline float Proportion = 2230;
 
 	inline bool TriggerBot = true;
 	inline int TriggerHotKey = 0;

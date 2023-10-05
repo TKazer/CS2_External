@@ -107,7 +107,7 @@ namespace ConfigMenu {
 		MenuConfig::RadarCrossLineColor = ImVec4(34, 34, 34, 180);
 		MenuConfig::RadarType = 2;
 		MenuConfig::RadarPointSizeProportion = 1.f;
-		MenuConfig::Proportion = 2300;
+		MenuConfig::Proportion = 2230;
 		MenuConfig::TriggerBot = true;
 		MenuConfig::TeamCheck = true;
 		MenuConfig::VisibleCheck = true;

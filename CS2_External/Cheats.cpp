@@ -6,6 +6,13 @@
 
 void Cheats::Menu()
 {
+	static bool IsMenuInit = false;
+	if (!IsMenuInit)
+	{
+		ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w = 0.75;
+		IsMenuInit = true;
+	}
+
 	ImGui::Begin("Menu",nullptr,ImGuiWindowFlags_AlwaysAutoResize);
 	{
 		// esp menu
