@@ -167,8 +167,6 @@ namespace OSImGui
                 if (!UpdateWindowData())
                     break;
             }
-			if (MenuConfig::BypassOBS)
-				SetWindowDisplayAffinity(Window.hWnd, 0x00000011);
             ImGui_ImplDX11_NewFrame();
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
@@ -239,6 +237,8 @@ namespace OSImGui
         ScreenToClient(Window.hWnd, &MousePos);
         ImGui::GetIO().MousePos.x = static_cast<float>(MousePos.x);
         ImGui::GetIO().MousePos.y = static_cast<float>(MousePos.y);
+
+        SetWindowDisplayAffinity(Window.hWnd, WDA_EXCLUDEFROMCAPTURE);
 
         if (ImGui::GetIO().WantCaptureMouse)
             SetWindowLong(Window.hWnd, GWL_EXSTYLE, GetWindowLong(Window.hWnd, GWL_EXSTYLE) & (~WS_EX_LAYERED));

@@ -110,7 +110,6 @@ namespace ConfigMenu {
 		MenuConfig::Proportion = 2230;
 		MenuConfig::TriggerBot = true;
 		MenuConfig::TeamCheck = true;
-		MenuConfig::BypassOBS = true;
 		MenuConfig::VisibleCheck = true;
 		MenuConfig::ShowHeadShootLine = true;
 		MenuConfig::HeadShootLineColor = ImVec4(255, 255, 255, 255);
