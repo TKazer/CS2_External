@@ -3,6 +3,9 @@ CS2 external cheat.
 
 ## ImGui library -> [OS-ImGui](https://github.com/TKazer/OS-ImGui)
 
+## Derivative projects
+1. AimStar -> [AimStar](https://github.com/CowNowK/AimStarCS2) (By CowNowK.)
+
 ## NOTICE
 
 This source just used to study how to code a simple CS2 external hack systematically.
