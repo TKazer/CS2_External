@@ -155,6 +155,9 @@ void Cheats::Menu()
 		// OBS Bypass
 		Gui.MyCheckBox("OBSBypass", &MenuConfig::OBSBypass);
 
+		//Bunnyhopping
+		Gui.MyCheckBox("Bunnyhop", &MenuConfig::BunnyHop);
+
 		ImGui::Text("[HOME] HideMenu");
 
 		ImGui::EndTabBar();

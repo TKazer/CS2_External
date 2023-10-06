@@ -10,8 +10,6 @@ namespace Bunnyhop
 {
 	inline void Run(const CEntity& Local)
 	{
-		if (!MenuConfig::BunnyHop)
-			return;
 
 		if (GetAsyncKeyState(VK_SPACE) && (Local.Pawn.fFlags & (1 << 0)))
 		{
