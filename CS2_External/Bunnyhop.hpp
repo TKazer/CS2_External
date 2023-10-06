@@ -1,10 +1,6 @@
 #pragma once
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include "Game.h"
 #include "Entity.h"
-#include "MenuConfig.hpp"
-#include <iostream>
 
 namespace Bunnyhop
 {
