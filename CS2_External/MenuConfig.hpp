@@ -44,6 +44,8 @@ namespace MenuConfig
 
 	inline bool TeamCheck = true;
 	inline bool OBSBypass = true;
+
+	inline bool BunnyHop = true;
 	
 	inline bool ShowHeadShootLine = true;
 	inline ImColor HeadShootLineColor = ImColor(255, 255, 255, 255);

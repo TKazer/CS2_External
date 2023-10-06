@@ -16,6 +16,7 @@ private:
 		DWORD64 EntityListEntry;
 		DWORD64 LocalController;
 		DWORD64 LocalPawn;
+		DWORD64 ForceJump;
 	}Address;
 
 public:
@@ -42,6 +43,8 @@ public:
 	bool UpdateEntityListEntry();
 
 	bool SetViewAngle(float Yaw, float Pitch);
+
+	bool SetForceJump(int Value);
 };
 
 inline CGame gGame;

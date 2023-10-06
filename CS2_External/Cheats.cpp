@@ -376,6 +376,9 @@ void Cheats::Run()
 	// Fov circle
 	if(MenuConfig::ShowAimFovRange)
 		Render::DrawFovCircle(LocalEntity);
+	
+	if (MenuConfig::BunnyHop)
+		Bunnyhop::Run(LocalEntity);
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{

@@ -9,6 +9,7 @@ namespace Offset
 	inline DWORD ViewAngle;
 	inline DWORD LocalPlayerController;
 	inline DWORD LocalPlayerPawn;
+	inline DWORD ForceJump; 
 
 	struct
 	{
@@ -35,6 +36,7 @@ namespace Offset
 		DWORD iTeamNum = 0x3BF;
 		DWORD CameraServices = 0x10E0;
 		DWORD iFov = 0x214;
+		DWORD fFlags = 0x3C8;
 		DWORD bSpottedByMask = 0x1620 + 0xC; // entitySpottedState + bSpottedByMask
 	}Pawn;
 
@@ -45,8 +47,9 @@ namespace Offset
 		const std::string ViewAngles = "48 8B 0D ?? ?? ?? ?? 48 8B 01 48 FF 60 30";
 		const std::string ViewMatrix = "48 8D 0D ?? ?? ?? ?? 48 C1 E0 06";
 		const std::string LocalPlayerPawn = "48 8D 05 ?? ?? ?? ?? C3 CC CC CC CC CC CC CC CC 48 83 EC ?? 8B 0D";
+		const std::string ForceJump = "48 8B 05 ?? ?? ?? ?? 48 8D 1D ?? ?? ?? ?? 48 89 45";
 	}
 
-	// Ò»¼ü¸üÐÂ»ùÖ·
+	// Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½Ö·
 	bool UpdateOffsets();
 }

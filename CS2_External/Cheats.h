@@ -4,6 +4,7 @@
 #include "AimBot.hpp"
 #include "Radar/Radar.h"
 #include "TriggerBot.h"
+#include "Bunnyhop.hpp"
 
 namespace Cheats
 {

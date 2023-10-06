@@ -58,6 +58,8 @@ bool CEntity::UpdatePawn(const DWORD64& PlayerPawnAddress)
 		return false;
 	if (!this->Pawn.GetSpotted())
 		return false;
+	if (!this->Pawn.GetFFlags())
+		return false;
 	if (!this->Pawn.BoneData.UpdateAllBoneData(PlayerPawnAddress))
 		return false;
 
@@ -185,6 +187,11 @@ bool PlayerPawn::GetFov()
 	if (!ProcessMgr.ReadMemory<DWORD64>(Address + Offset::Pawn.CameraServices, CameraServices))
 		return false;
 	return GetDataAddressWithOffset<int>(CameraServices, Offset::Pawn.iFov, this->Fov);
+}
+
+bool PlayerPawn::GetFFlags()
+{
+	return GetDataAddressWithOffset<int>(Address, Offset::Pawn.fFlags, this->fFlags);
 }
 
 bool CEntity::IsAlive()
