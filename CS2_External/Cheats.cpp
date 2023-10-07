@@ -155,6 +155,9 @@ void Cheats::Menu()
 		// OBS Bypass
 		Gui.MyCheckBox("OBSBypass", &MenuConfig::OBSBypass);
 
+		//Bunnyhopping
+		Gui.MyCheckBox("Bunnyhop", &MenuConfig::BunnyHop);
+
 		ImGui::Text("[HOME] HideMenu");
 
 		ImGui::EndTabBar();
@@ -376,6 +379,9 @@ void Cheats::Run()
 	// Fov circle
 	if(MenuConfig::ShowAimFovRange)
 		Render::DrawFovCircle(LocalEntity);
+	
+	if (MenuConfig::BunnyHop)
+		Bunnyhop::Run(LocalEntity);
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{

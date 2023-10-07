@@ -36,6 +36,7 @@ public:
 	int TeamID;
 	int Fov;
 	int bSpottedByMask;
+	int fFlags;
 public:
 	bool GetPos();
 	bool GetViewAngle();
@@ -47,6 +48,7 @@ public:
 	bool GetTeamID();
 	bool GetFov();
 	bool GetSpotted();
+	bool GetFFlags();
 };
 
 class CEntity

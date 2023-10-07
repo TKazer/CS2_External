@@ -96,7 +96,7 @@
     <ClInclude Include="Render.hpp">
       <Filter>Cheats</Filter>
     </ClInclude>
-    <ClInclude Include="AimBot.hpp">
+    <ClInclude Include="Bunnyhop.hpp">
       <Filter>Cheats</Filter>
     </ClInclude>
     <ClInclude Include="Offsets.h">
@@ -116,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="Utils\ConfigSaver.hpp">
       <Filter>Utils\ConfigSaver</Filter>
+    </ClInclude>
+    <ClInclude Include="Aimbot.hpp">
+      <Filter>Cheats</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
