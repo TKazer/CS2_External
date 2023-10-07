@@ -64,6 +64,7 @@ namespace MyConfigSaver {
         configFile << "ShowAimFovRange " << MenuConfig::ShowAimFovRange << std::endl;
         configFile << "AimFovRangeColor " << MenuConfig::AimFovRangeColor.Value.x << " " << MenuConfig::AimFovRangeColor.Value.y << " " << MenuConfig::AimFovRangeColor.Value.z << " " << MenuConfig::AimFovRangeColor.Value.w << std::endl;
         configFile << "OBSBypass " << MenuConfig::OBSBypass;
+        configFile << "BunnyHop " << MenuConfig::BunnyHop;
         configFile.close();
         std::cout << "Configuration saved to " << filename << std::endl;
     }
@@ -127,6 +128,7 @@ namespace MyConfigSaver {
                 else if (key == "ShowAimFovRange") iss >> MenuConfig::ShowAimFovRange;
                 else if (key == "AimFovRangeColor") iss >> MenuConfig::AimFovRangeColor.Value.x >> MenuConfig::AimFovRangeColor.Value.y >> MenuConfig::AimFovRangeColor.Value.z >> MenuConfig::AimFovRangeColor.Value.w;
                 else if (key == "OBSBypass") iss >> MenuConfig::OBSBypass;
+                else if (key == "BunnyHop") iss >> MenuConfig::BunnyHop;
             }
         }
 

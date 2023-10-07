@@ -130,5 +130,6 @@ namespace ConfigMenu {
 		MenuConfig::ShowAimFovRange = true;
 		MenuConfig::AimFovRangeColor= ImColor(230, 230, 230, 255);
 		MenuConfig::OBSBypass = true;
+		MenuConfig::BunnyHop = false;
     }
 }
