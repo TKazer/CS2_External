@@ -97,9 +97,9 @@ void Cheats::Menu()
 					break;
 				}
 			}
-			float BulletMin = 1, BulletMax = 6;
+			int BulletMin = 1, BulletMax = 6;
 			float RecoilMin = 0.f, RecoilMax = 2.f;
-			Gui.SliderScalarEx1("Start Bullet", ImGuiDataType_Float, &AimControl::RCSBullet, &BulletMin, &BulletMax, "%1.f", ImGuiSliderFlags_None);
+			Gui.SliderScalarEx1("Start Bullet", ImGuiDataType_U32, &AimControl::RCSBullet, &BulletMin, &BulletMax, "%d", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Yaw", ImGuiDataType_Float, &AimControl::RCSScale.x, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.SliderScalarEx1("RCS Pitch", ImGuiDataType_Float, &AimControl::RCSScale.y, &RecoilMin, &RecoilMax, "%.1f", ImGuiSliderFlags_None);
 			Gui.MyCheckBox("VisibleCheck", &MenuConfig::VisibleCheck);

@@ -32,6 +32,7 @@ namespace Offset
 		DWORD pClippingWeapon = 0x1290;
 		DWORD iShotsFired = 0x1404;
 		DWORD aimPunchAngle = 0x1704;
+		DWORD aimPunchCache = 0x1728;
 		DWORD iIDEntIndex = 0x152C;
 		DWORD iTeamNum = 0x3BF;
 		DWORD CameraServices = 0x10E0;
@@ -50,6 +51,5 @@ namespace Offset
 		const std::string ForceJump = "48 8B 05 ?? ?? ?? ?? 48 8D 1D ?? ?? ?? ?? 48 89 45";
 	}
 
-	// һ�����»�ַ
 	bool UpdateOffsets();
 }

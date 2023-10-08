@@ -3,6 +3,12 @@
 #include "View.hpp"
 #include "Bone.h"
 
+struct C_UTL_VECTOR
+{
+	DWORD64 Count = 0;
+	DWORD64 Data = 0;
+};
+
 class PlayerController
 {
 public:
@@ -32,6 +38,7 @@ public:
 	std::string WeaponName;
 	DWORD ShotsFired;
 	Vec2 AimPunchAngle;
+	C_UTL_VECTOR AimPunchCache;
 	int Health;
 	int TeamID;
 	int Fov;
@@ -49,6 +56,7 @@ public:
 	bool GetFov();
 	bool GetSpotted();
 	bool GetFFlags();
+	bool GetAimPunchCache();
 };
 
 class CEntity
