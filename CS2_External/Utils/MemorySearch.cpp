@@ -97,7 +97,7 @@ std::vector<DWORD64> ProcessManager::SearchMemory(std::string Signature, DWORD64
 		StartAddress += mbi.RegionSize;
 
 		if (EndAddress != 0 && StartAddress > EndAddress)
-			return ResultArray;
+			break;
 	}
 	delete[] MemoryData;
 	delete[] SignatureArray;
