@@ -157,6 +157,8 @@ void Cheats::Menu()
 
 		//Bunnyhopping
 		Gui.MyCheckBox("Bunnyhop", &MenuConfig::BunnyHop);
+		ImGui::SameLine();
+		Gui.MyCheckBox("ShowWhenSpec", &MenuConfig::ShowWhenSpec);
 
 		ImGui::Text("[HOME] HideMenu");
 
@@ -222,8 +224,8 @@ void Cheats::Run()
 	CEntity LocalEntity;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
 		return;
-	if (!LocalEntity.UpdatePawn(LocalPawnAddress))
-		return;
+    if (!MenuConfig::ShowWhenSpec && !LocalEntity.UpdatePawn(LocalPawnAddress))
+        return;
 
 	// HealthBar Map
 	static std::map<DWORD64, Render::HealthBar> HealthBarMap;
