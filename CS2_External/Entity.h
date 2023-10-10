@@ -29,6 +29,12 @@ public:
 class PlayerPawn
 {
 public:
+	enum class Flags
+	{
+		NONE,
+		IN_AIR = 1 << 0
+	};
+
 	DWORD64 Address = 0;
 	CBone BoneData;
 	Vec2 ViewAngle;
@@ -57,6 +63,10 @@ public:
 	bool GetSpotted();
 	bool GetFFlags();
 	bool GetAimPunchCache();
+
+	constexpr bool HasFlag(const Flags Flag) const noexcept {
+		return fFlags & (int)Flag;
+	}
 };
 
 class CEntity
