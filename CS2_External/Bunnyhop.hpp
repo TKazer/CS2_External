@@ -6,12 +6,12 @@ namespace Bunnyhop
 {
 	inline void Run(const CEntity& Local)
 	{
-
-		if (GetAsyncKeyState(VK_SPACE) && Local.Pawn.fFlags)
+		const bool hasFlagInAir = Local.Pawn.HasFlag(PlayerPawn::Flags::IN_AIR);
+		if (GetAsyncKeyState(VK_SPACE) && hasFlagInAir)
 		{
 			gGame.SetForceJump(65537);
 		}
-		else if (GetAsyncKeyState(VK_SPACE) && !Local.Pawn.fFlags)
+		else if (GetAsyncKeyState(VK_SPACE) && !hasFlagInAir)
 		{
 			gGame.SetForceJump(256);
 			gGame.SetForceJump(65537);
