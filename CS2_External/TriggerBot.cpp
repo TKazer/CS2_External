@@ -28,15 +28,20 @@ void TriggerBot::Run(const CEntity& LocalEntity)
 	else
 		AllowShoot = Entity.Pawn.Health > 0;
 
-	if (AllowShoot)
+	if (!AllowShoot)
+		return;
+
+	static std::chrono::time_point LastTimePoint = std::chrono::steady_clock::now();
+	auto CurTimePoint = std::chrono::steady_clock::now();
+	if (CurTimePoint - LastTimePoint >= std::chrono::milliseconds(TriggerDelay))
 	{
-		static std::chrono::time_point LastTimePoint = std::chrono::steady_clock::now();
-		auto CurTimePoint = std::chrono::steady_clock::now();
-		if (CurTimePoint - LastTimePoint >= std::chrono::milliseconds(TriggerDelay))
+		const bool isAlreadyShooting = GetAsyncKeyState(VK_LBUTTON) < 0;
+		if (!isAlreadyShooting)
 		{
 			mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-			LastTimePoint = CurTimePoint;
 		}
+
+		LastTimePoint = CurTimePoint;
 	}
 }
