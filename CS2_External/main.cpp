@@ -1,8 +1,8 @@
 #include "Offsets.h"
 #include "Cheats.h"
-#include "Utils/Format.hpp"
 #include <iostream>
 #include <iomanip>
+#include <format>
 
 int main()
 {
@@ -25,16 +25,16 @@ int main()
 		goto END;
 	}
 
-	std::cout << Format("[Game] Pid:%d\n", ProcessMgr.ProcessID);
-	std::cout << Format("[Game] Client:%llX\n", gGame.GetClientDLLAddress());
+	std::cout << std::format("[Game] Pid:{}\n", ProcessMgr.ProcessID);
+	std::cout << std::format("[Game] Client:{:X}\n", gGame.GetClientDLLAddress());
 
 	std::cout << "Offset:" << std::endl;
-	std::cout << Format("--EntityList:%llX\n", Offset::EntityList);
-	std::cout << Format("--Matrix:%llX\n", Offset::Matrix);
-	std::cout << Format("--LocalPlayerController:%llX\n", Offset::LocalPlayerController);
-	std::cout << Format("--ViewAngles:%llX\n", Offset::ViewAngle);
-	std::cout << Format("--LocalPlayerPawn:%llX\n", Offset::LocalPlayerPawn);
-	std::cout << Format("--ForceJump:%llX\n", Offset::ForceJump);
+	std::cout << std::format("--EntityList:{:X}\n", Offset::EntityList);
+	std::cout << std::format("--Matrix:{:X}\n", Offset::Matrix);
+	std::cout << std::format("--LocalPlayerController:{:X}\n", Offset::LocalPlayerController);
+	std::cout << std::format("--ViewAngles:{:X}\n", Offset::ViewAngle);
+	std::cout << std::format("--LocalPlayerPawn:{:X}\n", Offset::LocalPlayerPawn);
+	std::cout << std::format("--ForceJump:{:X}\n", Offset::ForceJump);
 
 	std::cout << "Runing..." << std::endl;
 
