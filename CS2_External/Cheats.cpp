@@ -156,7 +156,7 @@ void Cheats::Menu()
 		Gui.MyCheckBox("OBSBypass", &MenuConfig::OBSBypass);
 
 		//Bunnyhopping
-		Gui.MyCheckBox("Bunnyhop", &MenuConfig::BunnyHop);
+		Gui.MyCheckBox("Bunnyhop ", &MenuConfig::BunnyHop);
 		ImGui::SameLine();
 		Gui.MyCheckBox("ShowWhenSpec", &MenuConfig::ShowWhenSpec);
 
@@ -224,7 +224,7 @@ void Cheats::Run()
 	CEntity LocalEntity;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
 		return;
-    if (!MenuConfig::ShowWhenSpec && !LocalEntity.UpdatePawn(LocalPawnAddress))
+    if (!LocalEntity.UpdatePawn(LocalPawnAddress) && !MenuConfig::ShowWhenSpec)
         return;
 
 	// HealthBar Map
