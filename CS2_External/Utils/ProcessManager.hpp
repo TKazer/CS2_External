@@ -158,7 +158,7 @@ public:
 	/// <param name="StartAddress">起始地址</param>
 	/// <param name="EndAddress">结束地址</param>
 	/// <returns>匹配特征结果</returns>
-	std::vector<DWORD64> SearchMemory(std::string Signature, DWORD64 StartAddress, DWORD64 EndAddress);
+	std::vector<DWORD64> SearchMemory(const std::string& Signature, DWORD64 StartAddress, DWORD64 EndAddress, int SearchNum = 1);
 
 	DWORD64 TraceAddress(DWORD64 BaseAddress, std::vector<DWORD> Offsets)
 	{
