@@ -1,7 +1,7 @@
 #include "ProcessManager.hpp"
 #include <string>
 
-#define BLOCKMAXSIZE 409600
+inline const DWORD BLOCKMAXSIZE = 409600;
 
 
 int GetSignatureArray(const std::string& Signature, std::vector<WORD>& SignatureArray)

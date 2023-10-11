@@ -159,6 +159,7 @@
     <ClInclude Include="TriggerBot.h" />
     <ClInclude Include="Utils\ConfigMenu.hpp" />
     <ClInclude Include="Utils\ConfigSaver.hpp" />
+    <ClInclude Include="Utils\Format.hpp" />
     <ClInclude Include="Utils\ProcessManager.hpp" />
     <ClInclude Include="View.hpp" />
   </ItemGroup>
