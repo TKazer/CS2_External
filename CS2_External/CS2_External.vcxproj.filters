@@ -120,6 +120,9 @@
     <ClInclude Include="Aimbot.hpp">
       <Filter>Cheats</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Format.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp">
