@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,12 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Bunnyhop.hpp" />
+    <ClInclude Include="AimBot.hpp" />
     <ClInclude Include="Bone.h" />
-    <ClInclude Include="Aimbot.hpp" />
+    <ClInclude Include="Bunnyhop.hpp" />
     <ClInclude Include="Cheats.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="globalData.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="MenuConfig.hpp" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="OS-ImGui\imgui\imconfig.h" />
@@ -154,12 +156,14 @@
     <ClInclude Include="OS-ImGui\OS-ImGui_Exception.hpp" />
     <ClInclude Include="OS-ImGui\OS-ImGui_External.h" />
     <ClInclude Include="OS-ImGui\OS-ImGui_Struct.h" />
+    <ClInclude Include="PlantedC4.h" />
+    <ClInclude Include="PlayerESP.h" />
     <ClInclude Include="Radar\Radar.h" />
     <ClInclude Include="Render.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="TriggerBot.h" />
     <ClInclude Include="Utils\ConfigMenu.hpp" />
     <ClInclude Include="Utils\ConfigSaver.hpp" />
-    <ClInclude Include="Utils\Format.hpp" />
     <ClInclude Include="Utils\ProcessManager.hpp" />
     <ClInclude Include="View.hpp" />
   </ItemGroup>
@@ -171,6 +175,7 @@
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Offsets.cpp" />
+    <ClCompile Include="OS-ImGui\imgui\font.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui_demo.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui_draw.cpp" />
@@ -181,11 +186,19 @@
     <ClCompile Include="OS-ImGui\OS-ImGui.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_Base.cpp" />
     <ClCompile Include="OS-ImGui\OS-ImGui_External.cpp" />
+    <ClCompile Include="PlantedC4.cpp" />
+    <ClCompile Include="PlayerESP.cpp" />
     <ClCompile Include="Radar\Radar.cpp" />
     <ClCompile Include="TriggerBot.cpp" />
     <ClCompile Include="Utils\ConfigMenu.cpp" />
     <ClCompile Include="Utils\ConfigSaver.cpp" />
     <ClCompile Include="Utils\MemorySearch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CS2_External.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

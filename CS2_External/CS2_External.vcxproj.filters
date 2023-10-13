@@ -96,7 +96,7 @@
     <ClInclude Include="Render.hpp">
       <Filter>Cheats</Filter>
     </ClInclude>
-    <ClInclude Include="Bunnyhop.hpp">
+    <ClInclude Include="AimBot.hpp">
       <Filter>Cheats</Filter>
     </ClInclude>
     <ClInclude Include="Offsets.h">
@@ -117,11 +117,19 @@
     <ClInclude Include="Utils\ConfigSaver.hpp">
       <Filter>Utils\ConfigSaver</Filter>
     </ClInclude>
-    <ClInclude Include="Aimbot.hpp">
+    <ClInclude Include="globals.h">
       <Filter>Cheats</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Format.hpp">
-      <Filter>Utils</Filter>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Bunnyhop.hpp">
+      <Filter>Cheats</Filter>
+    </ClInclude>
+    <ClInclude Include="globalData.h" />
+    <ClInclude Include="PlantedC4.h">
+      <Filter>Cheats\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerESP.h">
+      <Filter>Cheats\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,8 +196,23 @@
     <ClCompile Include="Utils\ConfigSaver.cpp">
       <Filter>Utils\ConfigSaver</Filter>
     </ClCompile>
+    <ClCompile Include="OS-ImGui\imgui\font.cpp">
+      <Filter>OS-ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantedC4.cpp">
+      <Filter>Cheats\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerESP.cpp">
+      <Filter>Cheats\Data</Filter>
+    </ClCompile>
     <ClCompile Include="globals.cpp">
       <Filter>Cheats</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CS2_External.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>
