@@ -36,7 +36,7 @@ namespace Offset
 		DWORD iIDEntIndex = 0x152C;
 		DWORD iTeamNum = 0x3BF;
 		DWORD CameraServices = 0x10E0;
-		DWORD iFov = 0x210;
+		DWORD iFovStart = 0x214;
 		DWORD fFlags = 0x3C8;
 		DWORD bSpottedByMask = 0x1620 + 0xC; // entitySpottedState + bSpottedByMask
 	}Pawn;

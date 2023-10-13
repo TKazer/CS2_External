@@ -193,7 +193,7 @@ bool PlayerPawn::GetFov()
 	DWORD64 CameraServices = 0;
 	if (!ProcessMgr.ReadMemory<DWORD64>(Address + Offset::Pawn.CameraServices, CameraServices))
 		return false;
-	return GetDataAddressWithOffset<int>(CameraServices, Offset::Pawn.iFov, this->Fov);
+	return GetDataAddressWithOffset<int>(CameraServices, Offset::Pawn.iFovStart, this->Fov);
 }
 
 bool PlayerPawn::GetFFlags()
