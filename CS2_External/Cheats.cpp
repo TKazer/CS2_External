@@ -337,7 +337,7 @@ void Cheats::Run()
 				HealthBarPos = { Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 13 };
 				HealthBarSize = { 70,8 };
 			}
-			Render::DrawHealthBar(EntityAddress, 100, Entity.Controller.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
+			Render::DrawHealthBar(EntityAddress, 100, Entity.Pawn.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
 		}
 
 		// Draw weaponName
