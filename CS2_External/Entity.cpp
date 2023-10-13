@@ -203,7 +203,7 @@ bool PlayerPawn::GetFFlags()
 
 bool CEntity::IsAlive()
 {
-	return this->Controller.AliveStatus == 1 && this->Controller.Health > 0;
+	return this->Controller.AliveStatus == 1 && this->Pawn.Health > 0;
 }
 
 bool CEntity::IsInScreen()
