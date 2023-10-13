@@ -10,6 +10,8 @@ namespace Offset
 	inline DWORD LocalPlayerController;
 	inline DWORD LocalPlayerPawn;
 	inline DWORD ForceJump; 
+	inline DWORD GlobalVars;
+	inline DWORD PlantedC4;
 
 	struct
 	{
@@ -41,6 +43,31 @@ namespace Offset
 		DWORD bSpottedByMask = 0x1620 + 0xC; // entitySpottedState + bSpottedByMask
 	}Pawn;
 
+	struct
+	{
+		DWORD real_time = 0x00;
+		DWORD frame_count = 0x04;
+		DWORD max_clients = 0x10;
+		DWORD interval_per_tick = 0x14;
+		DWORD current_time = 0x2C;
+		DWORD current_time2 = 0x30;
+		DWORD tick_count = 0x40;
+		DWORD interval_per_tick2 = 0x44;
+		DWORD current_netchan = 0x0048;
+		DWORD current_map = 0x0180;
+		DWORD current_map_name = 0x0188;
+	}GlobalVar;
+
+	struct {
+		DWORD m_nBombSite = 0xE84;
+		DWORD m_bBombTicking = 0xE80;
+		DWORD m_hBombDefuser = 0xEDC;
+		DWORD m_flC4Blow = 0xEB0;
+		DWORD m_flDefuseCountDown = 0xED4;
+	} CPlantedC4;
+
+	// https://github.com/a2x/cs2-dumper/blob/main/config.json
+
 	namespace Signatures
 	{
 		const std::string EntityList = "48 8B 0D ?? ?? ?? ?? 48 89 7C 24 ?? 8B FA C1";
@@ -49,6 +76,8 @@ namespace Offset
 		const std::string ViewMatrix = "48 8D 0D ?? ?? ?? ?? 48 C1 E0 06";
 		const std::string LocalPlayerPawn = "48 8D 05 ?? ?? ?? ?? C3 CC CC CC CC CC CC CC CC 48 83 EC ?? 8B 0D";
 		const std::string ForceJump = "48 8B 05 ?? ?? ?? ?? 48 8D 1D ?? ?? ?? ?? 48 89 45";
+		const std::string GlobalVars = "48 89 0D ?? ?? ?? ?? 48 89 41";
+		const std::string PlantedC4 = "48 89 05 ?? ?? ?? ?? 8B 05 ?? ?? ?? ?? A9 ?? ?? ?? ?? 74 ?? 25 ?? ?? ?? ?? 89 05 ?? ?? ?? ?? 8B 0D";
 	}
 
 	bool UpdateOffsets();

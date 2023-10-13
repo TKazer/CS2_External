@@ -188,5 +188,8 @@
     <ClCompile Include="Utils\ConfigSaver.cpp">
       <Filter>Utils\ConfigSaver</Filter>
     </ClCompile>
+    <ClCompile Include="globals.cpp">
+      <Filter>Cheats</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

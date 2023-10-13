@@ -1,3 +1,4 @@
+#include <cmath>
 #include "Cheats.h"
 #include "Render.hpp"
 #include "MenuConfig.hpp"
@@ -35,6 +36,8 @@ void Cheats::Menu()
 
 			Gui.MyCheckBox("HealthBar", &MenuConfig::ShowHealthBar);
 			ImGui::Combo("HealthBarType", &MenuConfig::HealthBarType, "Vetical\0Horizontal");
+
+			Gui.MyCheckBox("Distance", &MenuConfig::ShowDistance);
 
 			Gui.MyCheckBox("WeaponText", &MenuConfig::ShowWeaponESP);
 			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
@@ -338,6 +341,16 @@ void Cheats::Run()
 				HealthBarSize = { 70,8 };
 			}
 			Render::DrawHealthBar(EntityAddress, 100, Entity.Pawn.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
+		}
+
+		// Draw Distance
+		if (MenuConfig::ShowDistance)
+		{
+			int distance = static_cast<int>(Entity.Pawn.Pos.DistanceTo(LocalEntity.Pawn.Pos) / 100);
+			char buffer[0x48];
+			sprintf_s(buffer, "%im", distance);
+			std::string dis_str = buffer;
+			Gui.StrokeText(dis_str, { Rect.x + Rect.z + 4, Rect.y }, ImColor(255, 255, 255, 255), 14, false);
 		}
 
 		// Draw weaponName

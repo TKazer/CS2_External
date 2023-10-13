@@ -24,6 +24,7 @@ namespace MyConfigSaver {
         configFile << "TriggerHotKey " << MenuConfig::TriggerHotKey << std::endl;
         configFile << "RCSBullet " << AimControl::RCSBullet << std::endl;
         configFile << "ShowHealthBar " << MenuConfig::ShowHealthBar << std::endl;
+        configFile << "ShowDistance " << MenuConfig::ShowDistance << std::endl;
         configFile << "AimFov " << AimControl::AimFov << std::endl;
         configFile << "FovLineSize " << MenuConfig::FovLineSize << std::endl;
         configFile << "AimBotHotKey " << MenuConfig::AimBotHotKey << std::endl;
@@ -89,6 +90,7 @@ namespace MyConfigSaver {
                 else if (key == "TriggerHotKey") { iss >> MenuConfig::TriggerHotKey; TriggerBot::SetHotKey(MenuConfig::TriggerHotKey); }
                 else if (key == "RCSBullet") iss >> AimControl::RCSBullet;
                 else if (key == "ShowHealthBar") iss >> MenuConfig::ShowHealthBar;
+                else if (key == "ShowDistance") iss >> MenuConfig::ShowDistance;
                 else if (key == "AimFov") iss >> AimControl::AimFov;
                 else if (key == "FovLineSize") iss >> MenuConfig::FovLineSize;
                 else if (key == "AimBotHotKey") { iss >> MenuConfig::AimBotHotKey; AimControl::SetHotKey(MenuConfig::AimBotHotKey); }
