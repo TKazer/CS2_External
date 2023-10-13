@@ -13,16 +13,16 @@ namespace Offset
 
 	struct
 	{
-		DWORD Health = 0x808;
+		DWORD Health = 0x32C;
 		DWORD TeamID = 0x3BF;
-		DWORD IsAlive = 0x804;
-		DWORD PlayerPawn = 0x7FC;
+		DWORD IsAlive = 0x7C4;
+		DWORD PlayerPawn = 0x7BC;
 		DWORD iszPlayerName = 0x610;
 	}Entity;
 
 	struct
 	{
-		DWORD Pos = 0xCD8;
+		DWORD Pos = 0x1214;
 		DWORD MaxHealth = 0x328;
 		DWORD CurrentHealth = 0x32C;
 		DWORD GameSceneNode = 0x310;
@@ -36,7 +36,7 @@ namespace Offset
 		DWORD iIDEntIndex = 0x152C;
 		DWORD iTeamNum = 0x3BF;
 		DWORD CameraServices = 0x10E0;
-		DWORD iFov = 0x214;
+		DWORD iFov = 0x210;
 		DWORD fFlags = 0x3C8;
 		DWORD bSpottedByMask = 0x1620 + 0xC; // entitySpottedState + bSpottedByMask
 	}Pawn;
