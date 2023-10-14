@@ -37,6 +37,7 @@ void Cheats::Menu()
 			ImGui::Combo("HealthBarType", &MenuConfig::HealthBarType, "Vetical\0Horizontal");
 
 			Gui.MyCheckBox("WeaponText", &MenuConfig::ShowWeaponESP);
+			Gui.MyCheckBox("Distance", &MenuConfig::ShowDistance);
 			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
 
 			Gui.MyCheckBox("HeadShootLine", &MenuConfig::ShowHeadShootLine);
@@ -343,6 +344,9 @@ void Cheats::Run()
 		// Draw weaponName
 		if (MenuConfig::ShowWeaponESP)
 			Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 14);
+
+		if (MenuConfig::ShowDistance)
+			Render::DrawDistance(LocalEntity, Entity, Rect);
 
 		if (MenuConfig::ShowPlayerName)
 		{
