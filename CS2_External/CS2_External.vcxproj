@@ -139,6 +139,8 @@
     <ClInclude Include="Cheats.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Globals.hpp" />
+    <ClInclude Include="GlobalVars.h" />
     <ClInclude Include="MenuConfig.hpp" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="OS-ImGui\imgui\imconfig.h" />
@@ -168,6 +170,7 @@
     <ClCompile Include="Cheats.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GlobalVars.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Offsets.cpp" />
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp" />

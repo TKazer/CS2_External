@@ -31,6 +31,7 @@ namespace MyConfigSaver {
         configFile << "RCSScale.x " << AimControl::RCSScale.x << std::endl;
         configFile << "RCSScale.y " << AimControl::RCSScale.y << std::endl;
         configFile << "ShowWeaponESP " << MenuConfig::ShowWeaponESP << std::endl;
+        configFile << "ShowDistance " << MenuConfig::ShowDistance << std::endl;
         configFile << "Smooth " << AimControl::Smooth << std::endl;
         configFile << "ShowFovLine " << MenuConfig::ShowFovLine << std::endl;
         configFile << "ShowEyeRay " << MenuConfig::ShowEyeRay << std::endl;
@@ -96,6 +97,7 @@ namespace MyConfigSaver {
                 else if (key == "RCSScale.x") iss >> AimControl::RCSScale.x;
                 else if (key == "RCSScale.y") iss >> AimControl::RCSScale.y;
                 else if (key == "ShowWeaponESP") iss >> MenuConfig::ShowWeaponESP;
+                else if (key == "ShowDistance") iss >> MenuConfig::ShowDistance;
                 else if (key == "Smooth") iss >> AimControl::Smooth;
                 else if (key == "ShowFovLine") iss >> MenuConfig::ShowFovLine;
                 else if (key == "ShowEyeRay") iss >> MenuConfig::ShowEyeRay;

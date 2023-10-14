@@ -92,6 +92,7 @@ namespace ConfigMenu {
 		MenuConfig::ShowBoxESP = true;
 		MenuConfig::ShowHealthBar = true;
 		MenuConfig::ShowWeaponESP = true;
+		MenuConfig::ShowDistance = true;
 		MenuConfig::ShowEyeRay = true;
 		MenuConfig::ShowPlayerName = true;
 		MenuConfig::AimBot = true;

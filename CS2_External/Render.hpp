@@ -4,6 +4,7 @@
 #include <chrono>
 #include <map>
 #include "Entity.h"
+#include "Utils/Format.hpp"
 
 namespace Render
 {
@@ -45,6 +46,13 @@ namespace Render
 
 		Gui.Line(Pos, LineEndPoint[0], Color, 1.5);
 		Gui.Line(Pos, LineEndPoint[1], Color, 1.5);
+	}
+
+	void DrawDistance(const CEntity& LocalEntity, CEntity& Entity, ImVec4 Rect)
+	{
+		int distance = static_cast<int>(Entity.Pawn.Pos.DistanceTo(LocalEntity.Pawn.Pos) / 100);
+		std::string dis_str = Format("%im", distance);
+		Gui.StrokeText(dis_str, { Rect.x + Rect.z + 4, Rect.y }, ImColor(255, 255, 255, 255), 14, false);
 	}
 
 	void HeadShootLine(const CEntity& LocalEntity, ImColor Color)
