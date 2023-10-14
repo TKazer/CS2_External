@@ -7,7 +7,7 @@ bool globalvars::UpdateGlobalvars()
 		return false;
 
 	this->address = m_DglobalVars;
-	std::cout << this->address << std::endl;
+
 	if (!this->GetRealTime())
 		return false;
 	if (!this->GetFrameCount())
