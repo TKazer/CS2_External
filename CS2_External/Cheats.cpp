@@ -223,6 +223,7 @@ void Cheats::Run()
 	
 	// LocalEntity
 	CEntity LocalEntity;
+	static int LocalPlayerControllerIndex = 1;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
 		return;
     if (!LocalEntity.UpdatePawn(LocalPawnAddress) && !MenuConfig::ShowWhenSpec)
@@ -248,10 +249,16 @@ void Cheats::Run()
 		DWORD64 EntityAddress = 0;
 		if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetEntityListEntry() + (i + 1) * 0x78, EntityAddress))
 			continue;
+
 		if (EntityAddress == LocalEntity.Controller.Address)
+		{
+			LocalPlayerControllerIndex = i;
 			continue;
+		}
+
 		if (!Entity.UpdateController(EntityAddress))
 			continue;
+
 		if (!Entity.UpdatePawn(Entity.Pawn.Address))
 			continue;
 
@@ -284,7 +291,9 @@ void Cheats::Run()
 		if (DistanceToSight < MaxAimDistance)
 		{
 			MaxAimDistance = DistanceToSight;
-			if (MenuConfig::VisibleCheck && Entity.Pawn.bSpottedByMask > 0 || !MenuConfig::VisibleCheck)
+			if (!MenuConfig::VisibleCheck || Entity.Pawn.bSpottedByMask > 0 ||
+				Entity.Pawn.bSpottedByMask & (DWORD64(1) << (LocalPlayerControllerIndex - 1)) ||
+				LocalEntity.Pawn.bSpottedByMask & (DWORD64(1) << (i - 1)))
 			{
 				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
 				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
