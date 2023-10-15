@@ -293,8 +293,8 @@ void Cheats::Run()
 			MaxAimDistance = DistanceToSight;
 			// From: https://github.com/redbg/CS2-Internal/blob/fc8e64430176a62f8800b7467884806708a865bb/src/include/Cheats.hpp#L129
 			if (!MenuConfig::VisibleCheck ||
-				Entity.Pawn.bSpottedByMask & (DWORD64(1) << (LocalPlayerControllerIndex - 1)) ||
-				LocalEntity.Pawn.bSpottedByMask & (DWORD64(1) << (i - 1)))
+				Entity.Pawn.bSpottedByMask & (DWORD64(1) << (LocalPlayerControllerIndex)) ||
+				LocalEntity.Pawn.bSpottedByMask & (DWORD64(1) << (i)))
 			{
 				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
 				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
