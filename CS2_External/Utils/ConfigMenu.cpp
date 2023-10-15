@@ -135,5 +135,6 @@ namespace ConfigMenu {
 		MenuConfig::OBSBypass = true;
 		MenuConfig::BunnyHop = false;
 		MenuConfig::ShowWhenSpec = true;
+		MenuConfig::AntiFlashbang = true;
     }
 }

@@ -129,6 +129,7 @@
     <ClInclude Include="Globals.hpp">
       <Filter>Cheats</Filter>
     </ClInclude>
+    <ClInclude Include="AntiFlashbang.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OS-ImGui\imgui\imgui.cpp">

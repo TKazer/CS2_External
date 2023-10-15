@@ -63,4 +63,6 @@ namespace MenuConfig
 	inline float CrossHairSize = 150;
 
 	inline bool ShowWhenSpec = true;
+
+	inline bool AntiFlashbang = true;
 }
