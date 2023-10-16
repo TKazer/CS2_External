@@ -144,6 +144,13 @@ void Cheats::Menu()
 			ImGui::EndTabItem();
 		}
 
+		if (ImGui::BeginTabItem("Misc "))
+		{
+			Gui.MyCheckBox("AntiFlashbang", &MenuConfig::AntiFlashbang);
+
+			ImGui::EndTabItem();
+		}
+
 		// Render config saver
 		ConfigMenu::RenderConfigMenu();
 		
@@ -398,6 +405,9 @@ void Cheats::Run()
 	
 	if (MenuConfig::BunnyHop)
 		Bunnyhop::Run(LocalEntity);
+
+	if (MenuConfig::AntiFlashbang)
+		AntiFlashbang::Run(LocalEntity);
 
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{

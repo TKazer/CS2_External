@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Utils/ProcessManager.hpp"
 
+// https://www.unknowncheats.me/forum/counter-strike-2-a/576077-counter-strike-2-reversal-structs-offsets-89.html
 namespace Offset
 {
 	inline DWORD EntityList;
@@ -32,6 +33,7 @@ namespace Offset
 		DWORD vecLastClipCameraPos = 0x1274;
 		DWORD pClippingWeapon = 0x1290;
 		DWORD iShotsFired = 0x1404;
+		DWORD flFlashDuration = 0x1454;
 		DWORD aimPunchAngle = 0x1704;
 		DWORD aimPunchCache = 0x1728;
 		DWORD iIDEntIndex = 0x152C;

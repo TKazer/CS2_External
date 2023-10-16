@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AntiFlashbang.hpp" />
     <ClInclude Include="Bunnyhop.hpp" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="Aimbot.hpp" />

@@ -67,6 +67,7 @@ namespace MyConfigSaver {
         configFile << "OBSBypass " << MenuConfig::OBSBypass;
         configFile << "BunnyHop " << MenuConfig::BunnyHop;
         configFile << "ShowWhenSpec " << MenuConfig::ShowWhenSpec;
+        configFile << "AntiFlashbang " << MenuConfig::AntiFlashbang;
         configFile.close();
         std::cout << "Configuration saved to " << filename << std::endl;
     }
@@ -133,6 +134,7 @@ namespace MyConfigSaver {
                 else if (key == "OBSBypass") iss >> MenuConfig::OBSBypass;
                 else if (key == "BunnyHop") iss >> MenuConfig::BunnyHop;
                 else if (key == "ShowWhenSpec") iss >> MenuConfig::ShowWhenSpec;
+                else if (key == "AntiFlashbang") iss >> MenuConfig::AntiFlashbang;
             }
         }
 
