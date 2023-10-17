@@ -10,7 +10,6 @@ int main()
 {
 	MyConfigSaver::SetupConfigDirectory();
 	std::cout << "[Config] Current configs directory is set to " << std::filesystem::current_path() << std::endl;
-	return 0;
 
 	auto ProcessStatus = ProcessMgr.Attach("cs2.exe");
 	if (ProcessStatus != StatusCode::SUCCEED)
