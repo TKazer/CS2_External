@@ -1,11 +1,17 @@
 #include "Offsets.h"
 #include "Cheats.h"
 #include "Utils/Format.hpp"
+#include "Utils/ConfigSaver.hpp"
 #include <iostream>
 #include <iomanip>
+#include <filesystem>
 
 int main()
 {
+	MyConfigSaver::SetupConfigDirectory();
+	std::cout << "[Config] Current configs directory is set to " << std::filesystem::current_path() << std::endl;
+	return 0;
+
 	auto ProcessStatus = ProcessMgr.Attach("cs2.exe");
 	if (ProcessStatus != StatusCode::SUCCEED)
 	{

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <Shlobj.h>
 #include "ConfigSaver.hpp"
 #include "../MenuConfig.hpp" // Include your global settings header
 #include "../TriggerBot.h"
@@ -140,5 +141,26 @@ namespace MyConfigSaver {
 
         configFile.close();
         std::cout << "Configuration loaded from " << filename << std::endl;
+    }
+
+    void SetupConfigDirectory() {
+        try
+        {
+            wchar_t* path = nullptr;
+            if (SHGetKnownFolderPath(FOLDERID_Documents, 0, nullptr, &path) == S_OK) {
+                // Combine Documents folder path with Modificication's folder title
+                wchar_t result[MAX_PATH];
+                wcscpy_s(result, path);
+                wcscat_s(result, L"\\TKazer");
+
+                // Create directory if it does not exist
+                SHCreateDirectoryEx(0, result, nullptr);
+                SetCurrentDirectory(result);
+            }
+        }
+        catch (...)
+        {
+            /* Do nothing */
+        }
     }
 } // namespace ConfigSaver
