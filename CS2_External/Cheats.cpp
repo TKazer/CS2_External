@@ -177,6 +177,7 @@ void Cheats::Menu()
 void Cheats::RadarSetting(Base_Radar& Radar)
 {
 	// Radar window
+	ImGui::SetNextWindowBgAlpha(0.1f);
 	ImGui::Begin("Radar", 0, ImGuiWindowFlags_NoResize);
 	ImGui::SetWindowSize({ MenuConfig::RadarRange * 2,MenuConfig::RadarRange * 2 });
 
