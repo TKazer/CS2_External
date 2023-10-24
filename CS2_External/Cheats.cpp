@@ -137,6 +137,10 @@ void Cheats::Menu()
 			{
 				TriggerBot::SetHotKey(MenuConfig::TriggerHotKey);
 			}
+			if (ImGui::Combo("TriggerMode", &MenuConfig::TriggerMode, "Hold\0Toggle"))
+			{
+				TriggerBot::SetMode(MenuConfig::TriggerMode);
+			}
 
 			DWORD TriggerDelayMin = 15, TriggerDelayMax = 170;
 			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
@@ -212,11 +216,11 @@ void Cheats::Run()
 		LastTimePoint = CurTimePoint;
 	}
 
-	if(MenuConfig::ShowMenu)
+	if (MenuConfig::ShowMenu)
 		Menu();
 
 	// Update matrix
-	if(!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix,64))
+	if (!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix, 64))
 		return;
 
 	// Update EntityList Entry
@@ -229,14 +233,14 @@ void Cheats::Run()
 		return;
 	if (!ProcessMgr.ReadMemory(gGame.GetLocalPawnAddress(), LocalPawnAddress))
 		return;
-	
+
 	// LocalEntity
 	CEntity LocalEntity;
 	static int LocalPlayerControllerIndex = 1;
 	if (!LocalEntity.UpdateController(LocalControllerAddress))
 		return;
-    if (!LocalEntity.UpdatePawn(LocalPawnAddress) && !MenuConfig::ShowWhenSpec)
-        return;
+	if (!LocalEntity.UpdatePawn(LocalPawnAddress) && !MenuConfig::ShowWhenSpec)
+		return;
 
 	// HealthBar Map
 	static std::map<DWORD64, Render::HealthBar> HealthBarMap;
@@ -278,7 +282,7 @@ void Cheats::Run()
 			continue;
 
 		// Add entity to radar
-		if(MenuConfig::ShowRadar)
+		if (MenuConfig::ShowRadar)
 			Radar.AddPoint(LocalEntity.Pawn.Pos, LocalEntity.Pawn.ViewAngle.y, Entity.Pawn.Pos, ImColor(237, 85, 106, 200), MenuConfig::RadarType, Entity.Pawn.ViewAngle.y);
 
 		if (!Entity.IsInScreen())
@@ -294,7 +298,7 @@ void Cheats::Run()
 			}
 		}*/
 
-		DistanceToSight = Entity.GetBone().BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({Gui.Window.Size.x / 2,Gui.Window.Size.y / 2});
+		DistanceToSight = Entity.GetBone().BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({ Gui.Window.Size.x / 2,Gui.Window.Size.y / 2 });
 
 
 		if (DistanceToSight < MaxAimDistance)
@@ -312,11 +316,11 @@ void Cheats::Run()
 		}
 
 		// Draw Bone
-		if(MenuConfig::ShowBoneESP)
+		if (MenuConfig::ShowBoneESP)
 			Render::DrawBone(Entity, MenuConfig::BoneColor, 1.3);
 
 		// Draw eyeRay
-		if(MenuConfig::ShowEyeRay)
+		if (MenuConfig::ShowEyeRay)
 			Render::ShowLosLine(Entity, 50, MenuConfig::EyeRayColor, 1.3);
 
 		// Box
@@ -390,8 +394,31 @@ void Cheats::Run()
 	}
 
 	// TriggerBot
-	if (MenuConfig::TriggerBot && GetAsyncKeyState(TriggerBot::HotKey))
+	if (MenuConfig::TriggerMode == 1 && MenuConfig::TriggerBot && GetAsyncKeyState(TriggerBot::HotKey) && MenuConfig::Pressed&& CurTimePoint - LastTimePoint >= std::chrono::milliseconds(150))
+	{
+		MenuConfig::Pressed = false;
+		LastTimePoint = CurTimePoint;
+	}
+	else if (MenuConfig::TriggerMode == 1 && MenuConfig::TriggerBot && GetAsyncKeyState(TriggerBot::HotKey)&& !MenuConfig::Pressed&& CurTimePoint - LastTimePoint >= std::chrono::milliseconds(150))
+	{
+		MenuConfig::Pressed = true;
+		LastTimePoint = CurTimePoint;
+	}
+
+	if (MenuConfig::TriggerMode == 0 && MenuConfig::TriggerBot && GetAsyncKeyState(TriggerBot::HotKey))
+	{
+		MenuConfig::Shoot = true;
 		TriggerBot::Run(LocalEntity);
+		MenuConfig::Shoot = false;
+	}
+	else if (MenuConfig::TriggerMode == 1 && MenuConfig::TriggerBot && MenuConfig::Pressed) 
+	{
+		MenuConfig::Shoot = true;
+		TriggerBot::Run(LocalEntity);
+		MenuConfig::Shoot = false;
+	}
+			
+
 
 	// HeadShoot Line
 	if(MenuConfig::ShowHeadShootLine)

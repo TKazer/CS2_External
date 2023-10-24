@@ -22,6 +22,7 @@ namespace MyConfigSaver {
         configFile << "TriggerDelay " << TriggerBot::TriggerDelay << std::endl;
         configFile << "ShowBoxESP " << MenuConfig::ShowBoxESP << std::endl;
         configFile << "TriggerHotKey " << MenuConfig::TriggerHotKey << std::endl;
+        configFile << "TriggerMode " << MenuConfig::TriggerMode << std::endl;//TriggerMode
         configFile << "RCSBullet " << AimControl::RCSBullet << std::endl;
         configFile << "ShowHealthBar " << MenuConfig::ShowHealthBar << std::endl;
         configFile << "AimFov " << AimControl::AimFov << std::endl;
@@ -89,6 +90,7 @@ namespace MyConfigSaver {
                 else if (key == "TriggerDelay") iss >> TriggerBot::TriggerDelay;
                 else if (key == "ShowBoxESP") iss >> MenuConfig::ShowBoxESP;
                 else if (key == "TriggerHotKey") { iss >> MenuConfig::TriggerHotKey; TriggerBot::SetHotKey(MenuConfig::TriggerHotKey); }
+                else if (key == "TriggerMode") { iss >> MenuConfig::TriggerMode; TriggerBot::SetMode(MenuConfig::TriggerMode); }//TriggerMode
                 else if (key == "RCSBullet") iss >> AimControl::RCSBullet;
                 else if (key == "ShowHealthBar") iss >> MenuConfig::ShowHealthBar;
                 else if (key == "AimFov") iss >> AimControl::AimFov;
