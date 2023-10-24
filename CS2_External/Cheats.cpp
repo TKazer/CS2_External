@@ -146,27 +146,28 @@ void Cheats::Menu()
 
 		if (ImGui::BeginTabItem("Misc "))
 		{
+			// moved to misc
 			Gui.MyCheckBox("AntiFlashbang", &MenuConfig::AntiFlashbang);
+			// TeamCheck
+			Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
+
+			ImGui::SameLine();
+			// OBS Bypass
+			Gui.MyCheckBox("OBSBypass", &MenuConfig::OBSBypass);
+
+			//Bunnyhopping
+			Gui.MyCheckBox("Bunnyhop ", &MenuConfig::BunnyHop);
+			ImGui::SameLine();
+			Gui.MyCheckBox("ShowWhenSpec", &MenuConfig::ShowWhenSpec);
 
 			ImGui::EndTabItem();
+
 		}
 
 		// Render config saver
 		ConfigMenu::RenderConfigMenu();
 		
 		ImGui::Separator();
-
-		// TeamCheck
-		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
-
-		ImGui::SameLine();
-		// OBS Bypass
-		Gui.MyCheckBox("OBSBypass", &MenuConfig::OBSBypass);
-
-		//Bunnyhopping
-		Gui.MyCheckBox("Bunnyhop ", &MenuConfig::BunnyHop);
-		ImGui::SameLine();
-		Gui.MyCheckBox("ShowWhenSpec", &MenuConfig::ShowWhenSpec);
 
 		ImGui::Text("[HOME] HideMenu");
 
