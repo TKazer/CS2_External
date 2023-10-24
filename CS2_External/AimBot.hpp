@@ -13,7 +13,7 @@ namespace AimControl
 	inline float Smooth = 0.7;
 	inline Vec2 RCSScale = { 1.f,1.f };
 	inline int RCSBullet = 1;
-	inline std::vector<int> HotKeyList{VK_LBUTTON, VK_LMENU, VK_RBUTTON, VK_XBUTTON1, VK_XBUTTON2, VK_CAPITAL, VK_LSHIFT, VK_LCONTROL};
+	inline std::vector<int> HotKeyList{VK_LBUTTON, VK_LMENU, VK_RBUTTON, VK_XBUTTON1, VK_XBUTTON2, VK_CAPITAL, VK_LSHIFT, VK_LCONTROL};// added new button VK_LBUTTON
 
 	inline void SetHotKey(int Index)
 	{

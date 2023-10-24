@@ -68,7 +68,7 @@ void Cheats::Menu()
 		{
 			Gui.MyCheckBox("AimBot", &MenuConfig::AimBot);
 
-			if (ImGui::Combo("AimKey", &MenuConfig::AimBotHotKey, "MENU\0RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL"))
+			if (ImGui::Combo("AimKey", &MenuConfig::AimBotHotKey, "LBUTTON\0MENU\0RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL"))// added LBUTTON
 			{
 				AimControl::SetHotKey(MenuConfig::AimBotHotKey);
 			}
