@@ -36,8 +36,8 @@ namespace AimControl
 		if (Norm > AimFov)
 			return;
 
-		Yaw = Yaw * Smooth + Local.Pawn.ViewAngle.y;
-		Pitch = Pitch * Smooth + Local.Pawn.ViewAngle.x;
+		Yaw = Yaw * 1-Smooth + Local.Pawn.ViewAngle.y;
+		Pitch = Pitch * 1 - Smooth + Local.Pawn.ViewAngle.x;
 
 		// Recoil control
 		if (Local.Pawn.ShotsFired > RCSBullet)
