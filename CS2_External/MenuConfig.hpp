@@ -4,6 +4,8 @@
 
 namespace MenuConfig
 {
+	inline std::string path = "";
+
 	inline bool ShowBoneESP = true;
 	inline bool ShowBoxESP = true;
 	inline bool ShowHealthBar = true;
