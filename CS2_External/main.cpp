@@ -3,10 +3,24 @@
 #include "Utils/Format.hpp"
 #include <iostream>
 #include <iomanip>
+#include <filesystem>
+#include <cstdlib>
+#include <KnownFolders.h>
+#include <ShlObj.h>
+
+namespace fs = std::filesystem;
 
 int main()
 {
 	auto ProcessStatus = ProcessMgr.Attach("cs2.exe");
+	char documentsPath[MAX_PATH];
+	if (SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, documentsPath) != S_OK) {
+		std::cerr << "Failed to get the Documents folder path." << std::endl;
+		goto END;
+	}
+	MenuConfig::path = documentsPath;
+	MenuConfig::path += "/CS2_External";
+
 	if (ProcessStatus != StatusCode::SUCCEED)
 	{
 		std::cout << "[ERROR] Failed to attach process, StatusCode:" << ProcessStatus << std::endl;
@@ -35,6 +49,20 @@ int main()
 	std::cout << Format("--ViewAngles:%llX\n", Offset::ViewAngle);
 	std::cout << Format("--LocalPlayerPawn:%llX\n", Offset::LocalPlayerPawn);
 	std::cout << Format("--ForceJump:%llX\n", Offset::ForceJump);
+
+
+	if (fs::exists(MenuConfig::path))
+		std::cout << "Config folder connected: "<< MenuConfig::path << std::endl;
+	else
+	{
+		if (fs::create_directory(MenuConfig::path))
+			std::cout << "Config folder created: " << MenuConfig::path << std::endl;
+		else 
+		{
+			std::cerr << "Failed to create the config directory." << std::endl;
+			goto END;
+		}
+	}
 
 	std::cout << "Runing..." << std::endl;
 

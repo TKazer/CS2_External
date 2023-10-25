@@ -4,6 +4,8 @@
 
 namespace MenuConfig
 {
+	inline std::string path = "";
+
 	inline bool ShowBoneESP = true;
 	inline bool ShowBoxESP = true;
 	inline bool ShowHealthBar = true;
@@ -42,6 +44,9 @@ namespace MenuConfig
 
 	inline bool TriggerBot = true;
 	inline int TriggerHotKey = 0;
+	inline int TriggerMode = 0;
+	inline bool Pressed = false;// for toggle mode
+	inline bool Shoot = false;// so that it doesn’t aim when the trigger hits
 
 	inline bool TeamCheck = true;
 	inline bool OBSBypass = true;

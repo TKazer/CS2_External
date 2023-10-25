@@ -11,7 +11,7 @@ namespace MyConfigSaver {
 
     // Function to save the configuration to a file
     void SaveConfig(const std::string& filename) {
-        std::ofstream configFile(filename);
+        std::ofstream configFile(MenuConfig::path+'/'+filename);
         if (!configFile.is_open()) {
             std::cerr << "Error: Could not open the configuration file." << std::endl;
             return;
@@ -22,6 +22,7 @@ namespace MyConfigSaver {
         configFile << "TriggerDelay " << TriggerBot::TriggerDelay << std::endl;
         configFile << "ShowBoxESP " << MenuConfig::ShowBoxESP << std::endl;
         configFile << "TriggerHotKey " << MenuConfig::TriggerHotKey << std::endl;
+        configFile << "TriggerMode " << MenuConfig::TriggerMode << std::endl;//TriggerMode
         configFile << "RCSBullet " << AimControl::RCSBullet << std::endl;
         configFile << "ShowHealthBar " << MenuConfig::ShowHealthBar << std::endl;
         configFile << "AimFov " << AimControl::AimFov << std::endl;
@@ -69,12 +70,12 @@ namespace MyConfigSaver {
         configFile << "ShowWhenSpec " << MenuConfig::ShowWhenSpec;
         configFile << "AntiFlashbang " << MenuConfig::AntiFlashbang;
         configFile.close();
-        std::cout << "Configuration saved to " << filename << std::endl;
+        std::cout << "Configuration saved to " << MenuConfig::path + '/' + filename << std::endl;
     }
 
     // Function to load the configuration from a file
     void LoadConfig(const std::string& filename) {
-        std::ifstream configFile(filename);
+        std::ifstream configFile(MenuConfig::path + '/' + filename);
         if (!configFile.is_open()) {
             std::cerr << "Error: Could not open the configuration file." << std::endl;
             return;
@@ -89,6 +90,7 @@ namespace MyConfigSaver {
                 else if (key == "TriggerDelay") iss >> TriggerBot::TriggerDelay;
                 else if (key == "ShowBoxESP") iss >> MenuConfig::ShowBoxESP;
                 else if (key == "TriggerHotKey") { iss >> MenuConfig::TriggerHotKey; TriggerBot::SetHotKey(MenuConfig::TriggerHotKey); }
+                else if (key == "TriggerMode") { iss >> MenuConfig::TriggerMode; TriggerBot::SetMode(MenuConfig::TriggerMode); }//TriggerMode
                 else if (key == "RCSBullet") iss >> AimControl::RCSBullet;
                 else if (key == "ShowHealthBar") iss >> MenuConfig::ShowHealthBar;
                 else if (key == "AimFov") iss >> AimControl::AimFov;
@@ -139,6 +141,6 @@ namespace MyConfigSaver {
         }
 
         configFile.close();
-        std::cout << "Configuration loaded from " << filename << std::endl;
+        std::cout << "Configuration loaded from " << MenuConfig::path + '/' + filename << std::endl;
     }
 } // namespace ConfigSaver

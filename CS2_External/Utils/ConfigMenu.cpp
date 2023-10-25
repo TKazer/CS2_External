@@ -25,7 +25,7 @@ namespace ConfigMenu {
 
 			static int selectedConfig = -1;
 
-			const std::string configDir = std::filesystem::current_path().string();
+			const std::string configDir = MenuConfig::path;
 			static std::vector<std::string> configFiles;
 
 			configFiles.clear();
@@ -124,6 +124,8 @@ namespace ConfigMenu {
 		AimControl::RCSBullet = 1;
 		MenuConfig::TriggerHotKey = 0;
 		TriggerBot::SetHotKey(MenuConfig::TriggerHotKey);
+		MenuConfig::TriggerMode = 0;
+		TriggerBot::SetMode(MenuConfig::TriggerMode);//TriggerMode
 		AimControl::RCSScale = ImVec2(1.2f, 1.4f);
 		MenuConfig::FovLineColor = ImVec4(55, 55, 55, 220);
 		MenuConfig::LineToEnemyColor = ImVec4(255, 255, 255, 220);
