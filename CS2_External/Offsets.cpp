@@ -62,7 +62,7 @@ bool Offset::UpdateOffsets()
 	if (TempAddress == 0)
 		return false;
 
-	Offset::LocalPlayerPawn = TempAddress + 0x118 + 0x18 - ClientDLL;
+	Offset::LocalPlayerPawn = TempAddress + 0x138 - ClientDLL;
 
 	TempAddress = SearchOffsets(Offset::Signatures::ForceJump, ClientDLL);
 	if (TempAddress == 0)
