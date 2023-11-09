@@ -6,7 +6,6 @@ CS2 external cheat.
 ## Derivative projects
 1. AimStar -> [AimStar](https://github.com/CowNowK/AimStarCS2) (By CowNowK.)
 2. Aeonix -> [Aeonix](https://github.com/Fr0go1/Aeonix-Cs2) (By Fr0go1.)
-3. vyvanse.cc -> [vyvanse.cc](https://github.com/9xN/vyvanse.cc) (By 9xN.)
 
 ## NOTICE
 
