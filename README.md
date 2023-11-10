@@ -13,6 +13,10 @@ This source just used to study how to code a simple CS2 external hack systematic
 
 这个源码仅供学习如何系统的写一套CS2外部辅助程序。
 
+The offsets will not be updated in the future, please update it by self.
+
+后续偏移数据将不在提供更新，请自行更新。
+
 <img src="https://github.com/TKazer/CS2_External/blob/master/Image2.png" width="1200" />
 
 ## Functions
