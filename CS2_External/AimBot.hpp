@@ -5,7 +5,6 @@
 #include "Entity.h"
 #include <iostream>
 
-
 namespace AimControl
 {
 	inline int HotKey = VK_LBUTTON;
@@ -30,8 +29,8 @@ namespace AimControl
 
 		Distance = sqrt(pow(OppPos.x, 2) + pow(OppPos.y, 2));
 
-		Yaw = atan2f(OppPos.y, OppPos.x) * 57.295779513 - Local.Pawn.ViewAngle.y;
-		Pitch = -atan(OppPos.z / Distance) * 57.295779513 - Local.Pawn.ViewAngle.x;
+		Yaw = atan2f(OppPos.y, OppPos.x) * (180 / 3.14) - Local.Pawn.ViewAngle.y;
+		Pitch = -atan(OppPos.z / Distance) * (180 / 3.14) - Local.Pawn.ViewAngle.x;
 		Norm = sqrt(pow(Yaw, 2) + pow(Pitch, 2));
 		if (Norm > AimFov)
 			return;
