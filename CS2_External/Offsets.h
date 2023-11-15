@@ -17,9 +17,9 @@ namespace Offset
 	{
 		DWORD Health = 0x32C;
 		DWORD TeamID = 0x3BF;
-		DWORD IsAlive = 0x7C4;
-		DWORD PlayerPawn = 0x7BC;
-		DWORD iszPlayerName = 0x610;
+		DWORD IsAlive = 0x7DC;
+		DWORD PlayerPawn = 0x5F4;
+		DWORD iszPlayerName = 0x628;
 	}Entity;
 
 	struct
@@ -63,7 +63,7 @@ namespace Offset
 	{
 		const std::string GlobalVars = "48 89 0D ?? ?? ?? ?? 48 89 41";
 		const std::string ViewMatrix = "48 8D 0D ?? ?? ?? ?? 48 C1 E0 06";
-		const std::string ViewAngles = "48 8B 0D ?? ?? ?? ?? 48 8B 01 48 FF 60 30";
+		const std::string ViewAngles = "48 8B 0D ?? ?? ?? ?? E9 ?? ?? ?? ?? CC CC CC CC 40 55";
 		const std::string EntityList = "48 8B 0D ?? ?? ?? ?? 48 89 7C 24 ?? 8B FA C1";
 		const std::string LocalPlayerController = "48 8B 05 ?? ?? ?? ?? 48 85 C0 74 4F";
 		const std::string ForceJump = "48 8B 05 ?? ?? ?? ?? 48 8D 1D ?? ?? ?? ?? 48 89 45";
