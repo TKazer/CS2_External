@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "OS-ImGui_External.h"
 
 /****************************************************
@@ -19,33 +19,38 @@ namespace OSImGui
 #endif
 	{
 	public:
-		// ÎÄ±¾
+		// æ–‡æœ¬
 		void Text(std::string Text, Vec2 Pos, ImColor Color, float FontSize = 15, bool KeepCenter = false);
-		// Ãè±ßÎÄ±¾
+		// æè¾¹æ–‡æœ¬
 		void StrokeText(std::string Text, Vec2 Pos, ImColor Color, float FontSize = 15, bool KeepCenter = false);
-		// ¾ØĞÎ
+		// çŸ©å½¢
 		void Rectangle(Vec2 Pos, Vec2 Size, ImColor Color, float Thickness, float Rounding = 0);
 		void RectangleFilled(Vec2 Pos, Vec2 Size, ImColor Color, float Rounding = 0, int Nums = 15);
-		// Ïß
+        // å¤šè¾¹å½¢
+        void DrawQuadFilled(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4, ImColor color);
+        void DrawHexagonFilled(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4, Vec2 p5, Vec2 p6, ImColor col);
+		// çº¿
 		void Line(Vec2 From, Vec2 To, ImColor Color, float Thickness);
-		// Ô²ĞÎ
+		// åœ†å½¢
 		void Circle(Vec2 Center, float Radius, ImColor Color,float Thickness, int Num = 50);
 		void CircleFilled(Vec2 Center, float Radius, ImColor Color, int Num = 50);
-		// Á¬½Óµã
+		// è¿æ¥ç‚¹
 		void ConnectPoints(std::vector<Vec2> Points, ImColor Color, float Thickness);
-		// Ô²»¡
+		// åœ†å¼§
 		void Arc(ImVec2 Center, float Radius, ImColor Color, float Thickness, float Aangle_begin, float Angle_end, float Nums = 15);
-		// ¹´Ñ¡¿ò
+		// å‹¾é€‰æ¡†
 		void MyCheckBox(const char* str_id, bool* v);
 		void MyCheckBox2(const char* str_id, bool* v);
 		void MyCheckBox3(const char* str_id, bool* v);
 		void MyCheckBox4(const char* str_id, bool* v);
-		// ÒõÓ°¾ØĞÎ
+		// é˜´å½±çŸ©å½¢
 		void ShadowRectFilled(Vec2 Pos, Vec2 Size, ImColor RectColor, ImColor ShadowColor, float ShadowThickness, Vec2 ShadowOffset, float Rounding = 0);
-		// ÒõÓ°Ô²ĞÎ
+		// é˜´å½±åœ†å½¢
 		void ShadowCircle(Vec2 Pos, float Radius, ImColor CircleColor, ImColor ShadowColor, float ShadowThickness, Vec2 ShadowOffset, int Num = 30);
-		// Ô²Í·»¬¶¯Ìõ
+		// åœ†å¤´æ»‘åŠ¨æ¡
 		bool SliderScalarEx1(const char* label, ImGuiDataType data_type, void* p_data, const void* p_min, const void* p_max, const char* format, ImGuiSliderFlags flags);
+
+        void MyStyle();
 	};
 }
 

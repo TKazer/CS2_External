@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include "Game.h"
 
@@ -39,25 +39,25 @@ struct BoneJointPos
 class CBone
 {
 private:
-	DWORD64 EntityPawnAddress = 0;
+	uintptr_t EntityPawnAddress = 0;
 public:
 	std::vector<BoneJointPos> BonePosList;
 
-	bool UpdateAllBoneData(const DWORD64& EntityPawnAddress);
+	bool UpdateAllBoneData(const uintptr_t& EntityPawnAddress);
 };
 
 namespace BoneJointList
 {
-	// ¼¹¹Ç
+	// è„Šéª¨
 	inline std::list<DWORD> Trunk = { head,neck_0,spine_2, pelvis};
-	// ×ó±Û
+	// å·¦è‡‚
 	inline std::list<DWORD> LeftArm = { neck_0,  arm_upper_L, arm_lower_L, hand_L };
-	// ÓÒ±Û
+	// å³è‡‚
 	inline std::list<DWORD> RightArm = { neck_0, arm_upper_R,arm_lower_R, hand_R };
-	// ×óÍÈ	
+	// å·¦è…¿	
 	inline std::list<DWORD> LeftLeg = { pelvis, leg_upper_L , leg_lower_L, ankle_L };
-	// ÓÒÍÈ
+	// å³è…¿
 	inline std::list<DWORD> RightLeg = { pelvis, leg_upper_R , leg_lower_R, ankle_R };
-	// ×ÜÁĞ±í
+	// æ€»åˆ—è¡¨
 	inline std::vector<std::list<DWORD>> List = { Trunk, LeftArm, RightArm, LeftLeg, RightLeg };
 }

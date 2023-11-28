@@ -1,4 +1,4 @@
-#include "Cheats.h"
+﻿#include "Cheats.h"
 #include "Render.hpp"
 #include "MenuConfig.hpp"
 #include "Utils/ConfigMenu.hpp"
@@ -142,8 +142,8 @@ void Cheats::Menu()
 				TriggerBot::SetMode(MenuConfig::TriggerMode);
 			}
 
-			DWORD TriggerDelayMin = 15, TriggerDelayMax = 170;
-			Gui.SliderScalarEx1("Delay", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
+			int TriggerDelayMin = 15, TriggerDelayMax = 800;
+			Gui.SliderScalarEx1("Delay m/s", ImGuiDataType_U32, &TriggerBot::TriggerDelay, &TriggerDelayMin, &TriggerDelayMax, "%d", ImGuiSliderFlags_None);
 
 			ImGui::EndTabItem();
 		}
@@ -173,7 +173,7 @@ void Cheats::Menu()
 		
 		ImGui::Separator();
 
-		ImGui::Text("[HOME] HideMenu");
+		ImGui::Text("[HOME] HideMenu FPS:[%2.f]", ImGui::GetIO().Framerate);
 
 		ImGui::EndTabBar();
 	}ImGui::End();
@@ -219,48 +219,26 @@ void Cheats::Run()
 	if (MenuConfig::ShowMenu)
 		Menu();
 
-	// Update matrix
-	if (!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix, 64))
-		return;
+    // HealthBar Map
+    static std::map<uintptr_t, Render::HealthBar> HealthBarMap;
 
-	// Update EntityList Entry
-	gGame.UpdateEntityListEntry();
+    // AimBot data
+    float DistanceToSight = 0;
+    float MaxAimDistance = 100000;
+    Vec3  HeadPos{ 0,0,0 };
+    Vec3  AimPos{ 0,0,0 };
 
-	DWORD64 LocalControllerAddress = 0;
-	DWORD64 LocalPawnAddress = 0;
+    // Radar Data
+    Base_Radar Radar;
+    if (MenuConfig::ShowRadar)
+        RadarSetting(Radar);
 
-	if (!ProcessMgr.ReadMemory(gGame.GetLocalControllerAddress(), LocalControllerAddress))
-		return;
-	if (!ProcessMgr.ReadMemory(gGame.GetLocalPawnAddress(), LocalPawnAddress))
-		return;
-
-	// LocalEntity
-	CEntity LocalEntity;
-	static int LocalPlayerControllerIndex = 1;
-	if (!LocalEntity.UpdateController(LocalControllerAddress))
-		return;
-	if (!LocalEntity.UpdatePawn(LocalPawnAddress) && !MenuConfig::ShowWhenSpec)
-		return;
-
-	// HealthBar Map
-	static std::map<DWORD64, Render::HealthBar> HealthBarMap;
-
-	// AimBot data
-	float DistanceToSight = 0;
-	float MaxAimDistance = 100000;
-	Vec3  HeadPos{ 0,0,0 };
-	Vec3  AimPos{ 0,0,0 };
-
-	// Radar Data
-	Base_Radar Radar;
-	if (MenuConfig::ShowRadar)
-		RadarSetting(Radar);
-
+    static int LocalPlayerControllerIndex = 1;
 	for (int i = 0; i < 64; i++)
 	{
 		CEntity Entity;
-		DWORD64 EntityAddress = 0;
-		if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetEntityListEntry() + (i + 1) * 0x78, EntityAddress))
+        auto EntityAddress = ProcessMgr.RAM<uintptr_t>(gGame.GetEntityListEntry() + i * 0x78ull);
+		if (!EntityAddress)
 			continue;
 
 		if (EntityAddress == LocalEntity.Controller.Address)
@@ -272,8 +250,8 @@ void Cheats::Run()
 		if (!Entity.UpdateController(EntityAddress))
 			continue;
 
-		if (!Entity.UpdatePawn(Entity.Pawn.Address))
-			continue;
+        if (!Entity.UpdatePawn(Entity.Pawn.Address))
+            continue;
 
 		if (MenuConfig::TeamCheck && Entity.Controller.TeamID == LocalEntity.Controller.TeamID)
 			continue;
@@ -289,14 +267,12 @@ void Cheats::Run()
 			continue;
 
 		// Bone Debug
-	/*	for (int BoneIndex = 0; BoneIndex < Entity.BoneData.BonePosList.size(); BoneIndex++)
-		{
-			Vec2 ScreenPos{};
-			if (gGame.View.WorldToScreen(Entity.BoneData.BonePosList[BoneIndex].Pos, ScreenPos))
-			{
-				Gui.Text(std::to_string(BoneIndex), ScreenPos, ImColor(255, 255, 255, 255));
-			}
-		}*/
+        /*for (int BoneIndex = 0; BoneIndex < Entity.GetBone().BonePosList.size(); BoneIndex++){
+            Vec2 ScreenPos{};
+            if (gGame.View.WorldToScreen(Entity.GetBone().BonePosList[BoneIndex].Pos, ScreenPos)){
+                Gui.Text(std::to_string(BoneIndex), ScreenPos, ImColor(255, 255, 255, 255));
+            }
+        }*/
 
 		DistanceToSight = Entity.GetBone().BonePosList[BONEINDEX::head].ScreenPos.DistanceTo({ Gui.Window.Size.x / 2,Gui.Window.Size.y / 2 });
 
@@ -306,8 +282,8 @@ void Cheats::Run()
 			MaxAimDistance = DistanceToSight;
 			// From: https://github.com/redbg/CS2-Internal/blob/fc8e64430176a62f8800b7467884806708a865bb/src/include/Cheats.hpp#L129
 			if (!MenuConfig::VisibleCheck ||
-				Entity.Pawn.bSpottedByMask & (DWORD64(1) << (LocalPlayerControllerIndex)) ||
-				LocalEntity.Pawn.bSpottedByMask & (DWORD64(1) << (i)))
+				Entity.Pawn.bSpottedByMask & (uint32_t(1) << (LocalPlayerControllerIndex)) ||
+				LocalEntity.Pawn.bSpottedByMask & (uint32_t(1) << (i)))
 			{
 				AimPos = Entity.GetBone().BonePosList[MenuConfig::AimPositionIndex].Pos;
 				if (MenuConfig::AimPositionIndex == BONEINDEX::head)
@@ -316,12 +292,12 @@ void Cheats::Run()
 		}
 
 		// Draw Bone
-		if (MenuConfig::ShowBoneESP)
-			Render::DrawBone(Entity, MenuConfig::BoneColor, 1.3);
+        if (MenuConfig::ShowBoneESP)
+            Render::DrawBone(Entity, MenuConfig::BoneColor, 1.8f);
 
 		// Draw eyeRay
 		if (MenuConfig::ShowEyeRay)
-			Render::ShowLosLine(Entity, 50, MenuConfig::EyeRayColor, 1.3);
+			Render::ShowLosLine(Entity, 50, MenuConfig::EyeRayColor, 1.8f);
 
 		// Box
 		ImVec4 Rect;
@@ -339,11 +315,11 @@ void Cheats::Run()
 
 		// Line to enemy
 		if (MenuConfig::ShowLineToEnemy)
-			Render::LineToEnemy(Rect, MenuConfig::LineToEnemyColor, 1.2);
+			Render::LineToEnemy(Rect, MenuConfig::LineToEnemyColor, 1.f);
 
 		// Draw Box
 		if (MenuConfig::ShowBoxESP)
-			Gui.Rectangle({ Rect.x,Rect.y }, { Rect.z,Rect.w }, MenuConfig::BoxColor, 1.3);
+			Gui.Rectangle({ Rect.x,Rect.y }, { Rect.z,Rect.w }, MenuConfig::BoxColor, 1.3f);
 
 		// Draw HealthBar
 		if (MenuConfig::ShowHealthBar)
@@ -361,22 +337,19 @@ void Cheats::Run()
 				HealthBarPos = { Rect.x + Rect.z / 2 - 70 / 2,Rect.y - 13 };
 				HealthBarSize = { 70,8 };
 			}
-			Render::DrawHealthBar(EntityAddress, 100, Entity.Pawn.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
+
+            Render::DrawHealthBar(EntityAddress, Entity.Pawn.Armor, Entity.Pawn.Health, HealthBarPos, HealthBarSize, MenuConfig::HealthBarType);
 		}
 
 		// Draw weaponName
-		if (MenuConfig::ShowWeaponESP)
-			Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x,Rect.y + Rect.w }, ImColor(255, 255, 255, 255), 14);
+        if (MenuConfig::ShowWeaponESP)
+            Gui.StrokeText(Entity.Pawn.WeaponName, { Rect.x+ Rect.z/2,Rect.y + Rect.w }, ImColor(255, 0, 255, 255), 13.f, true);
 
 		if (MenuConfig::ShowDistance)
 			Render::DrawDistance(LocalEntity, Entity, Rect);
 
-		if (MenuConfig::ShowPlayerName)
-		{
-			if (MenuConfig::HealthBarType == 0)
-				Gui.StrokeText(Entity.Controller.PlayerName, { Rect.x + Rect.z / 2,Rect.y - 14 }, ImColor(255, 255, 255, 255), 14, true);
-			else
-				Gui.StrokeText(Entity.Controller.PlayerName, { Rect.x + Rect.z / 2,Rect.y - 13 - 14 }, ImColor(255, 255, 255, 255), 14, true);
+		if (MenuConfig::ShowPlayerName){
+            Gui.StrokeText(Entity.Controller.PlayerName, { Rect.x + Rect.z / 2,Rect.y - 14 }, ImColor(255, 255, 0, 255), 13.f, true);
 		}
 
 	}
@@ -432,17 +405,37 @@ void Cheats::Run()
 	if(MenuConfig::ShowAimFovRange)
 		Render::DrawFovCircle(LocalEntity);
 	
-	if (MenuConfig::BunnyHop)
-		Bunnyhop::Run(LocalEntity);
-
-	if (MenuConfig::AntiFlashbang)
-		AntiFlashbang::Run(LocalEntity);
-
 	if (MenuConfig::AimBot && GetAsyncKeyState(AimControl::HotKey))
 	{
-		if (AimPos != Vec3(0, 0, 0))
-		{
+		if (AimPos != Vec3(0, 0, 0)){
 			AimControl::AimBot(LocalEntity, LocalEntity.Pawn.CameraPos, AimPos);
 		}
 	}
+}
+
+void Cheats::Loop(){
+    while (1){
+        // Update matrix
+        if (!ProcessMgr.ReadMemory(gGame.GetMatrixAddress(), gGame.View.Matrix, 64))
+            continue;
+        // Update EntityList Entry
+        gGame.UpdateEntityListEntry();
+        uintptr_t LocalControllerAddress = 0;
+        uintptr_t LocalPawnAddress = 0;
+        LocalControllerAddress = ProcessMgr.RAM<uintptr_t>(gGame.GetLocalControllerAddress());
+        if (!LocalControllerAddress)
+            continue;
+        LocalPawnAddress = ProcessMgr.RAM<uintptr_t>(gGame.GetLocalPawnAddress());
+        if (!LocalPawnAddress)
+            continue;
+        // LocalEntity
+        if (!LocalEntity.UpdateController(LocalControllerAddress))
+            continue;
+        if (!LocalEntity.UpdatePawn(LocalPawnAddress) && !MenuConfig::ShowWhenSpec)
+            continue;
+        if (MenuConfig::BunnyHop)
+            Bunnyhop::Run(LocalEntity);
+        if (MenuConfig::AntiFlashbang)
+            AntiFlashbang::Run(LocalEntity);
+    }
 }

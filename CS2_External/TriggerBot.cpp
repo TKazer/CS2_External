@@ -1,20 +1,20 @@
-#include "TriggerBot.h"
+﻿#include "TriggerBot.h"
 
 void TriggerBot::Run(const CEntity& LocalEntity)
 {
-	DWORD uHandle = 0;
-	if (!ProcessMgr.ReadMemory<DWORD>(LocalEntity.Pawn.Address + Offset::Pawn.iIDEntIndex, uHandle))
+    DWORD uHandle = ProcessMgr.RAM<DWORD>(LocalEntity.Pawn.Address + Offset::Pawn.iIDEntIndex);
+	if (!uHandle)
 		return;
 	if (uHandle == -1)
 		return;
 
-	DWORD64 ListEntry = 0;
+	uintptr_t ListEntry = 0;
 	ListEntry = ProcessMgr.TraceAddress(gGame.GetEntityListAddress(), { 0x8 * (uHandle >> 9) + 0x10,0x0 });
 	if (ListEntry == 0)
 		return;
 
-	DWORD64 PawnAddress = 0;
-	if (!ProcessMgr.ReadMemory<DWORD64>(ListEntry + 0x78 * (uHandle & 0x1FF), PawnAddress))
+    uintptr_t PawnAddress = ProcessMgr.RAM<uintptr_t>(ListEntry + 0x78 * (uHandle & 0x1FF));
+	if (!PawnAddress)
 		return;
 
 	CEntity Entity;

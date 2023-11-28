@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "Game.h"
 #include "Globals.hpp"
 
 class globalvars
 {
 public:
-    DWORD64 address = 0;
+    uintptr_t address = 0;
 public:
     float g_fRealTime;
     int g_iFrameCount;

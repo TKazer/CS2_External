@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Game.h"
 #include "Entity.h"
 #include "AimBot.hpp"
@@ -9,7 +9,10 @@
 
 namespace Cheats
 {
+    inline CEntity LocalEntity;
+    //inline int LocalPlayerControllerIndex = 1;
 	void Menu();
 	void RadarSetting(Base_Radar& Radar);
 	void Run();
+    void Loop();
 }

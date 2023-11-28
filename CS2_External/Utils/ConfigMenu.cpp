@@ -1,4 +1,4 @@
-#include "ConfigMenu.hpp"
+﻿#include "ConfigMenu.hpp"
 #include "../MenuConfig.hpp"
 #include "ConfigSaver.hpp"
 #include "../TriggerBot.h"
@@ -105,12 +105,12 @@ namespace ConfigMenu {
 		MenuConfig::EyeRayColor = ImVec4(255, 0, 0, 255);
 		MenuConfig::ShowMenu = true;
 		MenuConfig::ShowRadar = true;
-		MenuConfig::RadarRange = 150;
+		MenuConfig::RadarRange = 105.2f;
 		MenuConfig::ShowRadarCrossLine = true;
 		MenuConfig::RadarCrossLineColor = ImVec4(34, 34, 34, 180);
-		MenuConfig::RadarType = 2;
+		MenuConfig::RadarType = 1;
 		MenuConfig::RadarPointSizeProportion = 1.f;
-		MenuConfig::Proportion = 2230;
+		MenuConfig::Proportion = 3300.f;
 		MenuConfig::TriggerBot = true;
 		MenuConfig::TeamCheck = true;
 		MenuConfig::VisibleCheck = true;

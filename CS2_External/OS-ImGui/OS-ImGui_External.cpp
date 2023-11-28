@@ -1,4 +1,4 @@
-#include "OS-ImGui_External.h"
+Ôªø#include "OS-ImGui_External.h"
 #include "..\MenuConfig.hpp"
 /****************************************************
 * Copyright (C)	: Liv
@@ -21,7 +21,7 @@ namespace OSImGui
         sd.BufferDesc.Width = 0;
         sd.BufferDesc.Height = 0;
         sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        sd.BufferDesc.RefreshRate.Numerator = 60;
+        sd.BufferDesc.RefreshRate.Numerator = 144;
         sd.BufferDesc.RefreshRate.Denominator = 1;
         sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -96,6 +96,7 @@ namespace OSImGui
 
         try {
             InitImGui(g_Device.g_pd3dDevice, g_Device.g_pd3dDeviceContext);
+            Gui.MyStyle();
         }
         catch (OSException& e)
         {
@@ -134,6 +135,7 @@ namespace OSImGui
 
         try {
             InitImGui(g_Device.g_pd3dDevice,g_Device.g_pd3dDeviceContext);
+            Gui.MyStyle();
         }
         catch (OSException& e)
         {
@@ -231,7 +233,7 @@ namespace OSImGui
 
         SetWindowPos(Window.hWnd, HWND_TOPMOST, (int)Window.Pos.x, (int)Window.Pos.y, (int)Window.Size.x, (int)Window.Size.y, SWP_SHOWWINDOW);
 
-        // øÿ÷∆¥∞ø⁄◊¥Ã¨«–ªª
+        // ÊéßÂà∂Á™óÂè£Áä∂ÊÄÅÂàáÊç¢
         POINT MousePos;
         GetCursorPos(&MousePos);
         ScreenToClient(Window.hWnd, &MousePos);

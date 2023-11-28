@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <Windows.h>
 #include <vector>
@@ -12,7 +12,7 @@
 */
 
 /// <summary>
-/// ½ø³Ì×´Ì¬Âë
+/// è¿›ç¨‹çŠ¶æ€ç 
 /// </summary>
 enum StatusCode
 {
@@ -23,7 +23,7 @@ enum StatusCode
 };
 
 /// <summary>
-/// ½ø³Ì¹ÜÀí
+/// è¿›ç¨‹ç®¡ç†
 /// </summary>
 class ProcessManager 
 {
@@ -35,7 +35,7 @@ public:
 
 	HANDLE hProcess = 0;
 	DWORD  ProcessID = 0;
-	DWORD64  ModuleAddress = 0;
+	uintptr_t  ModuleAddress = 0;
 
 public:
 	~ProcessManager()
@@ -45,10 +45,10 @@ public:
 	}
 
 	/// <summary>
-	/// ¸½¼Ó
+	/// é™„åŠ 
 	/// </summary>
-	/// <param name="ProcessName">½ø³ÌÃû</param>
-	/// <returns>½ø³Ì×´Ì¬Âë</returns>
+	/// <param name="ProcessName">è¿›ç¨‹å</param>
+	/// <returns>è¿›ç¨‹çŠ¶æ€ç </returns>
 	StatusCode Attach(std::string ProcessName)
 	{
 		ProcessID = this->GetProcessID(ProcessName);
@@ -57,7 +57,7 @@ public:
 		hProcess = OpenProcess(PROCESS_ALL_ACCESS | PROCESS_CREATE_THREAD, TRUE, ProcessID);
 		_is_invalid(hProcess, FAILE_HPROCESS);
 
-		ModuleAddress = reinterpret_cast<DWORD64>(this->GetProcessModuleHandle(ProcessName));
+		ModuleAddress = reinterpret_cast<uintptr_t>(this->GetProcessModuleHandle(ProcessName));
 		_is_invalid(ModuleAddress, FAILE_MODULE);
 
 		Attached = true;
@@ -66,7 +66,7 @@ public:
 	}
 
 	/// <summary>
-	/// È¡Ïû¸½¼Ó
+	/// å–æ¶ˆé™„åŠ 
 	/// </summary>
 	void Detach()
 	{
@@ -79,9 +79,9 @@ public:
 	}
 
 	/// <summary>
-	/// ÅĞ¶Ï½ø³ÌÊÇ·ñ¼¤»î×´Ì¬
+	/// åˆ¤æ–­è¿›ç¨‹æ˜¯å¦æ¿€æ´»çŠ¶æ€
 	/// </summary>
-	/// <returns>ÊÇ·ñ¼¤»î×´Ì¬</returns>
+	/// <returns>æ˜¯å¦æ¿€æ´»çŠ¶æ€</returns>
 	bool IsActive()
 	{
 		if (!Attached)
@@ -92,16 +92,15 @@ public:
 	}
 
 	/// <summary>
-	/// ¶ÁÈ¡½ø³ÌÄÚ´æ
+	/// è¯»å–è¿›ç¨‹å†…å­˜
 	/// </summary>
-	/// <typeparam name="ReadType">¶ÁÈ¡ÀàĞÍ</typeparam>
-	/// <param name="Address">¶ÁÈ¡µØÖ·</param>
-	/// <param name="Value">·µ»ØÊı¾İ</param>
-	/// <param name="Size">¶ÁÈ¡´óĞ¡</param>
-	/// <returns>ÊÇ·ñ¶ÁÈ¡³É¹¦</returns>
+	/// <typeparam name="ReadType">è¯»å–ç±»å‹</typeparam>
+	/// <param name="Address">è¯»å–åœ°å€</param>
+	/// <param name="Value">è¿”å›æ•°æ®</param>
+	/// <param name="Size">è¯»å–å¤§å°</param>
+	/// <returns>æ˜¯å¦è¯»å–æˆåŠŸ</returns>
 	template <typename ReadType>
-	bool ReadMemory(DWORD64 Address, ReadType& Value, int Size)
-	{
+	bool ReadMemory(uintptr_t Address, ReadType& Value, int Size){
 		_is_invalid(hProcess,false);
 		_is_invalid(ProcessID, false);
 
@@ -110,28 +109,25 @@ public:
 		return false;
 	}
 
-	template <typename ReadType>
-	bool ReadMemory(DWORD64 Address, ReadType& Value)
-	{
-		_is_invalid(hProcess, false);
-		_is_invalid(ProcessID, false);
-
-		if (ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(Address), &Value, sizeof(ReadType), 0))
-			return true;
-		return false;
-	}
+    template <typename ReadType>
+    ReadType RAM(uintptr_t Address){
+        ReadType Temp = {};
+        _is_invalid(hProcess, Temp);
+        _is_invalid(ProcessID, Temp);
+        ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(Address), &Temp, sizeof(ReadType), 0);
+        return Temp;
+    }
 
 	/// <summary>
-	/// Ğ´Èë½ø³ÌÄÚ´æ
+	/// å†™å…¥è¿›ç¨‹å†…å­˜
 	/// </summary>
-	/// <typeparam name="ReadType">Ğ´ÈëÀàĞÍ</typeparam>
-	/// <param name="Address">Ğ´ÈëµØÖ·</param>
-	/// <param name="Value">Ğ´ÈëÊı¾İ</param>
-	/// <param name="Size">Ğ´Èë´óĞ¡</param>
-	/// <returns>ÊÇ·ñĞ´Èë³É¹¦</returns>
+	/// <typeparam name="ReadType">å†™å…¥ç±»å‹</typeparam>
+	/// <param name="Address">å†™å…¥åœ°å€</param>
+	/// <param name="Value">å†™å…¥æ•°æ®</param>
+	/// <param name="Size">å†™å…¥å¤§å°</param>
+	/// <returns>æ˜¯å¦å†™å…¥æˆåŠŸ</returns>
 	template <typename ReadType>
-	bool WriteMemory(DWORD64 Address, ReadType& Value, int Size)
-	{
+	bool WriteMemory(uintptr_t Address, ReadType& Value, int Size){
 		_is_invalid(hProcess, false);
 		_is_invalid(ProcessID, false);
 
@@ -140,41 +136,42 @@ public:
 		return false;
 	}
 
-	template <typename ReadType>
-	bool WriteMemory(DWORD64 Address, ReadType& Value)
-	{
-		_is_invalid(hProcess, false);
-		_is_invalid(ProcessID, false);
 
-		if (WriteProcessMemory(hProcess, reinterpret_cast<LPVOID>(Address), &Value, sizeof(ReadType), 0))
-			return true;
-		return false;
-	}
+    template <typename Type>
+    bool WPM(uintptr_t Address, const Type& Value){
+        _is_invalid(hProcess, false);
+        _is_invalid(ProcessID, false);
+        return WriteProcessMemory(hProcess, reinterpret_cast<LPVOID>(Address), &Value, sizeof(Type), 0);;
+    }
 
 	/// <summary>
-	/// ÌØÕ÷ÂëËÑË÷
+	/// ç‰¹å¾ç æœç´¢
 	/// </summary>
-	/// <param name="Signature">ÌØÕ÷Âë</param>
-	/// <param name="StartAddress">ÆğÊ¼µØÖ·</param>
-	/// <param name="EndAddress">½áÊøµØÖ·</param>
-	/// <returns>Æ¥ÅäÌØÕ÷½á¹û</returns>
-	std::vector<DWORD64> SearchMemory(const std::string& Signature, DWORD64 StartAddress, DWORD64 EndAddress, int SearchNum = 1);
+	/// <param name="Signature">ç‰¹å¾ç </param>
+	/// <param name="StartAddress">èµ·å§‹åœ°å€</param>
+	/// <param name="EndAddress">ç»“æŸåœ°å€</param>
+	/// <returns>åŒ¹é…ç‰¹å¾ç»“æœ</returns>
+	std::vector<uintptr_t> SearchMemory(const std::string& Signature, uintptr_t StartAddress, uintptr_t EndAddress, int SearchNum = 1);
 
-	DWORD64 TraceAddress(DWORD64 BaseAddress, std::vector<DWORD> Offsets)
+	uintptr_t TraceAddress(uintptr_t BaseAddress, std::vector<uintptr_t> Offsets)
 	{
 		_is_invalid(hProcess,0);
 		_is_invalid(ProcessID,0);
-		DWORD64 Address = 0;
+		uintptr_t Address = 0;
 
 		if (Offsets.size() == 0)
 			return BaseAddress;
 
-		if (!ReadMemory<DWORD64>(BaseAddress, Address))
+
+        Address = RAM<uintptr_t>(BaseAddress);
+
+		if (!Address)
 			return 0;
 	
 		for (int i = 0; i < Offsets.size() - 1; i++)
 		{
-			if (!ReadMemory<DWORD64>(Address + Offsets[i], Address))
+            Address = RAM<uintptr_t>(Address + Offsets[i]);
+			if (!Address)
 				return 0;
 		}
 		return Address == 0 ? 0 : Address + Offsets[Offsets.size() - 1];

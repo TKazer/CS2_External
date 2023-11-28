@@ -1,17 +1,17 @@
-#include "Offsets.h"
+﻿#include "Offsets.h"
 
-DWORD64 SearchOffsets(std::string Signature, DWORD64 ModuleAddress)
+uintptr_t SearchOffsets(std::string Signature, uintptr_t ModuleAddress)
 {
-	std::vector<DWORD64> TempAddressList;
-	DWORD64 Address = 0;
-	DWORD Offsets = 0;
+	std::vector<uintptr_t> TempAddressList;
+	uintptr_t Address = 0;
+
 
 	TempAddressList = ProcessMgr.SearchMemory(Signature, ModuleAddress, ModuleAddress + 0x4000000);
 	
 	if (TempAddressList.size() <= 0)
 		return 0;
-
-	if (!ProcessMgr.ReadMemory<DWORD>(TempAddressList.at(0) + 3, Offsets))
+    auto Offsets = ProcessMgr.RAM<DWORD>(TempAddressList.at(0) + 3);
+	if (!Offsets)
 		return 0;
 
 	Address = TempAddressList.at(0) + Offsets + 7;
@@ -20,11 +20,11 @@ DWORD64 SearchOffsets(std::string Signature, DWORD64 ModuleAddress)
 
 bool Offset::UpdateOffsets()
 {
-	DWORD64 ClientDLL = reinterpret_cast<DWORD64>(ProcessMgr.GetProcessModuleHandle("client.dll"));
+	uintptr_t ClientDLL = reinterpret_cast<uintptr_t>(ProcessMgr.GetProcessModuleHandle("client.dll"));
 	if (ClientDLL == 0)
 		return false;
 	
-	DWORD64 TempAddress = 0;
+	uintptr_t TempAddress = 0;
 
 	TempAddress = SearchOffsets(Offset::Signatures::EntityList, ClientDLL);
 	if (TempAddress == 0)
@@ -53,7 +53,8 @@ bool Offset::UpdateOffsets()
 	TempAddress = SearchOffsets(Offset::Signatures::ViewAngles, ClientDLL);
 	if (TempAddress == 0)
 		return false;
-	if (!ProcessMgr.ReadMemory(TempAddress, TempAddress))
+    TempAddress = ProcessMgr.RAM<uintptr_t>(TempAddress);
+    if (!TempAddress)
 		return false;
 
 	Offset::ViewAngle = TempAddress + 0x6140 - ClientDLL;

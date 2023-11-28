@@ -1,8 +1,8 @@
-#include "Game.h"
+﻿#include "Game.h"
 
 bool CGame::InitAddress()
 {
-	this->Address.ClientDLL = reinterpret_cast<DWORD64>(ProcessMgr.GetProcessModuleHandle("client.dll"));
+	this->Address.ClientDLL = reinterpret_cast<uintptr_t>(ProcessMgr.GetProcessModuleHandle("client.dll"));
 	
 	this->Address.EntityList = GetClientDLLAddress() + Offset::EntityList;
 	this->Address.Matrix = GetClientDLLAddress() + Offset::Matrix;
@@ -15,55 +15,56 @@ bool CGame::InitAddress()
 	return this->Address.ClientDLL != 0;
 }
 
-DWORD64 CGame::GetClientDLLAddress()
+uintptr_t CGame::GetClientDLLAddress()
 {
 	return this->Address.ClientDLL;
 }
 
-DWORD64 CGame::GetEntityListAddress()
+uintptr_t CGame::GetEntityListAddress()
 {
 	return this->Address.EntityList;
 }
 
-DWORD64 CGame::GetMatrixAddress()
+uintptr_t CGame::GetMatrixAddress()
 {
 	return this->Address.Matrix;
 }
 
-DWORD64 CGame::GetViewAngleAddress() 
+uintptr_t CGame::GetViewAngleAddress() 
 {
 	return this->Address.ViewAngle;
 }
 
-DWORD64 CGame::GetEntityListEntry()
+uintptr_t CGame::GetEntityListEntry()
 {
 	return this->Address.EntityListEntry;
 }
 
-DWORD64 CGame::GetLocalControllerAddress()
+uintptr_t CGame::GetLocalControllerAddress()
 {
 	return this->Address.LocalController;
 }
 
-DWORD64 CGame::GetLocalPawnAddress()
+uintptr_t CGame::GetLocalPawnAddress()
 {
 	return this->Address.LocalPawn;
 }
 
-DWORD64 CGame::GetGlobalVarsAddress()
+uintptr_t CGame::GetGlobalVarsAddress()
 {
 	return this->Address.GlobalVars;
 }
 
 bool CGame::UpdateEntityListEntry()
 {
-	DWORD64 EntityListEntry = 0;
-	if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetEntityListAddress(), EntityListEntry))
+    auto EntityListEntry = ProcessMgr.RAM<uintptr_t>(gGame.GetEntityListAddress());
+    if (!EntityListEntry)
 		return false;
-	if (!ProcessMgr.ReadMemory<DWORD64>(EntityListEntry + 0x10, EntityListEntry))
+    auto World = ProcessMgr.RAM<uintptr_t>(EntityListEntry + 0x10);
+	if (!World)
 		return false;
 
-	this->Address.EntityListEntry = EntityListEntry;
+	this->Address.EntityListEntry = World;
 
 	return this->Address.EntityListEntry != 0;
 }
@@ -71,17 +72,10 @@ bool CGame::UpdateEntityListEntry()
 bool CGame::SetViewAngle(float Yaw, float Pitch)
 {
 	Vec2 Angle{ Pitch,Yaw };
-
-	if (!ProcessMgr.WriteMemory<Vec2>(this->Address.ViewAngle, Angle))
-		return false;
-
-	return true;
+	return ProcessMgr.WPM<Vec2>(this->Address.ViewAngle, Angle);
 }
 
 bool CGame::SetForceJump(int value)
 {
-	if (!ProcessMgr.WriteMemory<int>(this->Address.ForceJump, value))
-		return false;
-
-	return true;
+	return ProcessMgr.WPM<int>(this->Address.ForceJump, value);
 }

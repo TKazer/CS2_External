@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -71,11 +71,11 @@ public:
 	}
 	float Length()
 	{
-		return sqrtf(powf(x, 2) + powf(y, 2));
+		return sqrtf(powf(x, 2.f) + powf(y, 2.f));
 	}
 	float DistanceTo(const Vec2& Pos)
 	{
-		return sqrtf(powf(Pos.x - x, 2) + powf(Pos.y - y, 2));
+		return sqrtf(powf(Pos.x - x, 2.f) + powf(Pos.y - y, 2.f));
 	}
 };
 
@@ -120,11 +120,11 @@ public:
 	}
 	float Length()
 	{
-		return sqrtf(powf(x, 2) + powf(y, 2) + powf(z, 2));
+		return sqrtf(powf(x, 2.f) + powf(y, 2.f) + powf(z, 2.f));
 	}
 	float DistanceTo(const Vec3& Pos)
 	{
-		return sqrtf(powf(Pos.x - x, 2) + powf(Pos.y - y, 2) + powf(Pos.z - z, 2));
+		return sqrtf(powf(Pos.x - x, 2.f) + powf(Pos.y - y, 2.f) + powf(Pos.z - z, 2.f));
 	}
 };
 

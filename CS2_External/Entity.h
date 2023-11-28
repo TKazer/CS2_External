@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Game.h"
 #include "View.hpp"
 #include "Bone.h"
@@ -6,14 +6,14 @@
 
 struct C_UTL_VECTOR
 {
-	DWORD64 Count = 0;
-	DWORD64 Data = 0;
+	uintptr_t Count = 0;
+	uintptr_t Data = 0;
 };
 
 class PlayerController
 {
 public:
-	DWORD64 Address = 0;
+	uintptr_t Address = 0;
 	int TeamID = 0;
 	int Health = 0;
 	int AliveStatus = 0;
@@ -24,7 +24,7 @@ public:
 	bool GetHealth();
 	bool GetIsAlive();
 	bool GetPlayerName();
-	DWORD64 GetPlayerPawnAddress();
+	uintptr_t GetPlayerPawnAddress();
 };
 
 class PlayerPawn
@@ -36,7 +36,7 @@ public:
 		IN_AIR = 1 << 0
 	};
 
-	DWORD64 Address = 0;
+	uintptr_t Address = 0;
 	CBone BoneData;
 	Vec2 ViewAngle;
 	Vec3 Pos;
@@ -47,21 +47,26 @@ public:
 	Vec2 AimPunchAngle;
 	C_UTL_VECTOR AimPunchCache;
 	int Health;
+    int Armor;
 	int TeamID;
 	int Fov;
-	DWORD64 bSpottedByMask;
+	uint32_t bSpottedByMask;
+	bool Spotted;
 	int fFlags;
 public:
 	bool GetPos();
+
 	bool GetViewAngle();
 	bool GetCameraPos();
 	bool GetWeaponName();
 	bool GetShotsFired();
 	bool GetAimPunchAngle();
+    bool GetArmor();
 	bool GetHealth();
 	bool GetTeamID();
 	bool GetFov();
 	bool GetSpotted();
+    bool GetSpottedByMask();
 	bool GetFFlags();
 	bool GetAimPunchCache();
 
@@ -76,13 +81,13 @@ public:
 	PlayerController Controller;
 	PlayerPawn Pawn;
 public:
-	// ¸üÐÂÊý¾Ý
-	bool UpdateController(const DWORD64& PlayerControllerAddress);
-	bool UpdatePawn(const DWORD64& PlayerPawnAddress);
-	// ÊÇ·ñ´æ»î
+	// æ›´æ–°æ•°æ®
+	bool UpdateController(const uintptr_t& PlayerControllerAddress);
+	bool UpdatePawn(const uintptr_t& PlayerPawnAddress);
+	// æ˜¯å¦å­˜æ´»
 	bool IsAlive();
-	// ÊÇ·ñÔÚÆÁÄ»ÄÚ
+	// æ˜¯å¦åœ¨å±å¹•å†…
 	bool IsInScreen();
-	// »ñÈ¡¹Ç÷ÀÊý¾Ý
+	// èŽ·å–éª¨éª¼æ•°æ®
 	CBone GetBone() const;
 };

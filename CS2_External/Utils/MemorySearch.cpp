@@ -1,4 +1,4 @@
-#include "ProcessManager.hpp"
+﻿#include "ProcessManager.hpp"
 #include <string>
 
 inline const DWORD BLOCKMAXSIZE = 409600;
@@ -30,7 +30,7 @@ void GetNextArray(std::vector<short>& NextArray, const std::vector<WORD>& Signat
 		NextArray[SignatureArray[i]] = i;
 }
 
-void SearchMemoryBlock(byte* MemoryBuffer, const std::vector<short>& NextArray, const std::vector<WORD>& SignatureArray, DWORD64 StartAddress, DWORD Size, std::vector<DWORD64>& ResultArray)
+void SearchMemoryBlock(byte* MemoryBuffer, const std::vector<short>& NextArray, const std::vector<WORD>& SignatureArray, uintptr_t StartAddress, DWORD Size, std::vector<uintptr_t>& ResultArray)
 {
 	if (!ProcessMgr.ReadMemory(StartAddress, *MemoryBuffer, Size))
 		return;
@@ -57,9 +57,9 @@ void SearchMemoryBlock(byte* MemoryBuffer, const std::vector<short>& NextArray, 
 	}
 }
 
-std::vector<DWORD64> ProcessManager::SearchMemory(const std::string& Signature, DWORD64 StartAddress, DWORD64 EndAddress, int SearchNum)
+std::vector<uintptr_t> ProcessManager::SearchMemory(const std::string& Signature, uintptr_t StartAddress, uintptr_t EndAddress, int SearchNum)
 {
-	std::vector<DWORD64> ResultArray;
+	std::vector<uintptr_t> ResultArray;
 	std::vector<WORD> SignatureArray;
 	std::vector<short> NextArray(260, -1);
 

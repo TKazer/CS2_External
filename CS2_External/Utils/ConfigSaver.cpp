@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -55,6 +55,7 @@ namespace MyConfigSaver {
         configFile << "ShowCrossLine " << MenuConfig::ShowRadarCrossLine << std::endl;
         configFile << "RadarType " << MenuConfig::RadarType << std::endl;
         configFile << "Proportion " << MenuConfig::Proportion << std::endl;
+        configFile << "RadarRange " << MenuConfig::RadarRange << std::endl;
         configFile << "BoxType " << MenuConfig::BoxType << std::endl;
         configFile << "TriggerBot " << MenuConfig::TriggerBot << std::endl;
         configFile << "TeamCheck " << MenuConfig::TeamCheck << std::endl;

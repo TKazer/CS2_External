@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Windows.h>
 #include "Utils/ProcessManager.hpp"
 
@@ -15,11 +15,11 @@ namespace Offset
 
 	struct
 	{
-		DWORD Health = 0x32C;
+		DWORD Health = 0x7F8;
 		DWORD TeamID = 0x3BF;
-		DWORD IsAlive = 0x7DC;
-		DWORD PlayerPawn = 0x5F4;
-		DWORD iszPlayerName = 0x628;
+		DWORD IsAlive = 0x7F4;
+		DWORD PlayerPawn = 0x7EC;
+		DWORD iszPlayerName = 0x640;
 	}Entity;
 
 	struct
@@ -29,6 +29,7 @@ namespace Offset
 		DWORD CurrentHealth = 0x32C;
 		DWORD GameSceneNode = 0x310;
 		DWORD BoneArray = 0x1E0;
+		DWORD ArmorValue = 0x1508;
 		DWORD angEyeAngles = 0x1510;
 		DWORD vecLastClipCameraPos = 0x128C;
 		DWORD pClippingWeapon = 0x12A8;
@@ -41,6 +42,7 @@ namespace Offset
 		DWORD CameraServices = 0x10E0;
 		DWORD iFovStart = 0x214;
 		DWORD fFlags = 0x3C8;
+		DWORD bSpotted = 0x1630 + 0x8; // entitySpottedState + bSpotted
 		DWORD bSpottedByMask = 0x1630 + 0xC; // entitySpottedState + bSpottedByMask
 	}Pawn;
 

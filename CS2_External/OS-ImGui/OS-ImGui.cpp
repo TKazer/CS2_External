@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "OS-ImGui.h"
 
 /****************************************************
@@ -10,7 +10,7 @@
 * @date			: 2023/9/17	11:25
 ****************************************************/
 
-// OS-ImGui Draw »æÖÆ¹¦ÄÜ
+// OS-ImGui Draw ç»˜åˆ¶åŠŸèƒ½
 namespace OSImGui
 {
     void OSImGui::Text(std::string Text, Vec2 Pos, ImColor Color, float FontSize, bool KeepCenter)
@@ -67,6 +67,25 @@ namespace OSImGui
         DrawList->PathFillConvex(Color);
     }
 
+    void OSImGui::DrawQuadFilled(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4, ImColor color) {
+        ImVec2 n1 = p1.ToImVec2();
+        ImVec2 n2 = p2.ToImVec2();
+        ImVec2 n3 = p3.ToImVec2();
+        ImVec2 n4 = p4.ToImVec2();
+        ImGui::GetBackgroundDrawList()->AddQuadFilled(n1, n2, n3, n4, color);
+    }
+
+    void OSImGui::DrawHexagonFilled(Vec2 p1,Vec2 p2, Vec2 p3,Vec2 p4, Vec2 p5, Vec2 p6, ImColor col)
+    {
+        ImVec2 n1 = p1.ToImVec2();
+        ImVec2 n2 = p2.ToImVec2();
+        ImVec2 n3 = p3.ToImVec2();
+        ImVec2 n4 = p4.ToImVec2();
+        ImVec2 n5 = p5.ToImVec2();
+        ImVec2 n6 = p6.ToImVec2();
+        ImGui::GetBackgroundDrawList()->AddHexagonFilled(n1, n2, n3, n4, n5, n6, col);
+    }
+
     void OSImGui::Line(Vec2 From, Vec2 To, ImColor Color, float Thickness)
     {
         ImGui::GetBackgroundDrawList()->AddLine(From.ToImVec2(), To.ToImVec2(), Color, Thickness);
@@ -117,7 +136,7 @@ namespace OSImGui
         ImGui::InvisibleButton(str_id, ImVec2(Width, Height));
         if (ImGui::IsItemClicked())
             *v = !(*v);
-        // ×é¼þÒÆ¶¯¶¯»­
+        // ç»„ä»¶ç§»åŠ¨åŠ¨ç”»
         float t = *v ? 1.0f : 0.f;
         ImGuiContext& g = *GImGui;
         float AnimationSpeed = 0.08f;
@@ -126,13 +145,13 @@ namespace OSImGui
             float T_Animation = ImSaturate(g.LastActiveIdTimer / AnimationSpeed);
             t = *v ? (T_Animation) : (1.0f - T_Animation);
         }
-        // Êó±êÐüÍ£ÑÕÉ«
+        // é¼ æ ‡æ‚¬åœé¢œè‰²
         ImU32 Color;
         if (ImGui::IsItemHovered())
             Color = ImGui::GetColorU32(ImLerp(ImVec4(0.85f, 0.24f, 0.15f, 1.0f), ImVec4(0.55f, 0.85f, 0.13f, 1.000f), t));
         else
             Color = ImGui::GetColorU32(ImLerp(ImVec4(0.90f, 0.29f, 0.20f, 1.0f), ImVec4(0.60f, 0.90f, 0.18f, 1.000f), t));
-        // ×é¼þ»æÖÆ
+        // ç»„ä»¶ç»˜åˆ¶
         DrawList->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + Width, p.y + Height), Color, Height);
         DrawList->AddCircleFilled(ImVec2(p.x + Radius + t * (Width - Radius * 2) + (t == 0 ? 2 : -2), p.y + Radius + 2), Radius, IM_COL32(255, 255, 255, 255), 360);
         DrawList->AddCircle(ImVec2(p.x + Radius + t * (Width - Radius * 2) + (t == 0 ? 2 : -2), p.y + Radius + 2), Radius, IM_COL32(20, 20, 20, 80), 360, 1);
@@ -152,7 +171,7 @@ namespace OSImGui
         ImGui::InvisibleButton(str_id, ImVec2(Width, Height));
         if (ImGui::IsItemClicked())
             *v = !(*v);
-        // ×é¼þÒÆ¶¯¶¯»­
+        // ç»„ä»¶ç§»åŠ¨åŠ¨ç”»
         float t = *v ? 1.0f : 0.f;
         ImGuiContext& g = *GImGui;
         float AnimationSpeed = 0.15f;
@@ -161,13 +180,13 @@ namespace OSImGui
             float T_Animation = ImSaturate(g.LastActiveIdTimer / AnimationSpeed);
             t = *v ? (T_Animation) : (1.0f - T_Animation);
         }
-        // Êó±êÐüÍ£ÑÕÉ«
+        // é¼ æ ‡æ‚¬åœé¢œè‰²
         ImU32 Color;
         if (ImGui::IsItemHovered())
             Color = ImGui::GetColorU32(ImLerp(ImVec4(0.08f, 0.18f, 0.21f, 1.0f), ImVec4(0.10f, 0.48f, 0.68f, 1.000f), t));
         else
             Color = ImGui::GetColorU32(ImLerp(ImVec4(0.12f, 0.22f, 0.25f, 1.0f), ImVec4(0.14f, 0.52f, 0.72f, 1.000f), t));
-        // ×é¼þ»æÖÆ
+        // ç»„ä»¶ç»˜åˆ¶
         DrawList->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + Width, p.y + Height), Color, 360);
         DrawList->AddCircleFilled(ImVec2(p.x + Radius + 2 + t * (Width - (Radius + 2) * 2), p.y + Radius + 2), Radius + 2, IM_COL32(255, 255, 255, 255), 360);
         DrawList->AddCircleFilled(ImVec2(p.x + Radius + t * (Width - Radius * 2) + (t == 0 ? 2 : -2), p.y + Radius + 2), Radius, IM_COL32(230, 230, 230, 255), 360);
@@ -190,7 +209,7 @@ namespace OSImGui
 
         if (ImGui::IsItemClicked())
             *v = !(*v);
-        // ×é¼þÒÆ¶¯¶¯»­
+        // ç»„ä»¶ç§»åŠ¨åŠ¨ç”»
         float t = *v ? 1.0f : 0.f;
         ImGuiContext& g = *GImGui;
         float AnimationSpeed = 0.12f;
@@ -199,7 +218,7 @@ namespace OSImGui
             float T_Animation = ImSaturate(g.LastActiveIdTimer / AnimationSpeed);
             t = *v ? (T_Animation) : (1.0f - T_Animation);
         }
-        // Êó±êÐüÍ£ÑÕÉ«
+        // é¼ æ ‡æ‚¬åœé¢œè‰²
         ImU32 Color;
         ImU32 TickColor1, TickColor2;
         if (ImGui::IsItemHovered())
@@ -212,12 +231,12 @@ namespace OSImGui
 
         float Size = Width;
         float Scale = (float)(Size) / 20.0f;
-        // µ×É«
+        // åº•è‰²
         DrawList->AddRectFilled(ImVec2(p.x, p.y), ImVec2(p.x + Width, p.y + Height), Color, 5, 15);
-        // Ñ¡ÖÐ¹´
+        // é€‰ä¸­å‹¾
         DrawList->AddLine(ImVec2(p.x + 3 * Scale, p.y + Size / 2 - 2 * Scale), ImVec2(p.x + Size / 2 - 1 * Scale, p.y + Size - 5 * Scale), TickColor1, 3 * Scale);
         DrawList->AddLine(ImVec2(p.x + Size - 3 * Scale - 1, p.y + 3 * Scale + 1), ImVec2(p.x + Size / 2 - 1 * Scale, p.y + Size - 5 * Scale), TickColor1, 3 * Scale);
-        // Î´Ñ¡ÖÐ¹´
+        // æœªé€‰ä¸­å‹¾
         DrawList->AddLine(ImVec2(p.x + 3 * Scale, p.y + Size / 2 - 2 * Scale), ImVec2(p.x + Size / 2 - 1 * Scale, p.y + Size - 5 * Scale), TickColor2, 3 * Scale);
         DrawList->AddLine(ImVec2(p.x + Size - 3 * Scale - 1, p.y + 3 * Scale + 1), ImVec2(p.x + Size / 2 - 1 * Scale, p.y + Size - 5 * Scale), TickColor2, 3 * Scale);
         ImGui::SameLine();
@@ -234,7 +253,7 @@ namespace OSImGui
 
         if (ImGui::IsItemClicked())
             *v = !(*v);
-        // ×é¼þ¶¯»­
+        // ç»„ä»¶åŠ¨ç”»
         float t = *v ? 1.0f : 0.f;
         ImGuiContext& g = *GImGui;
         float AnimationSpeed = 0.12f;
@@ -369,5 +388,58 @@ namespace OSImGui
         return value_changed;
     }
 
+
+    void OSImGui::MyStyle()
+    {
+        ImVec4* colors = ImGui::GetStyle().Colors;
+        colors[ImGuiCol_Text] = ImVec4(0.84f, 0.84f, 0.84f, 1.00f);
+        colors[ImGuiCol_TextDisabled] = ImVec4(0.70f, 0.69f, 0.69f, 1.00f);
+        colors[ImGuiCol_WindowBg] = ImVec4(0.13f, 0.15f, 0.19f, 1.00f);
+        colors[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.17f, 0.21f, 0.00f);
+        colors[ImGuiCol_PopupBg] = ImVec4(0.17f, 0.19f, 0.23f, 0.94f);
+        colors[ImGuiCol_Border] = ImVec4(0.22f, 0.22f, 0.28f, 0.50f);
+        colors[ImGuiCol_BorderShadow] = ImVec4(0.19f, 0.21f, 0.28f, 0.00f);
+        colors[ImGuiCol_FrameBg] = ImVec4(0.25f, 0.30f, 0.38f, 0.54f);
+        colors[ImGuiCol_FrameBgHovered] = ImVec4(0.28f, 0.33f, 0.41f, 0.54f);
+        colors[ImGuiCol_FrameBgActive] = ImVec4(0.23f, 0.27f, 0.34f, 0.54f);
+        colors[ImGuiCol_TitleBg] = ImVec4(0.15f, 0.18f, 0.22f, 1.00f);
+        colors[ImGuiCol_TitleBgActive] = ImVec4(0.14f, 0.17f, 0.21f, 1.00f);
+        colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.14f, 0.17f, 0.21f, 1.00f);
+        colors[ImGuiCol_MenuBarBg] = ImVec4(0.12f, 0.15f, 0.18f, 1.00f);
+        colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.11f, 0.13f, 1.00f);
+        colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.20f, 0.22f, 0.24f, 1.00f);
+        colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.22f, 0.24f, 0.27f, 1.00f);
+        colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.17f, 0.19f, 0.21f, 1.00f);
+        colors[ImGuiCol_CheckMark] = ImVec4(0.43f, 0.50f, 0.57f, 1.00f);
+        colors[ImGuiCol_SliderGrab] = ImVec4(0.33f, 0.39f, 0.46f, 1.00f);
+        colors[ImGuiCol_SliderGrabActive] = ImVec4(0.32f, 0.36f, 0.42f, 1.00f);
+        colors[ImGuiCol_Button] = ImVec4(0.30f, 0.39f, 0.49f, 0.40f);
+        colors[ImGuiCol_ButtonHovered] = ImVec4(0.32f, 0.41f, 0.51f, 0.40f);
+        colors[ImGuiCol_ButtonActive] = ImVec4(0.26f, 0.33f, 0.41f, 0.40f);
+        colors[ImGuiCol_Header] = ImVec4(0.34f, 0.39f, 0.46f, 0.31f);
+        colors[ImGuiCol_HeaderHovered] = ImVec4(0.38f, 0.44f, 0.50f, 0.31f);
+        colors[ImGuiCol_HeaderActive] = ImVec4(0.29f, 0.34f, 0.40f, 0.31f);
+        colors[ImGuiCol_Separator] = ImVec4(0.29f, 0.32f, 0.38f, 0.50f);
+        colors[ImGuiCol_SeparatorHovered] = ImVec4(0.32f, 0.36f, 0.42f, 0.50f);
+        colors[ImGuiCol_SeparatorActive] = ImVec4(0.26f, 0.29f, 0.34f, 0.50f);
+        colors[ImGuiCol_ResizeGrip] = ImVec4(0.17f, 0.22f, 0.28f, 1.00f);
+        colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.23f, 0.29f, 0.36f, 1.00f);
+        colors[ImGuiCol_ResizeGripActive] = ImVec4(0.14f, 0.18f, 0.23f, 0.20f);
+        colors[ImGuiCol_Tab] = ImVec4(0.19f, 0.21f, 0.23f, 0.86f);
+        colors[ImGuiCol_TabHovered] = ImVec4(0.26f, 0.29f, 0.35f, 0.86f);
+        colors[ImGuiCol_TabActive] = ImVec4(0.26f, 0.31f, 0.38f, 0.86f);
+        colors[ImGuiCol_TabUnfocused] = ImVec4(0.07f, 0.10f, 0.15f, 0.97f);
+        colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.14f, 0.26f, 0.42f, 1.00f);
+        colors[ImGuiCol_PlotLines] = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
+        colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+        colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+        colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+        colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
+        colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+        colors[ImGuiCol_NavHighlight] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+        colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+        colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
+        colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+    }
 }
 

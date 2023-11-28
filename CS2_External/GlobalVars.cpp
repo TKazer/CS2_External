@@ -1,9 +1,9 @@
-#include "globalvars.h"
+﻿#include "globalvars.h"
 
 bool globalvars::UpdateGlobalvars()
 {
-	DWORD64 m_DglobalVars = 0;
-	if (!ProcessMgr.ReadMemory<DWORD64>(gGame.GetGlobalVarsAddress(), m_DglobalVars))
+    uintptr_t m_DglobalVars = ProcessMgr.RAM<uintptr_t>(gGame.GetGlobalVarsAddress());
+	if (!m_DglobalVars)
 		return false;
 
 	this->address = m_DglobalVars;

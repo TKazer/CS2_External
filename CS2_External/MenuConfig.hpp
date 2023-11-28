@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Game.h"
 #include "Bone.h"
 
@@ -34,19 +34,20 @@ namespace MenuConfig
 	inline bool ShowMenu = true;
 
 	inline bool ShowRadar = true;
-	inline float RadarRange = 150;
+	inline float RadarRange = 105.2f;
 	inline float RadarPointSizeProportion = 1.f;
 	inline bool ShowRadarCrossLine = true;
+	inline Vec2 RadarSize = Vec2(220, 220);
 	inline ImColor RadarCrossLineColor = ImColor(220, 220, 220, 255);
 	// 0: circle 1: arrow 2: circle with arrow
-	inline int RadarType = 2;
-	inline float Proportion = 2230;
+	inline int RadarType = 1;
+	inline float Proportion = 3300.f;
 
 	inline bool TriggerBot = true;
 	inline int TriggerHotKey = 0;
 	inline int TriggerMode = 0;
 	inline bool Pressed = false;// for toggle mode
-	inline bool Shoot = false;// so that it doesn�t aim when the trigger hits
+	inline bool Shoot = false;// so that it doesn抰 aim when the trigger hits
 
 	inline bool TeamCheck = true;
 	inline bool OBSBypass = true;

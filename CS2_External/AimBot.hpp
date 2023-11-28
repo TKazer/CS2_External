@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "Game.h"
@@ -42,10 +42,11 @@ namespace AimControl
 		// Recoil control
 		if (Local.Pawn.ShotsFired > RCSBullet)
 		{
-			Vec2 PunchAngle;
+			
 			if (Local.Pawn.AimPunchCache.Count <= 0 && Local.Pawn.AimPunchCache.Count > 0xFFFF)
 				return;
-			if (!ProcessMgr.ReadMemory<Vec2>(Local.Pawn.AimPunchCache.Data + (Local.Pawn.AimPunchCache.Count - 1) * sizeof(Vec3), PunchAngle))
+            auto PunchAngle = ProcessMgr.RAM<Vec2>(Local.Pawn.AimPunchCache.Data + (Local.Pawn.AimPunchCache.Count - 1) * sizeof(Vec2));
+            if (!PunchAngle.x && !PunchAngle.y)
 				return;
 
 			Yaw = Yaw - PunchAngle.y * RCSScale.x;

@@ -1,4 +1,4 @@
-#include "Offsets.h"
+﻿#include "Offsets.h"
 #include "Cheats.h"
 #include "Utils/Format.hpp"
 #include <iostream>
@@ -64,8 +64,10 @@ int main()
 		}
 	}
 
+
 	std::cout << "Runing..." << std::endl;
 
+    CloseHandle(CreateThread(0, 0, (PTHREAD_START_ROUTINE)Cheats::Loop, 0, 0, 0));
 	try
 	{
 		Gui.AttachAnotherWindow("Counter-Strike 2", "SDL_app", Cheats::Run);

@@ -1,4 +1,4 @@
-#include "OS-ImGui_Base.h"
+﻿#include "OS-ImGui_Base.h"
 
 /****************************************************
 * Copyright (C)	: Liv
@@ -16,7 +16,6 @@ namespace OSImGui
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-        ImGui::StyleColorsDark();
         io.LogFilename = nullptr;
 
         if (!ImGui_ImplWin32_Init(Window.hWnd))

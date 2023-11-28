@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <optional>
 #include "Utils/ProcessManager.hpp"
 #include "Offsets.h"
@@ -9,15 +9,15 @@ class CGame
 private:
 	struct
 	{
-		DWORD64 ClientDLL;
-		DWORD64 EntityList;
-		DWORD64 Matrix;
-		DWORD64 ViewAngle;
-		DWORD64 EntityListEntry;
-		DWORD64 LocalController;
-		DWORD64 LocalPawn;
-		DWORD64 ForceJump;
-		DWORD64 GlobalVars;
+		uintptr_t ClientDLL;
+		uintptr_t EntityList;
+		uintptr_t Matrix;
+		uintptr_t ViewAngle;
+		uintptr_t EntityListEntry;
+		uintptr_t LocalController;
+		uintptr_t LocalPawn;
+		uintptr_t ForceJump;
+		uintptr_t GlobalVars;
 	}Address;
 
 public:
@@ -27,21 +27,21 @@ public:
 
 	bool InitAddress();
 
-	DWORD64 GetClientDLLAddress();
+	uintptr_t GetClientDLLAddress();
 
-	DWORD64 GetEntityListAddress();
+	uintptr_t GetEntityListAddress();
 
-	DWORD64 GetMatrixAddress();
+	uintptr_t GetMatrixAddress();
 
-	DWORD64 GetViewAngleAddress();
+	uintptr_t GetViewAngleAddress();
 
-	DWORD64 GetEntityListEntry();
+	uintptr_t GetEntityListEntry();
 
-	DWORD64 GetLocalControllerAddress();
+	uintptr_t GetLocalControllerAddress();
 
-	DWORD64 GetLocalPawnAddress();
+	uintptr_t GetLocalPawnAddress();
 
-	DWORD64 GetGlobalVarsAddress();
+	uintptr_t GetGlobalVarsAddress();
 
 	bool UpdateEntityListEntry();
 
