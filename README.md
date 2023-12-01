@@ -4,7 +4,7 @@ CS2 external cheat.
 ## ImGui library -> [OS-ImGui](https://github.com/TKazer/OS-ImGui)
 
 ## Derivative projects
-1. AimStar -> [AimStar](https://github.com/CowNowK/AimStarCS2) (By CowNowK.)
+1. AimStar -> [AimStar](https://github.com/CowNowK/AimStar) (By CowNow.)
 2. Aeonix -> [Aeonix](https://github.com/Fr0go1/Aeonix-Cs2) (By Fr0go1.)
 
 ## NOTICE
