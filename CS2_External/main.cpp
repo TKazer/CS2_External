@@ -19,7 +19,7 @@ int main()
 		goto END;
 	}
 	MenuConfig::path = documentsPath;
-	MenuConfig::path += "/CS2_External";
+	MenuConfig::path += "\\CS2_External";
 
 	if (ProcessStatus != StatusCode::SUCCEED)
 	{

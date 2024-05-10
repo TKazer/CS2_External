@@ -58,12 +58,12 @@ bool CEntity::UpdatePawn(const DWORD64& PlayerPawnAddress)
 
 bool PlayerController::GetTeamID()
 {
-	return GetDataAddressWithOffset<int>(Address, Offset::Entity.TeamID, this->TeamID);
+	return GetDataAddressWithOffset<int>(Address, Offset::Pawn.iTeamNum, this->TeamID);
 }
 
 bool PlayerController::GetHealth()
 {
-	return GetDataAddressWithOffset<int>(Address, Offset::Entity.Health, this->Health);
+	return GetDataAddressWithOffset<int>(Address, Offset::Pawn.CurrentHealth, this->Health);
 }
 
 bool PlayerController::GetIsAlive()

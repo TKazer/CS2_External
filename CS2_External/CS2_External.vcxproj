@@ -137,13 +137,17 @@
     <ClInclude Include="Bunnyhop.hpp" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="Aimbot.hpp" />
+    <ClInclude Include="buttons.hpp" />
     <ClInclude Include="Cheats.h" />
+    <ClInclude Include="client.dll.hpp" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Globals.hpp" />
     <ClInclude Include="GlobalVars.h" />
+    <ClInclude Include="helper.h" />
     <ClInclude Include="MenuConfig.hpp" />
     <ClInclude Include="Offsets.h" />
+    <ClInclude Include="offsets.hpp" />
     <ClInclude Include="OS-ImGui\imgui\imconfig.h" />
     <ClInclude Include="OS-ImGui\imgui\imgui.h" />
     <ClInclude Include="OS-ImGui\imgui\imgui_impl_dx11.h" />
