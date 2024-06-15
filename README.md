@@ -1,6 +1,15 @@
 # CS2_External
 CS2 external cheat.
 
+
+
+ New:  Selling CS2 external silent aimbot, effective for enemy perspective, spectating, and recording.
+
+ If you need it, please contact me:
+ 
+ livkaze@gmail.com
+ 1319923129@qq.com 
+
 ## ImGui library -> [OS-ImGui](https://github.com/TKazer/OS-ImGui)
 
 ## Derivative projects
