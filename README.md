@@ -3,7 +3,7 @@ CS2 external cheat.
 
 
 
- New:  Selling CS2 external silent aimbot, effective for enemy perspective, spectating, and recording.
+ New:  Selling CS2 external silent aimbot (only cpp source of silent aimbot & .ct), effective for enemy perspective, spectating, and recording.
 
  If you need it, please contact me:
  
