@@ -7,6 +7,8 @@ CS2 external cheat.
 
  If you need it, please contact me:
  
+ https://discordapp.com/users/814903053634502746
+
  livkaze@gmail.com
  1319923129@qq.com 
 
