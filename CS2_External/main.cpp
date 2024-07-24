@@ -19,7 +19,7 @@ int main()
 		goto END;
 	}
 	MenuConfig::path = documentsPath;
-	MenuConfig::path += "/CS2_External";
+	MenuConfig::path += "\\TKazer";
 
 	if (ProcessStatus != StatusCode::SUCCEED)
 	{

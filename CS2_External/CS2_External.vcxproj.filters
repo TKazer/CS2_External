@@ -34,6 +34,9 @@
     <Filter Include="Utils\ConfigSaver">
       <UniqueIdentifier>{aa25e002-e95d-4db7-a900-3cd9edf6338f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cheats\a2x">
+      <UniqueIdentifier>{fd8c28e8-4bd6-4c38-9562-ba895c956f46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OS-ImGui\imgui\imconfig.h">
@@ -131,6 +134,18 @@
     </ClInclude>
     <ClInclude Include="AntiFlashbang.hpp">
       <Filter>Cheats</Filter>
+    </ClInclude>
+    <ClInclude Include="client.dll.hpp">
+      <Filter>Cheats\a2x</Filter>
+    </ClInclude>
+    <ClInclude Include="buttons.hpp">
+      <Filter>Cheats\a2x</Filter>
+    </ClInclude>
+    <ClInclude Include="offsets.hpp">
+      <Filter>Cheats\a2x</Filter>
+    </ClInclude>
+    <ClInclude Include="helper.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
