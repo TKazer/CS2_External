@@ -4,7 +4,7 @@ CS2 external cheat.
 
 Analysis and implementation of CS2 external silent aimbot 
 
-EN -> [SilentAimbot - en](https://bbs.kanxue.com/thread-282616.htm](https://github.com/TKazer/CS2-External-Silent-AimBot))
+EN -> [SilentAimbot - en](https://github.com/TKazer/CS2-External-Silent-AimBot)
 
 CN -> [SilentAimbot - cn](https://bbs.kanxue.com/thread-282616.htm)
 
