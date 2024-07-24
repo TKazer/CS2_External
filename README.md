@@ -2,15 +2,8 @@
 CS2 external cheat.
 
 
+Analysis and implementation of CS2 external silent aimbot -> [SilentAimbot](https://bbs.kanxue.com/thread-282616.htm) (Chinese)
 
- New:  Selling CS2 external silent aimbot (only cpp source of silent aimbot & .ct), effective for enemy perspective, spectating, and recording.
-
- If you need it, please contact me:
- 
- https://discordapp.com/users/814903053634502746
-
- livkaze@gmail.com
- 1319923129@qq.com 
 
 ## ImGui library -> [OS-ImGui](https://github.com/TKazer/OS-ImGui)
 
